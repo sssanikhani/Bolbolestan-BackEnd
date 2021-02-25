@@ -3,6 +3,5 @@
 .vscode/
 *.iml
 
-
 #Build Directory
 target/
