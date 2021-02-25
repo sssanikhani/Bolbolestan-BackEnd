@@ -8,3 +8,5 @@ addOffering {"code": "125", "name": "reza" , "instructor" : "Ehsan", "units": 3,
 addStudent {"studentId": "810197559", "name": "Ali", "enteredAt": "1396"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "125"}
 removeFromWeeklySchedule {"StudentId": "810197559", "code" : "125"}
+getOffering {"StudentId": "810197559", "code" : "125"}
+getOfferings {"StudentId": "810197559"}

@@ -16,21 +16,23 @@ public class Main {
         switch (cmdp[0]) {
             case "addOffering" :
                 Commands.addCourse(cmdp[1]);
-                // TODO
                 break;
             case "addStudent":
                 Commands.addStudent(cmdp[1]);
                 break;
             case "getOffering":
+                Commands.getOffer(cmdp[1]);
+                // TODO
+                break;
+            case "getOfferings":
+                Commands.getOffers(cmdp[1]);
                 // TODO
                 break;
             case "addToWeeklySchedule":
                 Commands.addCourseToSch(cmdp[1]);
-                // TODO
                 break;
             case "removeFromWeeklySchedule":
                 Commands.removeCourseFromSch(cmdp[1]);
-                // TODO
                 break;
             case "getWeeklySchedule":
                 // TODO
