@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Main {
 
     private static ArrayList<Course> allCourses = new ArrayList<Course>();
+    private static ArrayList<Student> allStds = new ArrayList<Student>();
 
     static String commandReader() {
         Scanner reader = new Scanner(System.in);
@@ -20,6 +21,8 @@ public class Main {
                 // TODO
                 break;
             case "addStudent":
+                allStds.add(Commands.addStudent(cmdp[1]));
+                System.out.println(allStds.get(0).getStudentId());
                 // TODO
                 break;
             case "getOffering":

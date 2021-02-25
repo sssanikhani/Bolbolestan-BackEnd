@@ -10,4 +10,11 @@ public class Commands {
         Course newCourse = mapper.readValue(js, Course.class);
         return newCourse;
     }
+
+    public static Student addStudent(String js) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Student newStd = mapper.readValue(js, Student.class);
+        return newStd;
+    }
+
 }
