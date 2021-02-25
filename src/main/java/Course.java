@@ -1,15 +1,24 @@
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 //@JsonIgnoreProperties(ignoreUnknown = false)
 public class Course {
-
+    @JsonView({View.normal.class, View.offerings.class})
     private String code;
+    @JsonView({View.normal.class, View.offerings.class})
     private String name;
+    @JsonView({View.normal.class, View.offerings.class})
     private String instructor;
+    @JsonView(View.normal.class)
     private int units;
+    @JsonView(View.normal.class)
     private CourseClassTime classTime;
+    @JsonView(View.normal.class)
     private CourseExamTime examTime;
+    @JsonView(View.normal.class)
     private int capacity;
+    @JsonView(View.normal.class)
     private String[] prerequisites;
 
     public Course() {

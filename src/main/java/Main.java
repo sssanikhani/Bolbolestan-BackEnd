@@ -22,11 +22,9 @@ public class Main {
                 break;
             case "getOffering":
                 Commands.getOffer(cmdp[1]);
-                // TODO
                 break;
             case "getOfferings":
                 Commands.getOffers(cmdp[1]);
-                // TODO
                 break;
             case "addToWeeklySchedule":
                 Commands.addCourseToSch(cmdp[1]);

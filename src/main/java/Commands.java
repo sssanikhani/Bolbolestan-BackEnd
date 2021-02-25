@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 public class Commands {
 
     private static ArrayList<Course> allCourses = new ArrayList<Course>();
-    private static ArrayList<Offer> Offers = new ArrayList<Offer>();
     private static ArrayList<Student> allStds = new ArrayList<Student>();
 
     public Commands() {
@@ -29,10 +27,7 @@ public class Commands {
     public static void addCourse(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Course newCourse = mapper.readValue(js, Course.class);
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        Offer newOffer = mapper.readValue(js, Offer.class);
         allCourses.add(newCourse);
-        Offers.add(newOffer);
         createOutputJson(true, "data", "OfferingAdded");
     }
 
@@ -88,8 +83,9 @@ public class Commands {
         String stdId = jn.get("StudentId").asText();
         String courseCode = jn.get("code").asText();
         Course fCourse = allCourses.stream().filter(course_t -> courseCode.equals(course_t.getCode())).findAny().orElse(null);
+        String message = "\"data\": ";
         if(fCourse != null) {
-            String message = mapper.writeValueAsString(fCourse);
+            message += mapper.writerWithView(View.normal.class).writeValueAsString(fCourse);
             System.out.println(message);
         } else {
             createOutputJson(false, "error", "OfferingNotFound");
@@ -102,7 +98,7 @@ public class Commands {
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         String message = "\"data\": ";
-        message += mapper.writeValueAsString(Offers);
+        message += mapper.writerWithView(View.offerings.class).writeValueAsString(allCourses);
         System.out.println(message);
     }
 }
