@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static ArrayList<Course> allCourses = new ArrayList<Course>();
-    private static ArrayList<Student> allStds = new ArrayList<Student>();
 
     static String commandReader() {
         Scanner reader = new Scanner(System.in);
@@ -17,21 +15,21 @@ public class Main {
     static void commandHandler(String[] cmdp) throws IOException {
         switch (cmdp[0]) {
             case "addOffering" :
-                allCourses.add(Commands.addCourse(cmdp[1]));
+                Commands.addCourse(cmdp[1]);
                 // TODO
                 break;
             case "addStudent":
-                allStds.add(Commands.addStudent(cmdp[1]));
-                System.out.println(allStds.get(0).getStudentId());
-                // TODO
+                Commands.addStudent(cmdp[1]);
                 break;
             case "getOffering":
                 // TODO
                 break;
             case "addToWeeklySchedule":
+                Commands.addCourseToSch(cmdp[1]);
                 // TODO
                 break;
             case "removeFromWeeklySchedule":
+                Commands.removeCourseFromSch(cmdp[1]);
                 // TODO
                 break;
             case "getWeeklySchedule":

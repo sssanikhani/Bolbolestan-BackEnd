@@ -1,10 +1,10 @@
-
+import java.util.ArrayList;
 
 public class Student {
     private String studentId;
     private String name;
     private String enteredAt;
-    private Course[] weeklyCourses;
+    private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
 
     public Student() {
     }
@@ -33,11 +33,22 @@ public class Student {
         this.enteredAt = enteredAt;
     }
 
-    public Course[] getWeeklyCourses() {
+    public ArrayList<Course> getWeeklyCourses() {
         return weeklyCourses;
     }
 
-    public void setWeeklyCourses(Course[] weeklyCourses) {
+    public void setWeeklyCourses(ArrayList<Course> weeklyCourses) {
         this.weeklyCourses = weeklyCourses;
+    }
+
+    public void addCourseToList(Course c) {
+        this.weeklyCourses.add(c);
+        System.out.println(this.weeklyCourses);
+
+    }
+
+    public void removeCourseFromList(Course c) {
+        this.weeklyCourses.remove(c);
+        System.out.println(this.weeklyCourses);
     }
 }
