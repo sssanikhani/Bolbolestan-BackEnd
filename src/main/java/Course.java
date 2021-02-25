@@ -4,22 +4,24 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 //@JsonIgnoreProperties(ignoreUnknown = false)
 public class Course {
-    @JsonView({View.normal.class, View.offerings.class})
+    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
     private String code;
-    @JsonView({View.normal.class, View.offerings.class})
+    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
     private String name;
-    @JsonView({View.normal.class, View.offerings.class})
+    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
     private String instructor;
     @JsonView(View.normal.class)
     private int units;
-    @JsonView(View.normal.class)
+    @JsonView({View.normal.class, View.weeklySch.class})
     private CourseClassTime classTime;
-    @JsonView(View.normal.class)
+    @JsonView({View.normal.class, View.weeklySch.class})
     private CourseExamTime examTime;
     @JsonView(View.normal.class)
     private int capacity;
     @JsonView(View.normal.class)
     private String[] prerequisites;
+    @JsonView(View.weeklySch.class)
+    private String status = "non-finalize";
 
     public Course() {
     }
@@ -86,5 +88,13 @@ public class Course {
 
     public void setExamTime(CourseExamTime examTime) {
         this.examTime = examTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

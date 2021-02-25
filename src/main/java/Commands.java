@@ -101,4 +101,15 @@ public class Commands {
         message += mapper.writerWithView(View.offerings.class).writeValueAsString(allCourses);
         System.out.println(message);
     }
+
+    public static void getWeeklySch(String js) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jn = mapper.readTree(js);
+        String stdId = jn.get("StudentId").asText();
+        String message = "\"data\": {\"weeklySchdule\": ";
+        Student fStd = allStds.stream().filter(std_f -> stdId.equals(std_f.getStudentId())).findAny().orElse(null);
+        message += mapper.writerWithView(View.weeklySch.class).writeValueAsString(fStd.getWeeklyCourses());
+        message += "}";
+        System.out.println(message);
+    }
 }

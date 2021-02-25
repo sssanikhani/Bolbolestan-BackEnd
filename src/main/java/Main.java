@@ -33,7 +33,7 @@ public class Main {
                 Commands.removeCourseFromSch(cmdp[1]);
                 break;
             case "getWeeklySchedule":
-                // TODO
+                Commands.getWeeklySch(cmdp[1]);
                 break;
             case "finalize":
                 // TODO
