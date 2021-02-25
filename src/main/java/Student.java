@@ -47,8 +47,8 @@ public class Student {
 
     }
 
-    public void removeCourseFromList(Course c) {
-        this.weeklyCourses.remove(c);
-        System.out.println(this.weeklyCourses);
+    public boolean removeCourseFromList(Course c) {
+//        this.weeklyCourses.remove(c);
+        return this.weeklyCourses.remove(c);
     }
 }
