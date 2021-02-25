@@ -45,8 +45,10 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        String cmd = commandReader();
-        String[] cmdParts = cmd.split(" ", 2);
-        commandHandler(cmdParts);
+        while (true) {
+            String cmd = commandReader();
+            String[] cmdParts = cmd.split(" ", 2);
+            commandHandler(cmdParts);
+        }
     }
 }
