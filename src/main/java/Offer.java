@@ -3,7 +3,7 @@
 import com.fasterxml.jackson.annotation.JsonView;
 
 //@JsonIgnoreProperties(ignoreUnknown = false)
-public class Course {
+public class Offer {
     @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
     private String code;
     @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
@@ -13,9 +13,9 @@ public class Course {
     @JsonView(View.normal.class)
     private int units;
     @JsonView({View.normal.class, View.weeklySch.class})
-    private CourseClassTime classTime;
+    private OfferClassTime classTime;
     @JsonView({View.normal.class, View.weeklySch.class})
-    private CourseExamTime examTime;
+    private OfferExamTime examTime;
     @JsonView(View.normal.class)
     private int capacity;
     @JsonView(View.normal.class)
@@ -23,7 +23,7 @@ public class Course {
     @JsonView(View.weeklySch.class)
     private String status = "non-finalize";
 
-    public Course() {
+    public Offer() {
     }
 
     public String getCode() {
@@ -74,19 +74,19 @@ public class Course {
         this.prerequisites = prerequisites;
     }
 
-    public CourseClassTime getClassTime() {
+    public OfferClassTime getClassTime() {
         return classTime;
     }
 
-    public void setClassTime(CourseClassTime classTime) {
+    public void setClassTime(OfferClassTime classTime) {
         this.classTime = classTime;
     }
 
-    public CourseExamTime getExamTime() {
+    public OfferExamTime getExamTime() {
         return examTime;
     }
 
-    public void setExamTime(CourseExamTime examTime) {
+    public void setExamTime(OfferExamTime examTime) {
         this.examTime = examTime;
     }
 

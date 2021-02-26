@@ -3,14 +3,20 @@
 "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"},
 "prerequisites": ["AP", "OS"]
 
-addOffering {"code": "123", "name": "reza" , "instructor" : "Ehsan", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sat", "Mon"], "time": "16-17:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
-addOffering {"code": "125", "name": "reza" , "instructor" : "Ehsan", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sat", "Mon"], "time": "16-17:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
-addOffering {"code": "127", "name": "ali" , "instructor" : "Ehsan", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sat", "Mon"], "time": "16-17:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
+addOffering {"code": "81015960", "name": "AI" , "instructor" : "Ramtin", "units": 3, "capacity" : 60, "prerequisites": ["Mabani"], "classTime" : {"days": ["Sat", "Mon"], "time": "16-17:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
+addOffering {"code": "81015961", "name": "AI" , "instructor" : "Ramtin", "units": 3, "capacity" : 60, "prerequisites": ["Mabani"], "classTime" : {"days": ["Sat", "Mon"], "time": "14-15:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
+addOffering {"code": "81021015", "name": "IE" , "instructor" : "Ehsan", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sun", "Ters"], "time": "16-17:30"}, "examTime": {"start":  "2021-9-01T08:00:00", "end":  "2021-9-01T08:00:00"}}
 
-addStudent {"studentId": "810197559", "name": "Ali", "enteredAt": "1396"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "125"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "127"}
-removeFromWeeklySchedule {"StudentId": "810197559", "code" : "125"}
-getOffering {"StudentId": "810197559", "code" : "125"}
-getOfferings {"StudentId": "810197559"}
+addStudent {"studentId": "810197559", "name": "Reza", "enteredAt": "1397"}
+addStudent {"studentId": "810197537", "name": "Sani", "enteredAt": "1397"}
+
+addToWeeklySchedule {"StudentId": "810197559", "code" : "81015960"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "81021015"}
+addToWeeklySchedule {"StudentId": "810197537", "code" : "81015961"}
+
+removeFromWeeklySchedule {"StudentId": "810197559", "code" : "81015960"}
+
+getOffering {"StudentId": "810197559", "code" : "81015960"}
+getOfferings {"StudentId": "810197537"}
 getWeeklySchedule {"StudentId": "810197559"}
+finalize {"StudentId": "810197559"}

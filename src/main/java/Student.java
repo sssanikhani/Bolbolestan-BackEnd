@@ -1,10 +1,11 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Student {
     private String studentId;
     private String name;
     private String enteredAt;
-    private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
+//    private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
+    private HashMap<String , Offer> weeklyCourses = new HashMap<String, Offer>();
 
     public Student() {
     }
@@ -33,22 +34,21 @@ public class Student {
         this.enteredAt = enteredAt;
     }
 
-    public ArrayList<Course> getWeeklyCourses() {
+    public HashMap<String, Offer> getWeeklyCourses() {
         return weeklyCourses;
     }
 
-    public void setWeeklyCourses(ArrayList<Course> weeklyCourses) {
+    public void setWeeklyCourses(HashMap<String, Offer> weeklyCourses) {
         this.weeklyCourses = weeklyCourses;
     }
 
-    public void addCourseToList(Course c) {
-        this.weeklyCourses.add(c);
-        System.out.println(this.weeklyCourses);
-
+    public void addCourseToList(Offer c) {
+        this.weeklyCourses.put(c.getCode(), c);
+//        System.out.println(this.weeklyCourses);
     }
 
-    public boolean removeCourseFromList(Course c) {
+    public Offer removeCourseFromList(Offer c) {
 //        this.weeklyCourses.remove(c);
-        return this.weeklyCourses.remove(c);
+        return this.weeklyCourses.remove(c.getCode());
     }
 }

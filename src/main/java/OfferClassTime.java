@@ -1,16 +1,17 @@
+import java.util.ArrayList;
 
-public class CourseClassTime {
-    String[] days;
+public class OfferClassTime {
+    ArrayList<String> days;
     String time;
 
-    public CourseClassTime() {
+    public OfferClassTime() {
     }
 
-    public String[] getDays() {
+    public ArrayList<String> getDays() {
         return days;
     }
 
-    public void setDays(String[] days) {
+    public void setDays(ArrayList<String> days) {
         this.days = days;
     }
 

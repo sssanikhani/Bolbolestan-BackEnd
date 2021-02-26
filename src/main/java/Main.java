@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         return reader.nextLine();
     }
-    static void commandHandler(String[] cmdp) throws IOException {
+    static void commandHandler(String[] cmdp) throws IOException, ParseException {
         switch (cmdp[0]) {
             case "addOffering" :
                 Commands.addCourse(cmdp[1]);
@@ -36,13 +37,14 @@ public class Main {
                 Commands.getWeeklySch(cmdp[1]);
                 break;
             case "finalize":
+//                Commands.finalizeSch(cmdp[1]);
                 // TODO
                 break;
         }
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         while (true) {
             String cmd = commandReader();
             String[] cmdParts = cmd.split(" ", 2);
