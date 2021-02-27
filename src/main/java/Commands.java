@@ -122,11 +122,10 @@ public class Commands {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String message = "{\"weeklySchdule\": ";
+        String message = "{\n\t\"success\": true,\n\t\"data\": {\"weeklySchdule\": ";
         message += mapper.writerWithView(View.weeklySch.class).writeValueAsString(allStds.get(stdId).getWeeklyCourses().values());
-        message += "}";
-//        System.out.println(message);
-        return createOutputJson(true, "data", message);
+        message += "\n}";
+        return message;
     }
 
     public static String getOffer(String js) throws IOException {
@@ -134,23 +133,22 @@ public class Commands {
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         String courseCode = jn.get("code").asText();
-        String message;
+        String message = "{\n\t\"success\": true,\n\t\"data\": ";
         if(allOffers.get(courseCode) != null) {
-            message = mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
-            System.out.println(message);
-            return createOutputJson(true, "data", message);
+            message += mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
+            message += "\n}";
         }
-        return createOutputJson(false, "error", "OfferingNotFound");
+        return message;
     }
 
     public static String getOffers(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String message;
-        message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
-        System.out.println(message);
-        return createOutputJson(true, "data", message);
+        String message = "{\n\t\"success\": true,\n\t\"data\": ";
+        message += mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
+        message += "\n}";
+        return message;
     }
 
 
