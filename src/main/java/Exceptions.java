@@ -8,32 +8,32 @@ public class Exceptions {
     };
 
     static class MinimumUnits extends Exception {
-        public MinimumUnits(String std_id) {
-            super("Student with ID: " + std_id + "must have at least 12 units");
+        public MinimumUnits() {
+            super("MinimumUnitsError");
         }
     };
 
     static class MaximumUnits extends Exception {
-        public MaximumUnits(String std_id) {
-            super("Student with ID: " + std_id + "can not get more than 20 units");
+        public MaximumUnits() {
+            super("MaximumUnitsError");
         }
     };
 
     static class ClassTimeCollision extends Exception {
         public ClassTimeCollision(String c1, String c2) {
-            super("Classes " + c1 + " and " + c2 + " have collision in time");
+            super("ClassTimeCollision " + c1 + " " + c2);
         }
     };
 
     static class ExamTimeCollision extends Exception {
         public ExamTimeCollision(String c1, String c2) {
-            super("Exam of courses " + c1 + " and " + c2 + " have collision in time");
+            super("ExamTimeCollision " + c1 + " " + c2);
         }
     };
 
     static class OfferCapacity extends Exception {
         public OfferCapacity(String c) {
-            super("Offer " + c + " Capacity is full");
+            super("CapacityError " + c);
         }
     };
 }
