@@ -12,7 +12,7 @@ public class Main {
         Commands command = new Commands();
         while (true) {
             String cmd = command.commandReader();
-            String[] cmdParts = cmd.split(" ", 2);
+            String[] cmdParts = cmd.split("\\s+");
             command.commandHandler(cmdParts);
         }
     }
