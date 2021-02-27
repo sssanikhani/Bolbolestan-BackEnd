@@ -42,7 +42,7 @@ public class CommandHandler {
             case "getWeeklySchedule":
                 return getWeeklySch(cmdp[1]);
             case "finalize":
-                return "TODO"; // TODO
+                return finalize(cmdp[1])
             default:
                 throw new Exceptions.UnknownCommand(cmdp[0]);
         }
@@ -163,6 +163,10 @@ public class CommandHandler {
         } else {
             return createOutputJson(false, "error", "StudentNotFound");
         }
+    }
+
+    static String finalize(String json) throws IOException {
+        return "TODO"; // TODO
     }
 
 }
