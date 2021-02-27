@@ -1,8 +1,8 @@
 
-public class CourseExamTime {
+public class OfferExamTime {
     String start;
     String end;
-    public CourseExamTime() {
+    public OfferExamTime() {
     }
 
     public String getStart() {
