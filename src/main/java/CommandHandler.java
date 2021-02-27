@@ -7,9 +7,6 @@ import java.util.Scanner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.lang.Exception;
 
 public class CommandHandler {
 
@@ -42,31 +39,30 @@ public class CommandHandler {
             case "getWeeklySchedule":
                 return getWeeklySch(cmdp[1]);
             case "finalize":
-                return finalize(cmdp[1])
+                return finalize(cmdp[1]);
             default:
                 throw new Exceptions.UnknownCommand(cmdp[0]);
         }
     }
 
     static String createOutputJson(boolean b, String data, String s) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode message = mapper.createObjectNode();
-        message.put("success", b);
-        message.put(data, s);
-        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(message);
+        // ObjectMapper mapper = new ObjectMapper();
+        // ObjectNode message = mapper.createObjectNode();
+        // message.put(data, s);
+        // String json = mapper.writeValueAsString(message);
         // System.out.println(json);
-        return json;
+        return s;
     }
 
     static String addCourse(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Offer newCourse = mapper.readValue(js, Offer.class);
-        allOffers.put(newCourse.getCode(), newCourse);
-        if (allOffersOfACourse.get(newCourse.getName()) != null) {
-            allOffersOfACourse.get(newCourse.getName()).add(newCourse);
+        Offer newOffer = mapper.readValue(js, Offer.class);
+        allOffers.put(newOffer.getCode(), newOffer);
+        if (allOffersOfACourse.get(newOffer.getName()) != null) {
+            allOffersOfACourse.get(newOffer.getName()).add(newOffer);
         } else {
-            allOffersOfACourse.put(newCourse.getName(), new ArrayList<Offer>());
-            allOffersOfACourse.get(newCourse.getName()).add(newCourse);
+            allOffersOfACourse.put(newOffer.getName(), new ArrayList<Offer>());
+            allOffersOfACourse.get(newOffer.getName()).add(newOffer);
 
         }
         return createOutputJson(true, "data", "OfferingAdded");
@@ -96,7 +92,7 @@ public class CommandHandler {
         return createOutputJson(false, "error", "OfferingNotFound");
     }
 
-    static String removeCourseFromSch(String js) throws IOException {
+    static String removeCourseFromSch(String js) throws IOException, Exception {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
@@ -105,7 +101,7 @@ public class CommandHandler {
         if (allOffers.get(courseCode) != null) {
             if (allStds.get(stdId) != null) {
                 if (allStds.get(stdId) != null) {
-                    if ((allStds.get(stdId).removeCourseFromList(allOffers.get(courseCode))) != null) {
+                    if ((allStds.get(stdId).removeCourseFromList(courseCode)) != null) {
                         return createOutputJson(true, "data", "OfferingRemoved");
                     } else {
                         return createOutputJson(false, "error", "OfferingNotFound");
@@ -165,8 +161,31 @@ public class CommandHandler {
         }
     }
 
-    static String finalize(String json) throws IOException {
-        return "TODO"; // TODO
+    static String finalize(String js) throws IOException, Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jn = mapper.readTree(js);
+        String stdId = jn.get("StudentId").asText();
+        Student student = allStds.get(stdId);
+        if (student == null) {
+            throw new Exceptions.StudentNotFound();
+        }
+        
+        // Validate Number of Units
+        if (student.getNumberChosenUnits() < Constants.MIN_ALLOWED_UNITS) {
+            throw new Exceptions.MinimumUnits();
+        }
+        if (student.getNumberChosenUnits() > Constants.MAX_ALLOWED_UNITS) {
+            throw new Exceptions.MaximumUnits();
+        }
+
+        // Validate CourseTime Collision
+        student.validateCourseTimeCollision();
+
+        // Validate ExamTime Collision
+        student.validateCourseTimeCollision();
+
+        // Check Offer Capacity
+        student.checkOfferCapacities();
     }
 
 }
