@@ -3,5 +3,12 @@
 .vscode/
 *.iml
 
+
+#Project Files
+.project
+.settings/
+.classpath
+
+
 #Build Directory
 target/
