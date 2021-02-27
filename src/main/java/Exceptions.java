@@ -21,19 +21,31 @@ public class Exceptions {
 
     static class ClassTimeCollision extends Exception {
         public ClassTimeCollision(String c1, String c2) {
-            super("ClassTimeCollision " + c1 + " " + c2);
+            super("ClassTimeCollisionError " + c1 + " " + c2);
         }
     };
 
     static class ExamTimeCollision extends Exception {
         public ExamTimeCollision(String c1, String c2) {
-            super("ExamTimeCollision " + c1 + " " + c2);
+            super("ExamTimeCollisionError " + c1 + " " + c2);
         }
     };
 
     static class OfferCapacity extends Exception {
         public OfferCapacity(String c) {
             super("CapacityError " + c);
+        }
+    };
+
+    static class StudentNotFound extends Exception {
+        public StudentNotFound() {
+            super("StudentNotFound");
+        }
+    };
+
+    static class OfferingNotFound extends Exception {
+        public OfferingNotFound() {
+            super("OfferingNotFound");
         }
     };
 }
