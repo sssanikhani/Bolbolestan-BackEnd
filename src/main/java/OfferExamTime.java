@@ -2,6 +2,7 @@
 public class OfferExamTime {
     String start;
     String end;
+
     public OfferExamTime() {
     }
 

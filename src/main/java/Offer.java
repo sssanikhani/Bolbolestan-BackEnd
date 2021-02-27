@@ -1,20 +1,18 @@
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import com.fasterxml.jackson.annotation.JsonView;
 
 //@JsonIgnoreProperties(ignoreUnknown = false)
 public class Offer {
-    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
+    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
     private String code;
-    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
+    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
     private String name;
-    @JsonView({View.normal.class, View.offerings.class, View.weeklySch.class})
+    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
     private String instructor;
     @JsonView(View.normal.class)
     private int units;
-    @JsonView({View.normal.class, View.weeklySch.class})
+    @JsonView({ View.normal.class, View.weeklySch.class })
     private OfferClassTime classTime;
-    @JsonView({View.normal.class, View.weeklySch.class})
+    @JsonView({ View.normal.class, View.weeklySch.class })
     private OfferExamTime examTime;
     @JsonView(View.normal.class)
     private int capacity;

@@ -4,8 +4,8 @@ public class Student {
     private String studentId;
     private String name;
     private String enteredAt;
-//    private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
-    private HashMap<String , Offer> weeklyCourses = new HashMap<String, Offer>();
+    // private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
+    private HashMap<String, Offer> weeklyCourses = new HashMap<String, Offer>();
 
     public Student() {
     }
@@ -44,11 +44,11 @@ public class Student {
 
     public void addCourseToList(Offer c) {
         this.weeklyCourses.put(c.getCode(), c);
-//        System.out.println(this.weeklyCourses);
+        // System.out.println(this.weeklyCourses);
     }
 
     public Offer removeCourseFromList(Offer c) {
-//        this.weeklyCourses.remove(c);
+        // this.weeklyCourses.remove(c);
         return this.weeklyCourses.remove(c.getCode());
     }
 }
