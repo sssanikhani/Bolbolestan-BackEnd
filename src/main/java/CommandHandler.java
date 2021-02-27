@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.lang.Exception;
+
 public class CommandHandler {
 
     public static HashMap<String, Offer> allOffers = new HashMap<String, Offer>();
@@ -20,38 +22,29 @@ public class CommandHandler {
 
     static String readCommand() {
         Scanner reader = new Scanner(System.in);
-        String cmd = reader.nextLine();
-        reader.close();
-        return cmd;
-
+        return reader.nextLine();
     }
 
-    static void performCommand(String[] cmdp) throws IOException, ParseException {
+    static String performCommand(String[] cmdp) throws IOException, ParseException, Exception {
         switch (cmdp[0]) {
             case "addOffering":
-                System.out.println(addCourse(cmdp[1]));
-                break;
+                return addCourse(cmdp[1]);
             case "addStudent":
-                System.out.println(addStudent(cmdp[1]));
-                break;
+                return addStudent(cmdp[1]);
             case "getOffering":
-                System.out.println(getOffer(cmdp[1]));
-                break;
+                return getOffer(cmdp[1]);
             case "getOfferings":
-                System.out.println(getOffers(cmdp[1]));
-                break;
+                return getOffers(cmdp[1]);
             case "addToWeeklySchedule":
-                System.out.println(addCourseToSch(cmdp[1]));
-                break;
+                return addCourseToSch(cmdp[1]);
             case "removeFromWeeklySchedule":
-                System.out.println(removeCourseFromSch(cmdp[1]));
-                break;
+                return removeCourseFromSch(cmdp[1]);
             case "getWeeklySchedule":
-                System.out.println(getWeeklySch(cmdp[1]));
-                break;
+                return getWeeklySch(cmdp[1]);
             case "finalize":
-                // TODO
-                break;
+                return "TODO"; // TODO
+            default:
+                throw new Exceptions.UnknownCommand(cmdp[0]);
         }
     }
 
