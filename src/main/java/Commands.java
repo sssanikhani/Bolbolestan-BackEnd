@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,22 +29,22 @@ public class Commands {
                 System.out.println(addCourse(cmdp[1]));
                 break;
             case "addStudent":
-                addStudent(cmdp[1]);
+                System.out.println(addStudent(cmdp[1]));
                 break;
             case "getOffering":
-                getOffer(cmdp[1]);
+                System.out.println(getOffer(cmdp[1]));
                 break;
             case "getOfferings":
-                getOffers(cmdp[1]);
+                System.out.println(getOffers(cmdp[1]));
                 break;
             case "addToWeeklySchedule":
-                addCourseToSch(cmdp[1]);
+                System.out.println(addCourseToSch(cmdp[1]));
                 break;
             case "removeFromWeeklySchedule":
-                removeCourseFromSch(cmdp[1]);
+                System.out.println(removeCourseFromSch(cmdp[1]));
                 break;
             case "getWeeklySchedule":
-                getWeeklySch(cmdp[1]);
+                System.out.println(getWeeklySch(cmdp[1]));
                 break;
             case "finalize":
                 // TODO
@@ -74,17 +75,17 @@ public class Commands {
             allOffersOfACourse.get(newCourse.getName()).add(newCourse);
 
         }
-        return(createOutputJson(true, "data", "OfferingAdded"));
+        return createOutputJson(true, "data", "OfferingAdded");
     }
 
-    public static void addStudent(String js) throws IOException {
+    public static String addStudent(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Student newStd = mapper.readValue(js, Student.class);
         allStds.put(newStd.getStudentId(), newStd);
-        createOutputJson(true, "data", "StudentAdded");
+        return createOutputJson(true, "data", "StudentAdded");
     }
 
-    public static void addCourseToSch(String js) throws IOException {
+    public static String addCourseToSch(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
@@ -93,14 +94,13 @@ public class Commands {
         if(allOffers.get(courseCode) != null) {
             if(allStds.get(stdId) != null) {
                 allStds.get(stdId).addCourseToList(allOffers.get(courseCode));
-                createOutputJson(true, "data", "CourseAdded");
+                return createOutputJson(true, "data", "CourseAdded");
             }
-        } else {
-            createOutputJson(false, "error", "OfferingNotFound");
         }
+        return createOutputJson(false, "error", "OfferingNotFound");
     }
 
-    public static void removeCourseFromSch(String js) throws IOException {
+    public static String removeCourseFromSch(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
@@ -109,47 +109,50 @@ public class Commands {
         if(allOffers.get(courseCode) != null) {
             if(allStds.get(stdId) != null) {
                 if ((allStds.get(stdId).removeCourseFromList(allOffers.get(courseCode))) != null) {
-                    createOutputJson(true, "data", "OfferingRemoved");
+                    return createOutputJson(true, "data", "OfferingRemoved");
                 }else {
-                    createOutputJson(false, "error", "OfferingNotFound");
+                    return createOutputJson(false, "error", "OfferingNotFound");
                 }
             }
-        } else {
-            createOutputJson(false, "error", "OfferingNotFound");
         }
+        return createOutputJson(false, "error", "OfferingNotFound");
     }
 
-    public static void getOffer(String js) throws IOException {
+    public static String getWeeklySch(String js) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jn = mapper.readTree(js);
+        String stdId = jn.get("StudentId").asText();
+        String message = "{\"weeklySchdule\": ";
+        message += mapper.writerWithView(View.weeklySch.class).writeValueAsString(allStds.get(stdId).getWeeklyCourses().values());
+        message += "}";
+//        System.out.println(message);
+        return createOutputJson(true, "data", message);
+    }
+
+    public static String getOffer(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         String courseCode = jn.get("code").asText();
-        String message = "\"data\": ";
+        String message;
         if(allOffers.get(courseCode) != null) {
-            message += mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
+            message = mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
             System.out.println(message);
-        } else {
-            createOutputJson(false, "error", "OfferingNotFound");
+            return createOutputJson(true, "data", message);
         }
+        return createOutputJson(false, "error", "OfferingNotFound");
     }
 
-    public static void getOffers(String js) throws IOException {
+    public static String getOffers(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String message = "\"data\": ";
-        message += mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
+        String message;
+        message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
         System.out.println(message);
+        return createOutputJson(true, "data", message);
     }
 
-    public static void getWeeklySch(String js) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jn = mapper.readTree(js);
-        String stdId = jn.get("StudentId").asText();
-        String message = "\"data\": {\"weeklySchdule\": ";
-        message += mapper.writerWithView(View.weeklySch.class).writeValueAsString(allStds.get(stdId).getWeeklyCourses().values());
-        message += "}";
-        System.out.println(message);
-    }
+
 
 }
