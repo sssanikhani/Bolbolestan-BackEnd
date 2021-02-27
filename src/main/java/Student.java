@@ -43,7 +43,7 @@ public class Student {
         return numberChosenUnits;
     }
     // public void setWeeklyCourses(HashMap<String, Offer> weeklyCourses) {
-    //     this.weeklyCourses = weeklyCourses;
+    // this.weeklyCourses = weeklyCourses;
     // }
 
     public void addCourseToList(Offer c) {
@@ -52,7 +52,7 @@ public class Student {
         // System.out.println(this.weeklyCourses);
     }
 
-    public Offer removeCourseFromList(String c) throws Exception{
+    public Offer removeCourseFromList(String c) throws Exception {
         // this.weeklyCourses.remove(c);
         Offer offer = this.weeklyCourses.get(c);
         if (offer == null) {

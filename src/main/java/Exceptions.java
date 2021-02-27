@@ -1,5 +1,3 @@
-import java.lang.Exception;
-
 public class Exceptions {
     static class UnknownCommand extends Exception {
         public UnknownCommand(String cmd) {

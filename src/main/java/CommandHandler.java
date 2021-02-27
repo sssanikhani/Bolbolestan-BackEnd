@@ -169,7 +169,7 @@ public class CommandHandler {
         if (student == null) {
             throw new Exceptions.StudentNotFound();
         }
-        
+
         // Validate Number of Units
         if (student.getNumberChosenUnits() < Constants.MIN_ALLOWED_UNITS) {
             throw new Exceptions.MinimumUnits();
