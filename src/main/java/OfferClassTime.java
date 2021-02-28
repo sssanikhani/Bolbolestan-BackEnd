@@ -1,8 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class OfferClassTime {
     private ArrayList<String> days;
@@ -76,7 +75,7 @@ public class OfferClassTime {
     public boolean hasCollision(OfferClassTime t) {
         for (String d1 : days) {
             for (String d2 : t.getDays()) {
-                if (d1 == d2)
+                if (d1.equals(d2))
                     if (this.hasTimeCollision(t))
                         return true;
             }
