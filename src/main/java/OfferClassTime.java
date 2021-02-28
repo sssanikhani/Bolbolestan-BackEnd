@@ -1,9 +1,14 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+
 public class OfferClassTime {
     private ArrayList<String> days;
+    @JsonIgnore
     private LocalTime startTime;
+    @JsonIgnore
     private LocalTime endTime;
     private String time;
 
