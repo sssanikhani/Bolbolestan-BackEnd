@@ -1,0 +1,32 @@
+//TEST 1
+Check MinimumUnits
+false
+MinimumUnitsError
+
+//TEST 2
+Check MaximumUnits
+false
+MaximumUnitsError
+
+//TEST 3
+Check ClassTimeCollisionError
+false
+ClassTimeCollisionError 810150101 810150107
+
+//TEST 4
+Check ExamTimeCollisionError
+false
+ExamTimeCollisionError 810150102 810150111
+
+//TEST 5
+true
+pass
+
+//TEST 6
+true
+pass with add and remove
+
+//TEST 7
+Check CapacityError
+false
+CapacityError 810150110
