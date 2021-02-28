@@ -1,0 +1,22 @@
+addStudent {"studentId": "810197559", "name": "Reza", "enteredAt": "1397"}
+addOffering {"code": "810150100", "name": "AI" , "instructor" : "Moradi", "units": 3, "capacity" : 60, "prerequisites": ["AP"], "classTime" : {"days": ["Sat", "Mon"], "time": "7:30-9"}, "examTime": {"start":  "2022-9-01T08:00:00", "end":  "2022-9-01T11:00:00"}}
+addOffering {"code": "810150101", "name": "AI" , "instructor" : "Fadayi", "units": 3, "capacity" : 60, "prerequisites": ["AP"], "classTime" : {"days": ["Sat", "Mon"], "time": "9-10:30"}, "examTime": {"start":  "2022-9-02T08:00:00", "end":  "2022-9-02T11:00:00"}}
+addOffering {"code": "810150102", "name": "IE" , "instructor" : "Ehsan", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sat", "Mon"], "time": "10:30-12"}, "examTime": {"start":  "2021-9-03T08:00:00", "end":  "2021-9-03T11:00:00"}}
+addOffering {"code": "810150103", "name": "IE" , "instructor" : "Ramtin", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sat", "Mon"], "time": "14-15:30"}, "examTime": {"start":  "2022-9-04T08:00:00", "end":  "2022-9-04T11:00:00"}}
+addOffering {"code": "810150104", "name": "AMAR" , "instructor" : "Bahrak", "units": 2, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sat", "Mon"], "time": "16-17:30"}, "examTime": {"start":  "2022-9-05T08:00:00", "end":  "2022-9-05T11:00:00"}}
+addOffering {"code": "810150105", "name": "DM" , "instructor" : "Siyamak", "units": 2, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sat", "Mon"], "time": "18-19:30"}, "examTime": {"start":  "2022-9-06T08:00:00", "end":  "2022-9-06T11:00:00"}}
+addOffering {"code": "810150106", "name": "AI_1" , "instructor" : "Moradi_1", "units": 3, "capacity" : 60, "prerequisites": ["AP"], "classTime" : {"days": ["Sun", "Tue"], "time": "7:30-9"}, "examTime": {"start":  "2022-9-07T08:00:00", "end":  "2022-9-07T11:00:00"}}
+addOffering {"code": "810150107", "name": "AI_2" , "instructor" : "Fadayi_1", "units": 2, "capacity" : 60, "prerequisites": ["AP"], "classTime" : {"days": ["Sun", "Tue"], "time": "9-10:30"}, "examTime": {"start":  "2022-9-08T08:00:00", "end":  "2022-9-08T11:00:00"}}
+addOffering {"code": "810150108", "name": "IE_1" , "instructor" : "Ehsan_1", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sun", "Tue"], "time": "10:30-12"}, "examTime": {"start":  "2021-9-09T08:00:00", "end":  "2021-9-09T11:00:00"}}
+addOffering {"code": "810150109", "name": "IE_2" , "instructor" : "Ramtin_1", "units": 2, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sun", "Tue"], "time": "14-15:30"}, "examTime": {"start":  "2022-9-10T08:00:00", "end":  "2022-9-10T11:00:00"}}
+addOffering {"code": "810150110", "name": "AMAR_1" , "instructor" : "Bahrak_1", "units": 3, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sun", "Tue"], "time": "16-17:30"}, "examTime": {"start":  "2022-9-11T08:00:00", "end":  "2022-9-11T11:00:00"}}
+addOffering {"code": "810150111", "name": "DM_1" , "instructor" : "Siyamak_1", "units": 3, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sun", "Tue"], "time": "18-19:30"}, "examTime": {"start":  "2022-9-12T08:00:00", "end":  "2022-9-12T11:00:00"}}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150100"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150102"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150104"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150105"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150110"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150111"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150108"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150106"}
+finalize {"StudentId": "810197559"}
