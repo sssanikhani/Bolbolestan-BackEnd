@@ -182,10 +182,12 @@ public class CommandHandler {
         student.validateCourseTimeCollision();
 
         // Validate ExamTime Collision
-        student.validateCourseTimeCollision();
+        student.validateExamTimeCollision();
 
         // Check Offer Capacity
-        student.checkOfferCapacities();
+        student.validateOfferCapacities();
+
+        return "finalized successfully";
     }
 
 }
