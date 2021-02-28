@@ -1,3 +1,5 @@
+import java.text.ParseException;
+
 import com.fasterxml.jackson.annotation.JsonView;
 
 //@JsonIgnoreProperties(ignoreUnknown = false)
@@ -94,5 +96,13 @@ public class Offer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean hasOfferTimeCollision(Offer c) {
+        return this.classTime.hasCollision(c.getClassTime());
+    }
+
+    public boolean hasExamTimeCollision(Offer c) throws ParseException {
+        return this.examTime.hasCollision(c.getExamTime());
     }
 }
