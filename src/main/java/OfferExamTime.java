@@ -36,7 +36,7 @@ public class OfferExamTime {
     public void setEnd(String end) throws ParseException {
         this.end = end;
         SimpleDateFormat frm = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        this.endDate = frm.parse(start);
+        this.endDate = frm.parse(end);
     }
 
     public Date getEndDate() {
