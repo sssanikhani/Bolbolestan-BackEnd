@@ -27,10 +27,8 @@ public class OfferClassTime {
         String[] timePart = time.split("-");
         String s = timePart[0];
         String e = timePart[1];
-        // this.startTime = Utils.convertToLocalTime(s);
-        // this.endTime = Utils.convertToLocalTime(e);
-        this.startTime = LocalTime.parse(s);
-        this.endTime = LocalTime.parse(e);
+        this.startTime = Utils.convertToLocalTime(s);
+        this.endTime = Utils.convertToLocalTime(e);
     }
 
     public LocalTime getStartTime() {
