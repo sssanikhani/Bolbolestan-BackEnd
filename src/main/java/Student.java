@@ -80,7 +80,6 @@ public class Student {
                         throw new Exceptions.ExamTimeCollision(o1.getCode(), o2.getCode());
                 }
             }
-            temp.remove(k1);
         }
     }
 
