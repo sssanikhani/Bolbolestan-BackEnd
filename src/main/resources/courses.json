@@ -10,13 +10,13 @@ addOffering {"code": "81021015", "name": "IE" , "instructor" : "Ehsan", "units":
 addStudent {"studentId": "810197559", "name": "Reza", "enteredAt": "1397"}
 addStudent {"studentId": "810197537", "name": "Sani", "enteredAt": "1397"}
 
-addToWeeklySchedule {"StudentId": "810197595", "code" : "81015960"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "81015960"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "81021015"}
 addToWeeklySchedule {"StudentId": "810197537", "code" : "81015961"}
 
 removeFromWeeklySchedule {"StudentId": "810197559", "code" : "81015960"}
 
 getOffering {"StudentId": "810197559", "code" : "81015960"}
-getOfferings {"StudentId": "810197537"}
+getOfferings {"StudentId": "810197559"}
 getWeeklySchedule {"StudentId": "810197559"}
 finalize {"StudentId": "810197559"}
