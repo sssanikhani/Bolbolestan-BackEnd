@@ -179,10 +179,7 @@ public class CommandHandler {
         }
 
         // Validate CourseTime Collision
-        student.validateCourseTimeCollision();
-
-        // Validate ExamTime Collision
-        student.validateExamTimeCollision();
+        student.validateExamClassTimes();
 
         // Check Offer Capacity
         student.validateOfferCapacities();
