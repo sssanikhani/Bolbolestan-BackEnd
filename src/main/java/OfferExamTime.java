@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -5,7 +7,9 @@ import java.util.Date;
 public class OfferExamTime {
     String start;
     String end;
+    @JsonIgnore
     Date startDate;
+    @JsonIgnore
     Date endDate;
 
     public OfferExamTime() {

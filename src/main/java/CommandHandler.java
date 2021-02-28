@@ -44,15 +44,15 @@ public class CommandHandler {
                 throw new Exceptions.UnknownCommand(cmdp[0]);
         }
     }
-
-    static String createOutputJson(boolean b, String data, String s) throws JsonProcessingException {
-        // ObjectMapper mapper = new ObjectMapper();
-        // ObjectNode message = mapper.createObjectNode();
-        // message.put(data, s);
-        // String json = mapper.writeValueAsString(message);
-        // System.out.println(json);
-        return s;
-    }
+//
+//    static String createOutputJson(boolean b, String data, String s) throws JsonProcessingException {
+//        // ObjectMapper mapper = new ObjectMapper();
+//        // ObjectNode message = mapper.createObjectNode();
+//        // message.put(data, s);
+//        // String json = mapper.writeValueAsString(message);
+//        // System.out.println(json);
+//        return s;
+//    }
 
     static String addCourse(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -65,17 +65,17 @@ public class CommandHandler {
             allOffersOfACourse.get(newOffer.getName()).add(newOffer);
 
         }
-        return createOutputJson(true, "data", "OfferingAdded");
+        return "OfferingAdded";
     }
 
     static String addStudent(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Student newStd = mapper.readValue(js, Student.class);
         allStds.put(newStd.getStudentId(), newStd);
-        return createOutputJson(true, "data", "StudentAdded");
+        return "StudentAdded";
     }
 
-    static String addCourseToSch(String js) throws IOException {
+    static String addCourseToSch(String js) throws IOException, Exceptions.StudentNotFound, Exceptions.OfferingNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
@@ -84,12 +84,12 @@ public class CommandHandler {
         if (allOffers.get(courseCode) != null) {
             if (allStds.get(stdId) != null) {
                 allStds.get(stdId).addCourseToList(allOffers.get(courseCode));
-                return createOutputJson(true, "data", "CourseAdded");
+                return "CourseAdded";
             } else {
-                return createOutputJson(false, "error", "StudentNotFound");
+                throw new Exceptions.StudentNotFound();
             }
         }
-        return createOutputJson(false, "error", "OfferingNotFound");
+        throw new Exceptions.OfferingNotFound();
     }
 
     static String removeCourseFromSch(String js) throws IOException, Exception {
@@ -102,62 +102,62 @@ public class CommandHandler {
             if (allStds.get(stdId) != null) {
                 if (allStds.get(stdId) != null) {
                     if ((allStds.get(stdId).removeCourseFromList(courseCode)) != null) {
-                        return createOutputJson(true, "data", "OfferingRemoved");
+                        return "OfferingRemoved";
                     } else {
-                        return createOutputJson(false, "error", "OfferingNotFound");
+                        throw new Exceptions.OfferingNotFound();
                     }
                 } else {
-                    return createOutputJson(false, "error", "StudentNotFound");
+                    throw new Exceptions.StudentNotFound();
                 }
             }
         }
-        return createOutputJson(false, "error", "OfferingNotFound");
+        throw new Exceptions.OfferingNotFound();
+//        return createOutputJson(false, "error", "OfferingNotFound");
     }
 
-    static String getWeeklySch(String js) throws JsonProcessingException {
+    static String getWeeklySch(String js) throws JsonProcessingException, Exceptions.StudentNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
-            String message = "{\n\t\"success\": true,\n\t\"data\": {\"weeklySchdule\": ";
-            message += mapper.writerWithView(View.weeklySch.class)
+            String message = "";
+            message = mapper.writerWithView(View.weeklySch.class)
                     .writeValueAsString(allStds.get(stdId).getWeeklyCourses().values());
-            message += "\n}";
             return message;
         } else {
-            return createOutputJson(false, "error", "StudentNotFound");
+            throw new Exceptions.StudentNotFound();
         }
 
     }
 
-    static String getOffer(String js) throws IOException {
+    static String getOffer(String js) throws IOException, Exceptions.StudentNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         String courseCode = jn.get("code").asText();
         if (allStds.get(stdId) != null) {
-            String message = "{\n\t\"success\": true,\n\t\"data\": ";
+            String message = "";
             if (allOffers.get(courseCode) != null) {
-                message += mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
-                message += "\n}";
+                message = mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
+//                message += "\n}";
             }
             return message;
         } else {
-            return createOutputJson(false, "error", "StudentNotFound");
+            throw new Exceptions.StudentNotFound();
         }
     }
 
-    static String getOffers(String js) throws IOException {
+    static String getOffers(String js) throws IOException, Exceptions.StudentNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
-            String message = "{\n\t\"success\": true,\n\t\"data\": ";
-            message += mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
-            message += "\n}";
+            String message = "";
+            message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
+//            message += "\n}";
             return message;
         } else {
-            return createOutputJson(false, "error", "StudentNotFound");
+            throw new Exceptions.StudentNotFound();
         }
     }
 
