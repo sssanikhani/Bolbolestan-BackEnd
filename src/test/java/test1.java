@@ -10,14 +10,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CommandsRunTest {
+public class test1 {
 
-//    CommandHandler cmdHandler = new CommandHandler();
     Main mainTest = new Main();
 
     @Before
     public void setup() throws Exception {
-        Scanner scanner = new Scanner(new File("src/test/resources/test2.txt"));
+        Scanner scanner = new Scanner(new File("src/test/resources/test1.txt"));
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             mainTest.parseCmd(line);
@@ -26,8 +25,8 @@ public class CommandsRunTest {
 
 
     @Test
-    public void testAddOffer() throws IOException {
-        String cmd = "{\"code\": \"81015960\", \"name\": \"AI\" , \"instructor\" : \"Ramtin\", \"units\": 3, \"capacity\" : 60, \"prerequisites\": [\"Mabani\"], \"classTime\" : {\"days\": [\"Sat\", \"Mon\"], \"time\": \"16-17:30\"}, \"examTime\": {\"start\":  \"2021-9-01T08:00:00\", \"end\":  \"2021-9-01T08:00:00\"}}";
+    public void MaximumUnitsTest() throws IOException {
+        String cmd = "finalize {\"StudentId\": \"810197559\"}";
         assertEquals(true, true);
     }
 
