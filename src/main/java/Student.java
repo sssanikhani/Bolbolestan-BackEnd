@@ -88,7 +88,7 @@ public class Student {
         Set<String> offerKeySet = weeklyCourses.keySet();
         for (String key : offerKeySet) {
             Offer o = weeklyCourses.get(key);
-            if (o.getCapacity() >= o.getRegisteredNum())
+            if (o.getCapacity() >= o.getNumRegisteredStudents())
                 throw new Exceptions.OfferCapacity(o.getCode());
         }
     }
