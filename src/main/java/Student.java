@@ -66,14 +66,11 @@ public class Student {
     }
 
     public void validateExamClassTimes() throws Exception {
-        HashMap<String, Offer> temp = new HashMap<String, Offer>();
-        temp.putAll(weeklyCourses);
-        Set<String> offerKeySet = temp.keySet();
-        for (String k1 : offerKeySet) {
-            for (String k2 : temp.keySet()) {
-                if (k1 != k2) {
-                    Offer o1 = temp.get(k1);
-                    Offer o2 = temp.get(k2);
+        for (String k1 : weeklyCourses.keySet()) {
+            for (String k2 : weeklyCourses.keySet()) {
+                if (!k1.equals(k2)) {
+                    Offer o1 = weeklyCourses.get(k1);
+                    Offer o2 = weeklyCourses.get(k2);
                     if (o1.hasOfferTimeCollision(o2))
                         throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
                     if (o1.hasExamTimeCollision(o2))
