@@ -13,28 +13,28 @@ public class Main {
     public static void parseCmd(String cmd) throws JsonProcessingException {
         String[] cmdParts = cmd.split("\\s+", 2);
         ObjectMapper mapper = new ObjectMapper();
-//        HashMap<String, Object> res = new HashMap<String, Object>();
-//         ObjectMapper mapper = new ObjectMapper();
-//         ObjectNode res = mapper.createObjectNode();
+        // HashMap<String, Object> res = new HashMap<String, Object>();
+        // ObjectMapper mapper = new ObjectMapper();
+        // ObjectNode res = mapper.createObjectNode();
         String result = "{\n\t";
         try {
             String data = CommandHandler.performCommand(cmdParts);
             result += "\"success\" : true\n\t";
-            result += "\"data\" : " + data ;
+            result += "\"data\" : \"" + data + "\"";
             result += "\n}";
-//            res.put("data", data);
+            // res.put("data", data);
         } catch (Exception e) {
             String error = e.getMessage();
             result += "\"success\" : false\n\t";
-            result += "\"error\" : " + error ;
+            result += "\"error\" : \"" + error + "\"";
             result += "\n}";
-//            res.put("success", false);
-//            res.put("error", error);
+            // res.put("success", false);
+            // res.put("error", error);
         }
-//        String response = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(res);
+        // String response =
+        // mapper.writerWithDefaultPrettyPrinter().writeValueAsString(res);
         System.out.println(result);
     }
-
 
     public static void main(String[] args) throws IOException, ParseException {
         while (true) {
