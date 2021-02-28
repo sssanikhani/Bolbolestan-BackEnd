@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -23,7 +24,10 @@ public class Offer {
     @JsonView(View.weeklySch.class)
     private String status = "non-finalize";
 
+    private HashMap<String, Student> registeredStudents;
+
     public Offer() {
+        registeredStudents = new HashMap<String, Student>();
     }
 
     public String getCode() {
@@ -64,6 +68,14 @@ public class Offer {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public int getNumRegisteredStudents() {
+        return registeredStudents.size();
+    }
+
+    public void addStudent(Student s) {
+        registeredStudents.put(s.getStudentId(), s);
     }
 
     public String[] getPrerequisites() {
