@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CommandHandler {
 
     public static HashMap<String, Offer> allOffers = new HashMap<String, Offer>();
-    public static HashMap<String, ArrayList<Offer>> allOffersOfACourse = new HashMap<String, ArrayList<Offer>>();
+    public static HashMap<String, ArrayList<Offer>> courseOffersMap = new HashMap<String, ArrayList<Offer>>();
     public static HashMap<String, Student> allStds = new HashMap<String, Student>();
 
     public CommandHandler() {
@@ -25,7 +25,7 @@ public class CommandHandler {
     static String performCommand(String[] cmdp) throws IOException, ParseException, Exception {
         switch (cmdp[0]) {
             case "addOffering":
-                return addCourse(cmdp[1]);
+                return addOffer(cmdp[1]);
             case "addStudent":
                 return addStudent(cmdp[1]);
             case "getOffering":
@@ -33,9 +33,9 @@ public class CommandHandler {
             case "getOfferings":
                 return getOffers(cmdp[1]);
             case "addToWeeklySchedule":
-                return addCourseToSch(cmdp[1]);
+                return addOfferToSch(cmdp[1]);
             case "removeFromWeeklySchedule":
-                return removeCourseFromSch(cmdp[1]);
+                return removeOfferFromSch(cmdp[1]);
             case "getWeeklySchedule":
                 return getWeeklySch(cmdp[1]);
             case "finalize":
@@ -44,47 +44,48 @@ public class CommandHandler {
                 throw new Exceptions.UnknownCommand(cmdp[0]);
         }
     }
-//
-//    static String createOutputJson(boolean b, String data, String s) throws JsonProcessingException {
-//        // ObjectMapper mapper = new ObjectMapper();
-//        // ObjectNode message = mapper.createObjectNode();
-//        // message.put(data, s);
-//        // String json = mapper.writeValueAsString(message);
-//        // System.out.println(json);
-//        return s;
-//    }
+    //
+    // static String createOutputJson(boolean b, String data, String s) throws
+    // JsonProcessingException {
+    // // ObjectMapper mapper = new ObjectMapper();
+    // // ObjectNode message = mapper.createObjectNode();
+    // // message.put(data, s);
+    // // String json = mapper.writeValueAsString(message);
+    // // System.out.println(json);
+    // return s;
+    // }
 
-    static String addCourse(String js) throws IOException {
+    static String addOffer(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Offer newOffer = mapper.readValue(js, Offer.class);
         allOffers.put(newOffer.getCode(), newOffer);
-        if (allOffersOfACourse.get(newOffer.getName()) != null) {
-            allOffersOfACourse.get(newOffer.getName()).add(newOffer);
+        if (courseOffersMap.get(newOffer.getName()) != null) {
+            courseOffersMap.get(newOffer.getName()).add(newOffer);
         } else {
-            allOffersOfACourse.put(newOffer.getName(), new ArrayList<Offer>());
-            allOffersOfACourse.get(newOffer.getName()).add(newOffer);
+            courseOffersMap.put(newOffer.getName(), new ArrayList<Offer>());
+            courseOffersMap.get(newOffer.getName()).add(newOffer);
 
         }
-        return "OfferingAdded";
+        return "offer added";
     }
 
     static String addStudent(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Student newStd = mapper.readValue(js, Student.class);
         allStds.put(newStd.getStudentId(), newStd);
-        return "StudentAdded";
+        return "student added";
     }
 
-    static String addCourseToSch(String js) throws IOException, Exceptions.StudentNotFound, Exceptions.OfferingNotFound {
+    static String addOfferToSch(String js) throws IOException, Exceptions.StudentNotFound, Exceptions.OfferingNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String courseCode = jn.get("code").asText();
+        String offerCode = jn.get("code").asText();
 
-        if (allOffers.get(courseCode) != null) {
+        if (allOffers.get(offerCode) != null) {
             if (allStds.get(stdId) != null) {
-                allStds.get(stdId).addCourseToList(allOffers.get(courseCode));
-                return "CourseAdded";
+                allStds.get(stdId).addOfferToList(allOffers.get(offerCode));
+                return "offer added for student";
             } else {
                 throw new Exceptions.StudentNotFound();
             }
@@ -92,17 +93,17 @@ public class CommandHandler {
         throw new Exceptions.OfferingNotFound();
     }
 
-    static String removeCourseFromSch(String js) throws IOException, Exception {
+    static String removeOfferFromSch(String js) throws IOException, Exception {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String courseCode = jn.get("code").asText();
+        String offerCode = jn.get("code").asText();
 
-        if (allOffers.get(courseCode) != null) {
+        if (allOffers.get(offerCode) != null) {
             if (allStds.get(stdId) != null) {
                 if (allStds.get(stdId) != null) {
-                    if ((allStds.get(stdId).removeCourseFromList(courseCode)) != null) {
-                        return "OfferingRemoved";
+                    if ((allStds.get(stdId).removeOfferFromList(offerCode)) != null) {
+                        return "offering removed for student";
                     } else {
                         throw new Exceptions.OfferingNotFound();
                     }
@@ -112,7 +113,7 @@ public class CommandHandler {
             }
         }
         throw new Exceptions.OfferingNotFound();
-//        return createOutputJson(false, "error", "OfferingNotFound");
+        // return createOutputJson(false, "error", "OfferingNotFound");
     }
 
     static String getWeeklySch(String js) throws JsonProcessingException, Exceptions.StudentNotFound {
@@ -122,7 +123,7 @@ public class CommandHandler {
         if (allStds.get(stdId) != null) {
             String message = "";
             message = mapper.writerWithView(View.weeklySch.class)
-                    .writeValueAsString(allStds.get(stdId).getWeeklyCourses().values());
+                    .writeValueAsString(allStds.get(stdId).getOffers().values());
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
@@ -134,12 +135,12 @@ public class CommandHandler {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
-        String courseCode = jn.get("code").asText();
+        String offerCode = jn.get("code").asText();
         if (allStds.get(stdId) != null) {
             String message = "";
-            if (allOffers.get(courseCode) != null) {
-                message = mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(courseCode));
-//                message += "\n}";
+            if (allOffers.get(offerCode) != null) {
+                message = mapper.writerWithView(View.normal.class).writeValueAsString(allOffers.get(offerCode));
+                // message += "\n}";
             }
             return message;
         } else {
@@ -153,8 +154,8 @@ public class CommandHandler {
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
             String message = "";
-            message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOffersOfACourse.values());
-//            message += "\n}";
+            message = mapper.writerWithView(View.offerings.class).writeValueAsString(courseOffersMap.values());
+            // message += "\n}";
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
@@ -178,7 +179,7 @@ public class CommandHandler {
             throw new Exceptions.MaximumUnits();
         }
 
-        // Validate CourseTime Collision
+        // Validate Offer Times Collision
         student.validateExamClassTimes();
 
         // Check Offer Capacity

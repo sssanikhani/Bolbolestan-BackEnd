@@ -6,11 +6,11 @@ public class Student {
     private String name;
     private String enteredAt;
     private int numberChosenUnits;
-    // private ArrayList<Course> weeklyCourses = new ArrayList<Course>();
-    private HashMap<String, Offer> weeklyCourses;
+    // private ArrayList<Offer> offers = new ArrayList<Offer>();
+    private HashMap<String, Offer> offers;
 
     public Student() {
-        weeklyCourses = new HashMap<String, Offer>();
+        offers = new HashMap<String, Offer>();
         numberChosenUnits = 0;
     }
 
@@ -38,39 +38,39 @@ public class Student {
         this.enteredAt = enteredAt;
     }
 
-    public HashMap<String, Offer> getWeeklyCourses() {
-        return weeklyCourses;
+    public HashMap<String, Offer> getOffers() {
+        return offers;
     }
 
     public int getNumberChosenUnits() {
         return numberChosenUnits;
     }
-    // public void setWeeklyCourses(HashMap<String, Offer> weeklyCourses) {
-    // this.weeklyCourses = weeklyCourses;
+    // public void setOffers(HashMap<String, Offer> offers) {
+    // this.offers = offers;
     // }
 
-    public void addCourseToList(Offer c) {
-        this.weeklyCourses.put(c.getCode(), c);
+    public void addOfferToList(Offer c) {
+        this.offers.put(c.getCode(), c);
         this.numberChosenUnits += c.getUnits();
-        // System.out.println(this.weeklyCourses);
+        // System.out.println(this.offers);
     }
 
-    public Offer removeCourseFromList(String c) throws Exception {
-        // this.weeklyCourses.remove(c);
-        Offer offer = this.weeklyCourses.get(c);
+    public Offer removeOfferFromList(String c) throws Exception {
+        // this.offers.remove(c);
+        Offer offer = this.offers.get(c);
         if (offer == null) {
             throw new Exceptions.OfferingNotFound();
         }
         this.numberChosenUnits -= offer.getUnits();
-        return this.weeklyCourses.remove(c);
+        return this.offers.remove(c);
     }
 
     public void validateExamClassTimes() throws Exception {
-        for (String k1 : weeklyCourses.keySet()) {
-            for (String k2 : weeklyCourses.keySet()) {
+        for (String k1 : offers.keySet()) {
+            for (String k2 : offers.keySet()) {
                 if (!k1.equals(k2)) {
-                    Offer o1 = weeklyCourses.get(k1);
-                    Offer o2 = weeklyCourses.get(k2);
+                    Offer o1 = offers.get(k1);
+                    Offer o2 = offers.get(k2);
                     if (o1.hasOfferTimeCollision(o2))
                         throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
                     if (o1.hasExamTimeCollision(o2))
@@ -81,9 +81,9 @@ public class Student {
     }
 
     public void validateOfferCapacities() throws Exception {
-        Set<String> offerKeySet = weeklyCourses.keySet();
+        Set<String> offerKeySet = offers.keySet();
         for (String key : offerKeySet) {
-            Offer o = weeklyCourses.get(key);
+            Offer o = offers.get(key);
             if (o.getCapacity() >= o.getNumRegisteredStudents())
                 throw new Exceptions.OfferCapacity(o.getCode());
         }
