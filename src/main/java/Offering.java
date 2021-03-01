@@ -27,87 +27,87 @@ public class Offering {
     private HashMap<String, Student> registeredStudents;
 
     public Offering() {
-        registeredStudents = new HashMap<String, Student>();
+        this.registeredStudents = new HashMap<String, Student>();
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCode(String _code) {
+        this.code = _code;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String _name) {
+        this.name = _name;
     }
 
     public String getInstructor() {
-        return instructor;
+        return this.instructor;
     }
 
-    public void setInstructor(String instructor) {
-        this.instructor = instructor;
+    public void setInstructor(String _instructor) {
+        this.instructor = _instructor;
     }
 
     public int getUnits() {
-        return units;
+        return this.units;
     }
 
-    public void setUnits(int units) {
-        this.units = units;
+    public void setUnits(int _units) {
+        this.units = _units;
     }
 
     public int getCapacity() {
-        return capacity;
+        return this.capacity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacity(int _capacity) {
+        this.capacity = _capacity;
     }
 
     public int getNumRegisteredStudents() {
-        return registeredStudents.size();
+        return this.registeredStudents.size();
     }
 
     public void addStudent(Student s) {
-        registeredStudents.put(s.getStudentId(), s);
+        this.registeredStudents.put(s.getStudentId(), s);
     }
 
     public String[] getPrerequisites() {
-        return prerequisites;
+        return this.prerequisites;
     }
 
-    public void setPrerequisites(String[] prerequisites) {
-        this.prerequisites = prerequisites;
+    public void setPrerequisites(String[] _prerequisites) {
+        this.prerequisites = _prerequisites;
     }
 
     public OfferingClassTime getClassTime() {
-        return classTime;
+        return this.classTime;
     }
 
-    public void setClassTime(OfferingClassTime classTime) {
-        this.classTime = classTime;
+    public void setClassTime(OfferingClassTime _classTime) {
+        this.classTime = _classTime;
     }
 
     public OfferingExamTime getExamTime() {
-        return examTime;
+        return this.examTime;
     }
 
-    public void setExamTime(OfferingExamTime examTime) {
-        this.examTime = examTime;
+    public void setExamTime(OfferingExamTime _examTime) {
+        this.examTime = _examTime;
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String _status) {
+        this.status = _status;
     }
 
     public boolean hasOfferingTimeCollision(Offering c) {
