@@ -110,7 +110,6 @@ public class tests {
         }
         String cmd = "finalize {\"StudentId\": \"810197562\"}";
         String act = "{\n\t\"success\" : false,\n\t\"error\" : \"CapacityError 810150108\"\n}";
-        System.out.println(mainTest.deployCommand(cmd));
         assertTrue(act.equals(mainTest.deployCommand(cmd)));
     }
 
