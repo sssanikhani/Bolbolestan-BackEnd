@@ -4,24 +4,22 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonView;
 
 public class Offering {
-    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
+    @JsonView({ View.normal.class, View.offerings.class })
     private String code;
-    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
+    @JsonView({ View.normal.class, View.offerings.class })
     private String name;
-    @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
+    @JsonView({ View.normal.class, View.offerings.class })
     private String instructor;
     @JsonView(View.normal.class)
     private int units;
-    @JsonView({ View.normal.class, View.weeklySch.class })
+    @JsonView({ View.normal.class })
     private OfferingClassTime classTime;
-    @JsonView({ View.normal.class, View.weeklySch.class })
+    @JsonView({ View.normal.class })
     private OfferingExamTime examTime;
     @JsonView(View.normal.class)
     private int capacity;
     @JsonView(View.normal.class)
     private String[] prerequisites;
-    @JsonView(View.weeklySch.class)
-    private String status = "non-finalize";
 
     private HashMap<String, Student> registeredStudents;
 
@@ -111,14 +109,6 @@ public class Offering {
 
     public void setExamTime(OfferingExamTime _examTime) {
         this.examTime = _examTime;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String _status) {
-        this.status = _status;
     }
 
     public boolean hasOfferingTimeCollision(Offering c) {

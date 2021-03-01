@@ -4,7 +4,4 @@ public class View {
 
     public static class offerings {
     };
-
-    public static class weeklySch {
-    };
 }
