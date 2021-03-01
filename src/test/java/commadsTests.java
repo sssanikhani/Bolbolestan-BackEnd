@@ -53,7 +53,7 @@ public class commadsTests {
     @Test
     public void testGetWeeklySch() throws JsonProcessingException {
         String cmd = "getWeeklySchedule {\"StudentId\": \"810197559\"}\n";
-        String act = "{\n\t\"success\" : true,\n\t\"data\" : \"[{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"status\":\"non-finalize\",\"numRegisteredStudents\":0}]\"\n}";
+        String act = "{\n\t\"success\" : true,\n\t\"data\" : \"[{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"status\":\"non-finalized\"}]\"\n}";
         assertTrue(act.equals(mainTest.deployCommand(cmd)));
     }
 
