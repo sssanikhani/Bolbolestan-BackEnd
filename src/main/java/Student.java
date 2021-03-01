@@ -11,40 +11,41 @@ public class Student {
 
     public Student() {
         offerings = new HashMap<String, Offering>();
-        numberChosenUnits = 0;
+        this.numberChosenUnits = 0;
     }
 
     public String getStudentId() {
-        return studentId;
+        return this.studentId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudentId(String _studentId) {
+        this.studentId = _studentId;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String _name) {
+        this.name = _name;
     }
 
     public String getEnteredAt() {
-        return enteredAt;
+        return this.enteredAt;
     }
 
-    public void setEnteredAt(String enteredAt) {
-        this.enteredAt = enteredAt;
+    public void setEnteredAt(String _enteredAt) {
+        this.enteredAt = _enteredAt;
     }
 
     public HashMap<String, Offering> getOfferings() {
-        return offerings;
+        return this.offerings;
     }
 
     public int getNumberChosenUnits() {
-        return numberChosenUnits;
+        return this.numberChosenUnits;
     }
+
     // public void setOfferings(HashMap<String, Offering> offerings) {
     // this.offerings = offerings;
     // }
@@ -66,11 +67,11 @@ public class Student {
     }
 
     public void validateExamClassTimes() throws Exception {
-        for (String k1 : offerings.keySet()) {
-            for (String k2 : offerings.keySet()) {
+        for (String k1 : this.offerings.keySet()) {
+            for (String k2 : this.offerings.keySet()) {
                 if (!k1.equals(k2)) {
-                    Offering o1 = offerings.get(k1);
-                    Offering o2 = offerings.get(k2);
+                    Offering o1 = this.offerings.get(k1);
+                    Offering o2 = this.offerings.get(k2);
                     if (o1.hasOfferingTimeCollision(o2))
                         throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
                     if (o1.hasExamTimeCollision(o2))
