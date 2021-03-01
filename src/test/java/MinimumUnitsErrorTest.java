@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class test1 {
+public class MinimumUnitsErrorTest {
 
 //    CommandHandler cmdHandler = new CommandHandler();
     Main mainTest = new Main();
@@ -20,6 +20,13 @@ public class test1 {
             String line = scanner.nextLine();
             mainTest.parseCmd(line);
         }
+    }
+
+    @After
+    public void teardown() {
+        CommandHandler.getAllStds().clear();
+        CommandHandler.getAllOfferings().clear();
+        CommandHandler.getCourseOfferingsMap().clear();
     }
 
     @Test
