@@ -78,7 +78,8 @@ public class CommandHandler {
         return "student added";
     }
 
-    static String addOfferingToSch(String js) throws IOException, Exceptions.StudentNotFound, Exceptions.offeringNotFound {
+    static String addOfferingToSch(String js)
+            throws IOException, Exceptions.StudentNotFound, Exceptions.offeringNotFound {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
@@ -104,11 +105,8 @@ public class CommandHandler {
         if (allOfferings.get(offeringCode) != null) {
             if (allStds.get(stdId) != null) {
                 if (allStds.get(stdId) != null) {
-                    if ((allStds.get(stdId).removeOfferingFromList(offeringCode)) != null) {
-                        return "offering removed for student";
-                    } else {
-                        throw new Exceptions.offeringNotFound();
-                    }
+                    allStds.get(stdId).removeOfferingFromList(offeringCode);
+                    return "offering removed for student";
                 } else {
                     throw new Exceptions.StudentNotFound();
                 }
@@ -122,11 +120,7 @@ public class CommandHandler {
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
-            String message = "";
-            message = mapper
-            // .writerWithDefaultPrettyPrinter()
-            .writeValueAsString(allStds.get(stdId).getOfferingsData());
-            System.out.println(message);
+            String message = mapper.writeValueAsString(allStds.get(stdId).getOfferingsData());
             return message;
         } else {
             throw new Exceptions.StudentNotFound();

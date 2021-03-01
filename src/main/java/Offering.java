@@ -3,7 +3,6 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-//@JsonIgnoreProperties(ignoreUnknown = false)
 public class Offering {
     @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
     private String code;

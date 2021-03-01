@@ -9,7 +9,6 @@ public class Student {
     private String name;
     private String enteredAt;
     private int numberChosenUnits;
-    // private ArrayList<Offering> offerings = new ArrayList<Offering>();
     private HashMap<String, Offering> offerings;
     private HashMap<String, Boolean> offeringStatus;
 
@@ -71,25 +70,19 @@ public class Student {
         return this.numberChosenUnits;
     }
 
-    // public void setOfferings(HashMap<String, Offering> offerings) {
-    // this.offerings = offerings;
-    // }
-
     public void addOfferingToList(Offering o) {
         this.offerings.put(o.getCode(), o);
         this.offeringStatus.put(o.getCode(), false);
         this.numberChosenUnits += o.getUnits();
-        // System.out.println(this.offerings);
     }
 
-    public Offering removeOfferingFromList(String c) throws Exception {
-        // this.offerings.remove(c);
+    public void removeOfferingFromList(String c) throws Exception {
         Offering offering = this.offerings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
         this.numberChosenUnits -= offering.getUnits();
         this.offeringStatus.remove(c);
-        return this.offerings.remove(c);
+        this.offerings.remove(c);
     }
 
     public void validateExamClassTimes() throws Exception {

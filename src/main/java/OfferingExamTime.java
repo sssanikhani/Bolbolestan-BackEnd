@@ -1,8 +1,8 @@
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class OfferingExamTime {
     String start;
