@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -46,11 +47,11 @@ public class Student {
         return this.offerings;
     }
 
-    public List<HashMap<String, Object>> getOfferingsData() {
-        List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
+    public List<LinkedHashMap<String, Object>> getOfferingsData() {
+        List<LinkedHashMap<String, Object>> data = new ArrayList<LinkedHashMap<String, Object>>();
         for (String code : this.offerings.keySet()) {
             Offering o = this.offerings.get(code);
-            HashMap<String, Object> o_data = new HashMap<String, Object>();
+            LinkedHashMap<String, Object> o_data = new LinkedHashMap<String, Object>();
 
             o_data.put("code", o.getCode());
             o_data.put("name", o.getName());

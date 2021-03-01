@@ -123,8 +123,9 @@ public class CommandHandler {
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
             String message = "";
-            message = mapper.writerWithView(View.weeklySch.class)
-                    .writeValueAsString(allStds.get(stdId).getOfferingsData());
+            message = mapper
+            // .writerWithDefaultPrettyPrinter()
+            .writeValueAsString(allStds.get(stdId).getOfferingsData());
             System.out.println(message);
             return message;
         } else {
