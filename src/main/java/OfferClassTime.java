@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class OfferClassTime {
+public class OfferingClassTime {
     private ArrayList<String> days;
     @JsonIgnore
     private LocalTime startTime;
@@ -11,7 +11,7 @@ public class OfferClassTime {
     private LocalTime endTime;
     private String time;
 
-    public OfferClassTime() {
+    public OfferingClassTime() {
     }
 
     public ArrayList<String> getDays() {
@@ -43,7 +43,7 @@ public class OfferClassTime {
         return endTime;
     }
 
-    public boolean hasTimeCollision(OfferClassTime t) {
+    public boolean hasTimeCollision(OfferingClassTime t) {
         LocalTime s1 = this.startTime;
         LocalTime s2 = t.getStartTime();
         LocalTime e1 = this.endTime;
@@ -72,7 +72,7 @@ public class OfferClassTime {
         return false;
     }
 
-    public boolean hasCollision(OfferClassTime t) {
+    public boolean hasCollision(OfferingClassTime t) {
         for (String d1 : days) {
             for (String d2 : t.getDays()) {
                 if (d1.equals(d2))

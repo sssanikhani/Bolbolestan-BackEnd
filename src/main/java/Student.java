@@ -6,11 +6,11 @@ public class Student {
     private String name;
     private String enteredAt;
     private int numberChosenUnits;
-    // private ArrayList<Offer> offers = new ArrayList<Offer>();
-    private HashMap<String, Offer> offers;
+    // private ArrayList<Offering> offerings = new ArrayList<Offering>();
+    private HashMap<String, Offering> offerings;
 
     public Student() {
-        offers = new HashMap<String, Offer>();
+        offerings = new HashMap<String, Offering>();
         numberChosenUnits = 0;
     }
 
@@ -38,40 +38,40 @@ public class Student {
         this.enteredAt = enteredAt;
     }
 
-    public HashMap<String, Offer> getOffers() {
-        return offers;
+    public HashMap<String, Offering> getOfferings() {
+        return offerings;
     }
 
     public int getNumberChosenUnits() {
         return numberChosenUnits;
     }
-    // public void setOffers(HashMap<String, Offer> offers) {
-    // this.offers = offers;
+    // public void setOfferings(HashMap<String, Offering> offerings) {
+    // this.offerings = offerings;
     // }
 
-    public void addOfferToList(Offer c) {
-        this.offers.put(c.getCode(), c);
+    public void addOfferingToList(Offering c) {
+        this.offerings.put(c.getCode(), c);
         this.numberChosenUnits += c.getUnits();
-        // System.out.println(this.offers);
+        // System.out.println(this.offerings);
     }
 
-    public Offer removeOfferFromList(String c) throws Exception {
-        // this.offers.remove(c);
-        Offer offer = this.offers.get(c);
-        if (offer == null) {
-            throw new Exceptions.OfferingNotFound();
+    public Offering removeOfferingFromList(String c) throws Exception {
+        // this.offerings.remove(c);
+        Offering offering = this.offerings.get(c);
+        if (offering == null) {
+            throw new Exceptions.offeringNotFound();
         }
-        this.numberChosenUnits -= offer.getUnits();
-        return this.offers.remove(c);
+        this.numberChosenUnits -= offering.getUnits();
+        return this.offerings.remove(c);
     }
 
     public void validateExamClassTimes() throws Exception {
-        for (String k1 : offers.keySet()) {
-            for (String k2 : offers.keySet()) {
+        for (String k1 : offerings.keySet()) {
+            for (String k2 : offerings.keySet()) {
                 if (!k1.equals(k2)) {
-                    Offer o1 = offers.get(k1);
-                    Offer o2 = offers.get(k2);
-                    if (o1.hasOfferTimeCollision(o2))
+                    Offering o1 = offerings.get(k1);
+                    Offering o2 = offerings.get(k2);
+                    if (o1.hasOfferingTimeCollision(o2))
                         throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
                     if (o1.hasExamTimeCollision(o2))
                         throw new Exceptions.ExamTimeCollision(o1.getCode(), o2.getCode());
@@ -80,12 +80,12 @@ public class Student {
         }
     }
 
-    public void validateOfferCapacities() throws Exception {
-        Set<String> offerKeySet = offers.keySet();
-        for (String key : offerKeySet) {
-            Offer o = offers.get(key);
+    public void validateOfferingCapacities() throws Exception {
+        Set<String> offeringKeySet = offerings.keySet();
+        for (String key : offeringKeySet) {
+            Offering o = offerings.get(key);
             if (o.getCapacity() >= o.getNumRegisteredStudents())
-                throw new Exceptions.OfferCapacity(o.getCode());
+                throw new Exceptions.OfferingCapacity(o.getCode());
         }
     }
 }
