@@ -179,10 +179,10 @@ public class CommandHandler {
             throw new Exceptions.MaximumUnits();
         }
 
-        // Validate Offering Times Collision
+        // Check Offering Time Collisions
         student.validateExamClassTimes();
 
-        // Check Offering Capacity
+        // Verify Enough Offering Capacities
         student.validateOfferingCapacities();
 
         return "finalized successfully";
