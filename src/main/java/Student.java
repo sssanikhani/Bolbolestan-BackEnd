@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class Student {
@@ -8,9 +10,11 @@ public class Student {
     private int numberChosenUnits;
     // private ArrayList<Offering> offerings = new ArrayList<Offering>();
     private HashMap<String, Offering> offerings;
+    private HashMap<String, Boolean> offeringStatus;
 
     public Student() {
-        offerings = new HashMap<String, Offering>();
+        this.offerings = new HashMap<String, Offering>();
+        this.offeringStatus = new HashMap<String, Boolean>();
         this.numberChosenUnits = 0;
     }
 
@@ -42,6 +46,26 @@ public class Student {
         return this.offerings;
     }
 
+    public List<HashMap<String, Object>> getOfferingsData() {
+        List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
+        for (String code : this.offerings.keySet()) {
+            Offering o = this.offerings.get(code);
+            HashMap<String, Object> o_data = new HashMap<String, Object>();
+
+            o_data.put("code", o.getCode());
+            o_data.put("name", o.getName());
+            o_data.put("instructor", o.getInstructor());
+            o_data.put("classTime", o.getClassTime());
+            o_data.put("examTime", o.getExamTime());
+            boolean is_finalized = this.offeringStatus.get(o.getCode());
+            String finalized = is_finalized ? "finalized" : "non-finalized";
+            o_data.put("status", finalized);
+
+            data.add(o_data);
+        }
+        return data;
+    }
+
     public int getNumberChosenUnits() {
         return this.numberChosenUnits;
     }
@@ -50,19 +74,20 @@ public class Student {
     // this.offerings = offerings;
     // }
 
-    public void addOfferingToList(Offering c) {
-        this.offerings.put(c.getCode(), c);
-        this.numberChosenUnits += c.getUnits();
+    public void addOfferingToList(Offering o) {
+        this.offerings.put(o.getCode(), o);
+        this.offeringStatus.put(o.getCode(), false);
+        this.numberChosenUnits += o.getUnits();
         // System.out.println(this.offerings);
     }
 
     public Offering removeOfferingFromList(String c) throws Exception {
         // this.offerings.remove(c);
         Offering offering = this.offerings.get(c);
-        if (offering == null) {
+        if (offering == null)
             throw new Exceptions.offeringNotFound();
-        }
         this.numberChosenUnits -= offering.getUnits();
+        this.offeringStatus.remove(c);
         return this.offerings.remove(c);
     }
 

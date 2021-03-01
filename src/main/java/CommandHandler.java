@@ -124,7 +124,8 @@ public class CommandHandler {
         if (allStds.get(stdId) != null) {
             String message = "";
             message = mapper.writerWithView(View.weeklySch.class)
-                    .writeValueAsString(allStds.get(stdId).getOfferings().values());
+                    .writeValueAsString(allStds.get(stdId).getOfferingsData());
+            System.out.println(message);
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
