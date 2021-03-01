@@ -19,14 +19,14 @@ false
 ExamTimeCollisionError 810150102 810150111
 
 //TEST 5
-true
-pass
+Check CapacityError
+false
+CapacityError 810150110
 
 //TEST 6
 true
 pass with add and remove
 
 //TEST 7
-Check CapacityError
-false
-CapacityError 810150110
+true
+pass

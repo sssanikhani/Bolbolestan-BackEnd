@@ -1,16 +1,15 @@
-import static org.junit.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
-public class test1 {
+public class MinimumUnitsErrorTest {
 
-//    CommandHandler cmdHandler = new CommandHandler();
     Main mainTest = new Main();
 
     @Before
@@ -22,11 +21,18 @@ public class test1 {
         }
     }
 
+    @After
+    public void teardown() {
+        CommandHandler.getAllStds().clear();
+        CommandHandler.getAllOfferings().clear();
+        CommandHandler.getCourseOfferingsMap().clear();
+    }
+
     @Test
     public void testMinimumUnitsError() throws IOException {
         String cmd = "finalize {\"StudentId\": \"810197559\"}";
         String act = "{\n\t\"success\" : false,\n\t\"error\" : \"MinimumUnitsError\"\n}";
-        assertEquals(act.equals(mainTest.parseCmd(cmd)), true);
+        assertTrue(act.equals(mainTest.parseCmd(cmd)));
     }
 
 

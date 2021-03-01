@@ -14,6 +14,18 @@ public class CommandHandler {
     public static HashMap<String, ArrayList<Offering>> courseOfferingsMap = new HashMap<String, ArrayList<Offering>>();
     public static HashMap<String, Student> allStds = new HashMap<String, Student>();
 
+    public static HashMap<String, Offering> getAllOfferings() {
+        return allOfferings;
+    }
+
+    public static HashMap<String, ArrayList<Offering>> getCourseOfferingsMap() {
+        return courseOfferingsMap;
+    }
+
+    public static HashMap<String, Student> getAllStds() {
+        return allStds;
+    }
+
     public CommandHandler() {
     }
 
@@ -44,16 +56,6 @@ public class CommandHandler {
                 throw new Exceptions.UnknownCommand(cmdp[0]);
         }
     }
-    //
-    // static String createOutputJson(boolean b, String data, String s) throws
-    // JsonProcessingException {
-    // // ObjectMapper mapper = new ObjectMapper();
-    // // ObjectNode message = mapper.createObjectNode();
-    // // message.put(data, s);
-    // // String json = mapper.writeValueAsString(message);
-    // // System.out.println(json);
-    // return s;
-    // }
 
     static String addOffering(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -113,7 +115,6 @@ public class CommandHandler {
             }
         }
         throw new Exceptions.offeringNotFound();
-        // return createOutputJson(false, "error", "OfferingingNotFound");
     }
 
     static String getWeeklySch(String js) throws JsonProcessingException, Exceptions.StudentNotFound {
@@ -140,7 +141,6 @@ public class CommandHandler {
             String message = "";
             if (allOfferings.get(offeringCode) != null) {
                 message = mapper.writerWithView(View.normal.class).writeValueAsString(allOfferings.get(offeringCode));
-                // message += "\n}";
             }
             return message;
         } else {
@@ -155,7 +155,6 @@ public class CommandHandler {
         if (allStds.get(stdId) != null) {
             String message = "";
             message = mapper.writerWithView(View.offerings.class).writeValueAsString(courseOfferingsMap.values());
-            // message += "\n}";
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
