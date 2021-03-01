@@ -3,7 +3,7 @@ addToWeeklySchedule {"StudentId": "810197559", "code" : "810150102"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150118"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150104"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150106"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150109"}
+addToWeeklySchedule {"StudentId": "810197559", "code" : "810150108"}
 addToWeeklySchedule {"StudentId": "810197560", "code" : "810150100"}
 addToWeeklySchedule {"StudentId": "810197560", "code" : "810150102"}
 addToWeeklySchedule {"StudentId": "810197560", "code" : "810150114"}
