@@ -15,4 +15,3 @@ addToWeeklySchedule {"StudentId": "810197559", "code" : "810150100"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150106"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150102"}
 addToWeeklySchedule {"StudentId": "810197559", "code" : "810150104"}
-finalize {"StudentId": "810197559"}
