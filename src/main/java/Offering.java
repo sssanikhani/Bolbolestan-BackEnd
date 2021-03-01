@@ -77,6 +77,13 @@ public class Offering {
         this.registeredStudents.put(s.getStudentId(), s);
     }
 
+    public void removeStudent(String stdId) throws Exception {
+        Student s = this.registeredStudents.get(stdId);
+        if (s == null)
+            throw new Exceptions.StudentNotFound();
+        this.registeredStudents.remove(stdId);
+    }
+
     public String[] getPrerequisites() {
         return this.prerequisites;
     }

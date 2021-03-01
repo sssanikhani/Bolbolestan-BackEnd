@@ -8,14 +8,12 @@ public class Student {
     private String studentId;
     private String name;
     private String enteredAt;
-    private int numberChosenUnits;
     private HashMap<String, Offering> offerings;
     private HashMap<String, Boolean> offeringStatus;
 
     public Student() {
         this.offerings = new HashMap<String, Offering>();
         this.offeringStatus = new HashMap<String, Boolean>();
-        this.numberChosenUnits = 0;
     }
 
     public String getStudentId() {
@@ -67,20 +65,26 @@ public class Student {
     }
 
     public int getNumberChosenUnits() {
-        return this.numberChosenUnits;
+        int units = 0;
+        for (String key : this.offerings.keySet()) {
+            Offering o = this.offerings.get(key);
+            units += o.getUnits();
+        }
+        return units;
     }
 
     public void addOfferingToList(Offering o) {
         this.offerings.put(o.getCode(), o);
         this.offeringStatus.put(o.getCode(), false);
-        this.numberChosenUnits += o.getUnits();
     }
 
     public void removeOfferingFromList(String c) throws Exception {
         Offering offering = this.offerings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
-        this.numberChosenUnits -= offering.getUnits();
+        boolean finalized = this.offeringStatus.get(c);
+        if (finalized)
+            offering.removeStudent(this.studentId);
         this.offeringStatus.remove(c);
         this.offerings.remove(c);
     }
