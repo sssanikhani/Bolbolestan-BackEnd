@@ -8,9 +8,8 @@ public class Main {
     public Main() {
     }
 
-    public static String parseCmd(String cmd) throws JsonProcessingException {
+    public static String deployCommand(String cmd) throws JsonProcessingException {
         String[] cmdParts = cmd.split("\\s+", 2);
-        ObjectMapper mapper = new ObjectMapper();
         String result = "{\n\t";
         try {
             String data = CommandHandler.performCommand(cmdParts);
@@ -34,7 +33,8 @@ public class Main {
                 System.out.println("Usage: <Command> <JSON Form Data>");
                 continue;
             }
-            parseCmd(cmd);
+            String result = deployCommand(cmd);
+            System.out.println(result);
         }
     }
 }
