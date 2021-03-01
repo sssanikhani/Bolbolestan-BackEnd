@@ -29,8 +29,8 @@ public class Exceptions {
         }
     };
 
-    static class OfferCapacity extends Exception {
-        public OfferCapacity(String c) {
+    static class OfferingCapacity extends Exception {
+        public OfferingCapacity(String c) {
             super("CapacityError " + c);
         }
     };
@@ -41,8 +41,8 @@ public class Exceptions {
         }
     };
 
-    static class OfferingNotFound extends Exception {
-        public OfferingNotFound() {
+    static class offeringNotFound extends Exception {
+        public offeringNotFound() {
             super("OfferingNotFound");
         }
     };

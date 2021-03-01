@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class OfferExamTime {
+public class OfferingExamTime {
     String start;
     String end;
     @JsonIgnore
@@ -12,7 +12,7 @@ public class OfferExamTime {
     @JsonIgnore
     Date endDate;
 
-    public OfferExamTime() {
+    public OfferingExamTime() {
     }
 
     public String getStart() {
@@ -43,7 +43,7 @@ public class OfferExamTime {
         return endDate;
     }
 
-    public boolean hasCollision(OfferExamTime t) throws ParseException {
+    public boolean hasCollision(OfferingExamTime t) throws ParseException {
         Date s1 = this.startDate;
         Date s2 = t.getStartDate();
         Date e1 = this.endDate;

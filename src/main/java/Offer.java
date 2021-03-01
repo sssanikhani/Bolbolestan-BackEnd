@@ -4,7 +4,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonView;
 
 //@JsonIgnoreProperties(ignoreUnknown = false)
-public class Offer {
+public class Offering {
     @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
     private String code;
     @JsonView({ View.normal.class, View.offerings.class, View.weeklySch.class })
@@ -14,9 +14,9 @@ public class Offer {
     @JsonView(View.normal.class)
     private int units;
     @JsonView({ View.normal.class, View.weeklySch.class })
-    private OfferClassTime classTime;
+    private OfferingClassTime classTime;
     @JsonView({ View.normal.class, View.weeklySch.class })
-    private OfferExamTime examTime;
+    private OfferingExamTime examTime;
     @JsonView(View.normal.class)
     private int capacity;
     @JsonView(View.normal.class)
@@ -26,7 +26,7 @@ public class Offer {
 
     private HashMap<String, Student> registeredStudents;
 
-    public Offer() {
+    public Offering() {
         registeredStudents = new HashMap<String, Student>();
     }
 
@@ -86,19 +86,19 @@ public class Offer {
         this.prerequisites = prerequisites;
     }
 
-    public OfferClassTime getClassTime() {
+    public OfferingClassTime getClassTime() {
         return classTime;
     }
 
-    public void setClassTime(OfferClassTime classTime) {
+    public void setClassTime(OfferingClassTime classTime) {
         this.classTime = classTime;
     }
 
-    public OfferExamTime getExamTime() {
+    public OfferingExamTime getExamTime() {
         return examTime;
     }
 
-    public void setExamTime(OfferExamTime examTime) {
+    public void setExamTime(OfferingExamTime examTime) {
         this.examTime = examTime;
     }
 
@@ -110,11 +110,11 @@ public class Offer {
         this.status = status;
     }
 
-    public boolean hasOfferTimeCollision(Offer c) {
+    public boolean hasOfferingTimeCollision(Offering c) {
         return this.classTime.hasCollision(c.getClassTime());
     }
 
-    public boolean hasExamTimeCollision(Offer c) throws ParseException {
+    public boolean hasExamTimeCollision(Offering c) throws ParseException {
         return this.examTime.hasCollision(c.getExamTime());
     }
 }
