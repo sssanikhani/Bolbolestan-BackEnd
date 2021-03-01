@@ -1,3 +1,10 @@
+// 1 2 classTime
+// 3 4 examTime
+//11 12 yek dars
+// 10 vahed
+// 7 2 units
+
+
 //TEST 1
 Check MinimumUnits
 false
@@ -11,22 +18,22 @@ MaximumUnitsError
 //TEST 3
 Check ClassTimeCollisionError
 false
-ClassTimeCollisionError 810150101 810150107
+ClassTimeCollisionError 810150101 810150100
 
 //TEST 4
 Check ExamTimeCollisionError
 false
-ExamTimeCollisionError 810150102 810150111
+ExamTimeCollisionError 810150103 810150102
 
 //TEST 5
 Check CapacityError
 false
-CapacityError 810150110
+CapacityError 810150108
 
 //TEST 6
 true
-pass with add and remove
+pass
 
 //TEST 7
 true
-pass
+pass with add and remove
