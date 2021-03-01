@@ -84,6 +84,11 @@ public class Offering {
         this.registeredStudents.remove(stdId);
     }
 
+    public boolean existStudent(String stdId) {
+        Student s = this.registeredStudents.get(stdId);
+        return (s == null) ? false : true;
+    }
+
     public String[] getPrerequisites() {
         return this.prerequisites;
     }

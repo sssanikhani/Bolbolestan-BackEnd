@@ -9,11 +9,9 @@ public class Student {
     private String name;
     private String enteredAt;
     private HashMap<String, Offering> offerings;
-    private HashMap<String, Boolean> offeringStatus;
 
     public Student() {
         this.offerings = new HashMap<String, Offering>();
-        this.offeringStatus = new HashMap<String, Boolean>();
     }
 
     public String getStudentId() {
@@ -55,7 +53,7 @@ public class Student {
             o_data.put("instructor", o.getInstructor());
             o_data.put("classTime", o.getClassTime());
             o_data.put("examTime", o.getExamTime());
-            boolean is_finalized = this.offeringStatus.get(o.getCode());
+            boolean is_finalized = o.existStudent(this.studentId);
             String finalized = is_finalized ? "finalized" : "non-finalized";
             o_data.put("status", finalized);
 
@@ -75,17 +73,15 @@ public class Student {
 
     public void addOfferingToList(Offering o) {
         this.offerings.put(o.getCode(), o);
-        this.offeringStatus.put(o.getCode(), false);
     }
 
     public void removeOfferingFromList(String c) throws Exception {
         Offering offering = this.offerings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
-        boolean finalized = this.offeringStatus.get(c);
+        boolean finalized = offering.existStudent(this.studentId);
         if (finalized)
             offering.removeStudent(this.studentId);
-        this.offeringStatus.remove(c);
         this.offerings.remove(c);
     }
 
@@ -117,7 +113,6 @@ public class Student {
         for (String code : this.offerings.keySet()) {
             Offering o = this.offerings.get(code);
             o.addStudent(this);
-            this.offeringStatus.put(code, true);
         }
     }
 }
