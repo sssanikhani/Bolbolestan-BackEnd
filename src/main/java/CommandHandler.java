@@ -186,6 +186,7 @@ public class CommandHandler {
         // Verify Enough Offering Capacities
         student.validateOfferingCapacities();
 
+        student.finalizeOfferings();
         return "finalized successfully";
     }
 

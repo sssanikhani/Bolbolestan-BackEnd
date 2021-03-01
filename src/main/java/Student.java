@@ -111,8 +111,16 @@ public class Student {
         Set<String> offeringKeySet = offerings.keySet();
         for (String key : offeringKeySet) {
             Offering o = offerings.get(key);
-            if (o.getCapacity() >= o.getNumRegisteredStudents())
+            if (o.getCapacity() <= o.getNumRegisteredStudents())
                 throw new Exceptions.OfferingCapacity(o.getCode());
+        }
+    }
+
+    public void finalizeOfferings() {
+        for (String code : this.offerings.keySet()) {
+            Offering o = this.offerings.get(code);
+            o.addStudent(this);
+            this.offeringStatus.put(code, true);
         }
     }
 }
