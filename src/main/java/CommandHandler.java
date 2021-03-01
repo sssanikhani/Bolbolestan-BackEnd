@@ -121,6 +121,7 @@ public class CommandHandler {
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
             String message = mapper.writeValueAsString(allStds.get(stdId).getOfferingsData());
+            message = "{\"weeklySchedule\": " + message + "}";
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
@@ -150,7 +151,7 @@ public class CommandHandler {
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
             String message = "";
-            message = mapper.writerWithView(View.offerings.class).writeValueAsString(courseOfferingsMap.values());
+            message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOfferings.values());
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
