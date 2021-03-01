@@ -13,8 +13,11 @@ public class Main {
         String result = "{\n\t";
         try {
             String data = CommandHandler.performCommand(cmdParts);
+            if (!data.contains("{") && !data.contains("[")) {
+                data = "\"" + data + "\"";
+            }
             result += "\"success\" : true,\n\t";
-            result += "\"data\" : \"" + data + "\"";
+            result += "\"data\" : " + data;
             result += "\n}";
         } catch (Exception e) {
             String error = e.getMessage();

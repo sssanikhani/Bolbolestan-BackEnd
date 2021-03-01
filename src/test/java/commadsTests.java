@@ -53,7 +53,7 @@ public class commadsTests {
     @Test
     public void testGetWeeklySch() throws JsonProcessingException {
         String cmd = "getWeeklySchedule {\"StudentId\": \"810197559\"}\n";
-        String act = "{\n\t\"success\" : true,\n\t\"data\" : \"[{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"status\":\"non-finalized\"}]\"\n}";
+        String act = "{\n\t\"success\" : true,\n\t\"data\" : [{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"status\":\"non-finalized\"}]\n}";
         assertTrue(act.equals(mainTest.deployCommand(cmd)));
     }
 
@@ -61,13 +61,13 @@ public class commadsTests {
     @Test
     public void testGetOffering() throws JsonProcessingException {
         String cmd = "getOffering {\"StudentId\": \"810197559\", \"code\" : \"810150111\"}\n";
-        String act = "{\n\t\"success\" : true,\n\t\"data\" : \"{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"units\":3,\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"capacity\":60,\"prerequisites\":[\"MABANI\"],\"numRegisteredStudents\":0}\"\n}";
+        String act = "{\n\t\"success\" : true,\n\t\"data\" : {\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"units\":3,\"classTime\":{\"days\":[\"Sun\",\"Tue\"],\"time\":\"18-19:30\"},\"examTime\":{\"start\":\"2022-9-12T08:00:00\",\"end\":\"2022-9-12T11:00:00\"},\"capacity\":60,\"prerequisites\":[\"MABANI\"],\"numRegisteredStudents\":0}\n}";
         assertTrue(act.equals(mainTest.deployCommand(cmd)));
     }
     @Test
     public void testGetOfferings() throws JsonProcessingException {
         String cmd = "getOfferings {\"StudentId\": \"810197559\"}\n";
-        String act = "{\n\t\"success\" : true,\n\t\"data\" : \"[[{\"code\":\"810150110\",\"name\":\"Course11\",\"instructor\":\"tea11\",\"numRegisteredStudents\":0},{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"numRegisteredStudents\":0}],[{\"code\":\"810150109\",\"name\":\"Course10\",\"instructor\":\"tea10\",\"numRegisteredStudents\":0}]]\"\n}";
+        String act = "{\n\t\"success\" : true,\n\t\"data\" : [[{\"code\":\"810150110\",\"name\":\"Course11\",\"instructor\":\"tea11\",\"numRegisteredStudents\":0},{\"code\":\"810150111\",\"name\":\"Course11\",\"instructor\":\"tea12\",\"numRegisteredStudents\":0}],[{\"code\":\"810150109\",\"name\":\"Course10\",\"instructor\":\"tea10\",\"numRegisteredStudents\":0}]]\n}";
         assertTrue(act.equals(mainTest.deployCommand(cmd)));
     }
 }
