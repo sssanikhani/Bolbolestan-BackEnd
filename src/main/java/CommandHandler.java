@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -151,7 +152,11 @@ public class CommandHandler {
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
             String message = "";
-            message = mapper.writerWithView(View.offerings.class).writeValueAsString(allOfferings.values());
+            List<Offering> responseArr = new ArrayList<Offering>();
+            for (String k : courseOfferingsMap.keySet()) {
+                responseArr.addAll(courseOfferingsMap.get(k));
+            }
+            message = mapper.writerWithView(View.offerings.class).writeValueAsString(responseArr);
             return message;
         } else {
             throw new Exceptions.StudentNotFound();
