@@ -5,21 +5,38 @@ import java.util.List;
 import java.util.Set;
 
 public class Student {
-    private String studentId;
+    private String id;
     private String name;
-    private String enteredAt;
+    private String secondName;
+    private String birthDate;
     private HashMap<String, Offering> offerings;
 
     public Student() {
         this.offerings = new HashMap<String, Offering>();
     }
 
-    public String getStudentId() {
-        return this.studentId;
+    public String getId() {
+        return id;
     }
 
-    public void setStudentId(String _studentId) {
-        this.studentId = _studentId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getName() {
@@ -30,13 +47,6 @@ public class Student {
         this.name = _name;
     }
 
-    public String getEnteredAt() {
-        return this.enteredAt;
-    }
-
-    public void setEnteredAt(String _enteredAt) {
-        this.enteredAt = _enteredAt;
-    }
 
     public HashMap<String, Offering> getOfferings() {
         return this.offerings;
@@ -53,7 +63,7 @@ public class Student {
             o_data.put("instructor", o.getInstructor());
             o_data.put("classTime", o.getClassTime());
             o_data.put("examTime", o.getExamTime());
-            boolean is_finalized = o.existStudent(this.studentId);
+            boolean is_finalized = o.existStudent(this.id);
             String finalized = is_finalized ? "finalized" : "non-finalized";
             o_data.put("status", finalized);
 
@@ -79,9 +89,9 @@ public class Student {
         Offering offering = this.offerings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
-        boolean finalized = offering.existStudent(this.studentId);
+        boolean finalized = offering.existStudent(this.id);
         if (finalized)
-            offering.removeStudent(this.studentId);
+            offering.removeStudent(this.id);
         this.offerings.remove(c);
     }
 
