@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -7,7 +8,11 @@ public class Offering {
     @JsonView({ View.normal.class, View.offerings.class })
     private String code;
     @JsonView({ View.normal.class, View.offerings.class })
+    private String classCode;
+    @JsonView({ View.normal.class, View.offerings.class })
     private String name;
+    @JsonView({ View.normal.class, View.offerings.class })
+    private String type;
     @JsonView({ View.normal.class, View.offerings.class })
     private String instructor;
     @JsonView(View.normal.class)
@@ -19,7 +24,7 @@ public class Offering {
     @JsonView(View.normal.class)
     private int capacity;
     @JsonView(View.normal.class)
-    private String[] prerequisites;
+    private ArrayList<String> prerequisites;
 
     private HashMap<String, Student> registeredStudents;
 
@@ -72,7 +77,7 @@ public class Offering {
     }
 
     public void addStudent(Student s) {
-        this.registeredStudents.put(s.getStudentId(), s);
+        this.registeredStudents.put(s.getId(), s);
     }
 
     public void removeStudent(String stdId) throws Exception {
@@ -87,12 +92,28 @@ public class Offering {
         return (s == null) ? false : true;
     }
 
-    public String[] getPrerequisites() {
-        return this.prerequisites;
+    public String getClassCode() {
+        return classCode;
     }
 
-    public void setPrerequisites(String[] _prerequisites) {
-        this.prerequisites = _prerequisites;
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
+
+    public ArrayList<String> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setPrerequisites(ArrayList<String> prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
     public OfferingClassTime getClassTime() {
