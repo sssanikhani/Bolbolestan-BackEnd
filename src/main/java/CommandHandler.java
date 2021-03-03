@@ -75,7 +75,7 @@ public class CommandHandler {
     static String addStudent(String js) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Student newStd = mapper.readValue(js, Student.class);
-        allStds.put(newStd.getStudentId(), newStd);
+        allStds.put(newStd.getId(), newStd);
         return "student added";
     }
 
