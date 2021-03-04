@@ -38,14 +38,14 @@ public class Utils {
         // }
 
         if (params != null) {
-            ArrayList<String> params_list = new ArrayList<String>();
+            ArrayList<String> paramsList = new ArrayList<String>();
 
             for (String param : params.keySet()) {
-                params_list.add(param + "=" + params.get(param));
+                paramsList.add(param + "=" + params.get(param));
             }
             if (params.size() > 0) {
                 url += "?";
-                String parameters = String.join("&", params_list);
+                String parameters = String.join("&", paramsList);
                 url += parameters;
             }
         }
@@ -79,12 +79,12 @@ public class Utils {
         }
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        String res_body = response.body();
-        int res_status = response.statusCode();
+        String resBody = response.body();
+        int resStatus = response.statusCode();
 
         HashMap<String, Object> res = new HashMap<String, Object>();
-        res.put("status", res_status);
-        res.put("data", res_body);
+        res.put("status", resStatus);
+        res.put("data", resBody);
 
         return res;
     }
