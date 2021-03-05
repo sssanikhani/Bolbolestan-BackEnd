@@ -1,0 +1,7 @@
+{"stdId" : "810195115", "courseId": "8101004", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101009", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101012", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101014", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101027", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101030", "classCode" : "01"}
+{"stdId" : "810195115", "courseId": "8101032", "classCode" : "01"}
