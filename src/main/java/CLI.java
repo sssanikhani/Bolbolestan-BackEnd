@@ -3,9 +3,7 @@ import java.text.ParseException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class Main {
-    public Main() {
-    }
+public class CLI {
 
     public static String deployCommand(String cmd) throws JsonProcessingException {
         String[] cmdParts = cmd.split("\\s+", 2);
