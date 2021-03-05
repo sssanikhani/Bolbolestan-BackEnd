@@ -10,9 +10,11 @@ public class Student {
     private String secondName;
     private String birthDate;
     private HashMap<String, Offering> offerings;
+    private HashMap<String, Grade> grades;
 
     public Student() {
         this.offerings = new HashMap<String, Offering>();
+        this.grades = new HashMap<String, Grade>();
     }
 
     public String getId() {
@@ -47,7 +49,6 @@ public class Student {
         this.name = _name;
     }
 
-
     public HashMap<String, Offering> getOfferings() {
         return this.offerings;
     }
@@ -70,6 +71,15 @@ public class Student {
             data.add(o_data);
         }
         return data;
+    }
+
+    public HashMap<String, Grade> getGrades() {
+        return this.grades;
+    }
+
+    public void addGrade(Grade _grade) {
+        String code = _grade.getCode();
+        this.grades.put(code, _grade);
     }
 
     public int getNumberChosenUnits() {
