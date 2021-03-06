@@ -5,6 +5,8 @@ import java.util.HashMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jdk.jshell.spi.ExecutionControl.ExecutionControlException;
+
 public class DataBase {
 
     public static class OfferingManager {
@@ -37,6 +39,13 @@ public class DataBase {
                 list.addAll(group.values());
             }
             return list;
+        }
+
+        public static ArrayList<Offering> getCodeOfferings(String code) throws Exception {
+            HashMap<String, Offering> codeMap = codeOfferingsMap.get(code);
+            if (codeMap == null)
+                throw new Exceptions.offeringNotFound();
+            return new ArrayList<Offering>(codeMap.values());
         }
 
         public static Offering get(String code, String classCode) throws Exception {
