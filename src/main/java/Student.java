@@ -9,11 +9,11 @@ public class Student {
     private String name;
     private String secondName;
     private String birthDate;
-    private HashMap<String, Offering> offerings;
+    private HashMap<String, Offering> chosenOfferings;
     private HashMap<String, Grade> grades;
 
     public Student() {
-        this.offerings = new HashMap<String, Offering>();
+        this.chosenOfferings = new HashMap<String, Offering>();
         this.grades = new HashMap<String, Grade>();
     }
 
@@ -49,14 +49,14 @@ public class Student {
         this.name = _name;
     }
 
-    public HashMap<String, Offering> getOfferings() {
-        return this.offerings;
+    public HashMap<String, Offering> _getChosenOfferings() {
+        return this.chosenOfferings;
     }
 
-    public List<LinkedHashMap<String, Object>> getOfferingsData() {
+    public List<LinkedHashMap<String, Object>> _getChosenOfferingsData() {
         List<LinkedHashMap<String, Object>> data = new ArrayList<LinkedHashMap<String, Object>>();
-        for (String code : this.offerings.keySet()) {
-            Offering o = this.offerings.get(code);
+        for (String code : this.chosenOfferings.keySet()) {
+            Offering o = this.chosenOfferings.get(code);
             LinkedHashMap<String, Object> oData = new LinkedHashMap<String, Object>();
 
             oData.put("code", o.getCode());
@@ -84,33 +84,51 @@ public class Student {
 
     public int getNumberChosenUnits() {
         int units = 0;
-        for (String key : this.offerings.keySet()) {
-            Offering o = this.offerings.get(key);
+        for (String key : this.chosenOfferings.keySet()) {
+            Offering o = this.chosenOfferings.get(key);
             units += o.getUnits();
         }
         return units;
     }
 
+    public boolean hasPassed(String _code) {
+        Grade grade = this.grades.get(_code);
+        if (grade == null)
+            return false;
+        if (grade.getGrade() < 10)
+            return false;
+        return true;
+    }
+
+    public ArrayList<Grade> getPassedCoursesGrades() {
+        ArrayList<Grade> passedGrades = new ArrayList<Grade>();
+        for (Grade g : this.grades.values()) {
+            if (this.hasPassed(g.getCode()))
+                passedGrades.add(g);
+        }
+        return passedGrades;
+    }
+    
     public void addOfferingToList(Offering o) {
-        this.offerings.put(o.getCode(), o);
+        this.chosenOfferings.put(o.getCode(), o);
     }
 
     public void removeOfferingFromList(String c) throws Exception {
-        Offering offering = this.offerings.get(c);
+        Offering offering = this.chosenOfferings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
         boolean finalized = offering.existStudent(this.id);
         if (finalized)
             offering.removeStudent(this.id);
-        this.offerings.remove(c);
+        this.chosenOfferings.remove(c);
     }
 
     public void validateExamClassTimes() throws Exception {
-        for (String k1 : this.offerings.keySet()) {
-            for (String k2 : this.offerings.keySet()) {
+        for (String k1 : this.chosenOfferings.keySet()) {
+            for (String k2 : this.chosenOfferings.keySet()) {
                 if (!k1.equals(k2)) {
-                    Offering o1 = this.offerings.get(k1);
-                    Offering o2 = this.offerings.get(k2);
+                    Offering o1 = this.chosenOfferings.get(k1);
+                    Offering o2 = this.chosenOfferings.get(k2);
                     if (o1.hasOfferingTimeCollision(o2))
                         throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
                     if (o1.hasExamTimeCollision(o2))
@@ -121,17 +139,17 @@ public class Student {
     }
 
     public void validateOfferingCapacities() throws Exception {
-        Set<String> offeringKeySet = offerings.keySet();
+        Set<String> offeringKeySet = chosenOfferings.keySet();
         for (String key : offeringKeySet) {
-            Offering o = offerings.get(key);
+            Offering o = chosenOfferings.get(key);
             if (o.getCapacity() <= o.getNumRegisteredStudents())
                 throw new Exceptions.OfferingCapacity(o.getCode());
         }
     }
 
     public void finalizeOfferings() {
-        for (String code : this.offerings.keySet()) {
-            Offering o = this.offerings.get(code);
+        for (String code : this.chosenOfferings.keySet()) {
+            Offering o = this.chosenOfferings.get(code);
             o.addStudent(this);
         }
     }
