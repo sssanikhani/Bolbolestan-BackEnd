@@ -49,8 +49,8 @@ public class Student {
         this.name = _name;
     }
 
-    public HashMap<String, Offering> _getChosenOfferings() {
-        return this.chosenOfferings;
+    public ArrayList<Offering> getChosenOfferings() {
+        return new ArrayList<Offering>(this.chosenOfferings.values());
     }
 
     public List<LinkedHashMap<String, Object>> _getChosenOfferingsData() {
