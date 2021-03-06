@@ -26,7 +26,7 @@ public class HtmlRenderer {
         return s;
     }
 
-    public static String courses(HashMap<String, Object> data) throws IOException {
+    public static String renderCoursesPage(HashMap<String, Object> data) throws IOException {
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
 
@@ -50,7 +50,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String studentProfile(HashMap<String, Object> data) throws IOException {
+    public static String renderStudentProfilePage(HashMap<String, Object> data) throws IOException {
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("ul").last();
         Student s = (Student) data.values();
@@ -64,31 +64,31 @@ public class HtmlRenderer {
     }
 
 
-    public static String singleCourse(HashMap<String, Object> data) {
+    public static String renderSingleCoursePage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String changePlan(HashMap<String, Object> data) {
+    public static String renderChangePlanPage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String plan(HashMap<String, Object> data) {
+    public static String renderPlanPage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String submit(HashMap<String, Object> data) {
+    public static String renderSubmitPage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String okSubmit(HashMap<String, Object> data) {
+    public static String renderOkSubmitPage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String failSubmit(HashMap<String, Object> data) {
+    public static String renderFailSubmitPage(HashMap<String, Object> data) {
         return "";
     }
 
-    public static String notFound() {
+    public static String renderNotFoundPage() {
         return "";
     }
 
@@ -99,7 +99,7 @@ public class HtmlRenderer {
         for (Offering str : l) {
             hashMap.put(str.getCode(), str);
         }
-        System.out.println(courses(hashMap));
-        app.get("/courses", ctx -> ctx.html(courses(hashMap)));
+        System.out.println(renderCoursesPage(hashMap));
+        app.get("/courses", ctx -> ctx.html(renderCoursesPage(hashMap)));
     }
 }
