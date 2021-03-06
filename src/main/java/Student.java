@@ -73,7 +73,7 @@ public class Student {
         return data;
     }
 
-    public HashMap<String, Grade> getGrades() {
+    public HashMap<String, Grade> _getGrades() {
         return this.grades;
     }
 
