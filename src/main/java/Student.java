@@ -109,6 +109,35 @@ public class Student {
         return passedGrades;
     }
     
+    public int getTotalPassedUnits() throws Exception {
+        int passed = 0;
+        for (Grade g : this.grades.values()) {
+            String code = g.getCode();
+            if (this.hasPassed(code)) {
+                ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(code);
+                if (codeOfferings.size() == 0)
+                    throw new Exceptions.offeringNotFound();
+                passed += codeOfferings.get(0).getUnits();
+            }
+        }
+        return passed;
+    }
+
+    public float getGpa() throws Exception {
+        float sumGrades = 0;
+        int totalUnits = 0;
+        for (Grade g : this.grades.values()) {
+            String code = g.getCode();
+            int unit = Utils.getCodeUnits(code);
+            sumGrades += g.getGrade() * unit;
+            totalUnits += unit;
+        }
+        if (totalUnits == 0)
+            return 0;
+        
+        return sumGrades / totalUnits;
+    }
+
     public void addOfferingToList(Offering o) {
         this.chosenOfferings.put(o.getCode(), o);
     }
