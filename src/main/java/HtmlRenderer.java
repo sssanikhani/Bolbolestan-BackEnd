@@ -1,18 +1,19 @@
-import io.javalin.Javalin;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import io.javalin.Javalin;
 
 public class HtmlRenderer {
     // Render every page in seperate methods in this module
 
+    // NOTE: this method is same as 'String.join("|", li)'
     public static String changeListFormat(ArrayList<String> li) {
         String s = "";
         for(int i = 0; i< li.size(); i++){
@@ -25,11 +26,11 @@ public class HtmlRenderer {
         return s;
     }
 
-    public static String courses(HashMap<String, Object> hashMap) throws IOException {
+    public static String courses(HashMap<String, Object> data) throws IOException {
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
 
-        for (Map.Entry<String, Object> entry : hashMap.entrySet()) {
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
             Offering o = (Offering) entry.getValue();
             ele.append("       <tr>\n" +
                     "           <td>" + o.getCode() + "</td>\n" +
@@ -49,10 +50,10 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String stdProfile(HashMap<String, Object> hashMap) throws IOException {
+    public static String studentProfile(HashMap<String, Object> data) throws IOException {
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("ul").last();
-        Student s = (Student) hashMap.values();
+        Student s = (Student) data.values();
         ele.append("<li id=\"std_id\">Student Id: " + s.getId() + "</li>\n" +
                     "        <li id=\"first_name\">First Name: " + s.getName() + "</li>\n" +
                     "        <li id=\"last_name\">Last Name: " + s.getSecondName() + "</li>\n" +
@@ -60,6 +61,35 @@ public class HtmlRenderer {
                     "        <li id=\"gpa\">GPA: " + "15" + "</li>\n" +
                     "        <li id=\"tpu\">Total Passed Units: 70</li>\n");
         return reportDoc.html();
+    }
+
+
+    public static String singleCourse(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String changePlan(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String plan(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String submit(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String okSubmit(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String failSubmit(HashMap<String, Object> data) {
+        return "";
+    }
+
+    public static String notFound() {
+        return "";
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
