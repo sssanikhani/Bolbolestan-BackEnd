@@ -57,18 +57,18 @@ public class Student {
         List<LinkedHashMap<String, Object>> data = new ArrayList<LinkedHashMap<String, Object>>();
         for (String code : this.offerings.keySet()) {
             Offering o = this.offerings.get(code);
-            LinkedHashMap<String, Object> o_data = new LinkedHashMap<String, Object>();
+            LinkedHashMap<String, Object> oData = new LinkedHashMap<String, Object>();
 
-            o_data.put("code", o.getCode());
-            o_data.put("name", o.getName());
-            o_data.put("instructor", o.getInstructor());
-            o_data.put("classTime", o.getClassTime());
-            o_data.put("examTime", o.getExamTime());
-            boolean is_finalized = o.existStudent(this.id);
-            String finalized = is_finalized ? "finalized" : "non-finalized";
-            o_data.put("status", finalized);
+            oData.put("code", o.getCode());
+            oData.put("name", o.getName());
+            oData.put("instructor", o.getInstructor());
+            oData.put("classTime", o.getClassTime());
+            oData.put("examTime", o.getExamTime());
+            boolean isFinalized = o.existStudent(this.id);
+            String finalized = isFinalized ? "finalized" : "non-finalized";
+            oData.put("status", finalized);
 
-            data.add(o_data);
+            data.add(oData);
         }
         return data;
     }
