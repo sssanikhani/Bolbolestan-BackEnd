@@ -7,13 +7,14 @@ import io.javalin.http.Handler;
 
 public class Handlers {
 
+    private static ObjectMapper mapper = new ObjectMapper();
+
     public static Handler courses = ctx -> {
 
         HashMap<String, Object> data = new HashMap<String, Object>();
         ArrayList<HashMap<String, Object>> offeringsDataList = new ArrayList<>();
         data.put("courses", offeringsDataList);
 
-        ObjectMapper mapper = new ObjectMapper();
         ArrayList<Offering> offeringsList = DataBase.OfferingManager.getAll();
         for (Offering o : offeringsList) {
             HashMap<String, Object> oData = mapper.convertValue(o, HashMap.class);
@@ -25,7 +26,17 @@ public class Handlers {
     };
 
     public static Handler studentProfile = ctx -> {
+        String studentId = ctx.pathParam("studentId");
+        Student student;
+        try {
+            student = DataBase.StudentManager.get(studentId);
+        } catch (Exceptions.StudentNotFound e) {
+            // String html = HtmlRenderer.renderNotFoundPage();
+            // ctx.html(html);
+            return;
+        }
 
+        HashMap<String, Object> data = mapper.convertValue(student, HashMap.class);
         // String html = HtmlRenderer.renderStudentProfilePage(data);
         // ctx.html(html);
     };
