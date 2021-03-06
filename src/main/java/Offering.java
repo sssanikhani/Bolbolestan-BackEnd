@@ -132,6 +132,12 @@ public class Offering {
         this.examTime = _examTime;
     }
 
+    public String getLink() {
+        String[] linkParts = { Server.COURSE_URL_PREFIX, this.code, this.classCode };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
     public boolean hasOfferingTimeCollision(Offering c) {
         return this.classTime.hasCollision(c.getClassTime());
     }
