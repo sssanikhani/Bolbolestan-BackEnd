@@ -2,28 +2,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 public class Offering {
-    @JsonView({ View.normal.class, View.offerings.class })
     private String code;
-    @JsonView({ View.normal.class, View.offerings.class })
     private String classCode;
-    @JsonView({ View.normal.class, View.offerings.class })
     private String name;
-    @JsonView({ View.normal.class, View.offerings.class })
     private String type;
-    @JsonView({ View.normal.class, View.offerings.class })
     private String instructor;
-    @JsonView(View.normal.class)
     private int units;
-    @JsonView({ View.normal.class })
     private OfferingClassTime classTime;
-    @JsonView({ View.normal.class })
     private OfferingExamTime examTime;
-    @JsonView(View.normal.class)
     private int capacity;
-    @JsonView(View.normal.class)
     private ArrayList<String> prerequisites;
 
     private HashMap<String, Student> registeredStudents;
@@ -134,6 +122,18 @@ public class Offering {
 
     public String getLink() {
         String[] linkParts = { Server.COURSE_URL_PREFIX, this.code, this.classCode };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
+    public String getAddLink() {
+        String[] linkParts = { Server.ADD_COURSE_URL_PREFIX, this.code, this.classCode };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
+    public String getRemoveLink() {
+        String[] linkParts = { Server.REMOVE_COURSE_URL_PREFIX, this.code, this.classCode };
         String link = String.join("/", linkParts);
         return link;
     }
