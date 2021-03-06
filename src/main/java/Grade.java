@@ -2,7 +2,7 @@
 
 public class Grade {
     private String code;
-    private int grade;
+    private float grade;
 
     public String getCode() {
         return code;
@@ -12,11 +12,11 @@ public class Grade {
         this.code = code;
     }
 
-    public int getGrade() {
+    public float getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(float grade) {
         this.grade = grade;
     }
 }
