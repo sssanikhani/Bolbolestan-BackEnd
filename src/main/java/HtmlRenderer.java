@@ -15,7 +15,7 @@ public class HtmlRenderer {
     // Render every page in separate methods in this module
 
     // ! NOTE: this method is same as 'String.join("|", li)'
-    public static String changeListFormat(ArrayList<String> list, char ch) {
+    public static String joinString(ArrayList<String> list, char ch) {
         String s = "";
         for(int i = 0; i< list.size(); i++){
             if(i == 0)
@@ -65,11 +65,11 @@ public class HtmlRenderer {
                     "           <td>" + entry.get("units") + "</td>\n" +
                     "           <td>" + entry.get("capacity") + "</td>\n" +
                     "           <td>" + entry.get("type")+ "</td>\n" +
-                    "           <td>" + changeListFormat((ArrayList<String>) classTimeData.get("days"), '|') + "</td>\n" +
+                    "           <td>" + joinString((ArrayList<String>) classTimeData.get("days"), '|') + "</td>\n" +
                     "           <td>" + classTimeData.get("time") + "</td>\n" +
                     "           <td>" + examTime.get("start") + "</td>\n" +
                     "           <td>" + examTime.get("end") + "</td>\n" +
-                    "           <td>" + changeListFormat((ArrayList<String>) classTimeData.get("prerequisites"), '|') + "</td>\n" +
+                    "           <td>" + joinString((ArrayList<String>) classTimeData.get("prerequisites"), '|') + "</td>\n" +
                     "           <td>" + "<a href=/course/" + entry.get("code") + "/" + entry.get("classCode") + ">Link</a>" + "</td>\n" +
                     "       </tr>\n");
         }
@@ -135,7 +135,7 @@ public class HtmlRenderer {
                 "        <li id=\"code\">Code: " + data.get("code") + "</li>\n" +
                 "        <li id=\"class_code\">Class Code: " + data.get("classCode") + "</li>\n" +
                 "        <li id=\"units\">units: " +  data.get("units") + "</li>\n" +
-                "        <li id=\"days\">Days: " + changeListFormat((ArrayList<String>) classTimeData.get("days"), ',')  + "</li>\n" +
+                "        <li id=\"days\">Days: " + joinString((ArrayList<String>) classTimeData.get("days"), ',')  + "</li>\n" +
                 "        <li id=\"time\">Time: " + classTimeData.get("time") + "</li>\n" +
                 "        <form action=\"/addCourse\" method=\"POST\" >\n" +
                 "            <label>Student ID:</label>\n" +
@@ -229,69 +229,27 @@ public class HtmlRenderer {
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
-        //need this key and value here
-        Student s =  (Student) data.get("student");
-        HashMap<String, Offering> offers = s.getOfferings();
-        ArrayList<ArrayList<Offering>> li = sortTimes(offers);
-        String[] days = new String[]{"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"};
-        for (int i = 0; i< li.size(); i++) {
-            ele.append("<tr>\n" +
-                    "            <td>" + days[i] + "</td>\n" +
-                    "            <td>" + li.get(i).get(0) + "</td>\n" +
-                    "            <td>" + li.get(i).get(1) + "</td>\n" +
-                    "            <td>" + li.get(i).get(2) + "</td>\n" +
-                    "            <td>" + li.get(i).get(3) + "</td>\n" +
-                    "            <td>" + li.get(i).get(4) + "</td>\n" +
-                    "</tr>\n");
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("courses")) {
+            HashMap<String, Object> classTimeData = (HashMap<String, Object>) entry.get("classTime");
+            if(((ArrayList<String>) classTimeData.get("days")).contains("Saturday")){
+                ele.getElementById("Sat").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
+            }
+            if(((ArrayList<String>) classTimeData.get("days")).contains("Sunday")){
+                ele.getElementById("Sun").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
+            }
+            if(((ArrayList<String>) classTimeData.get("days")).contains("Monday")){
+                ele.getElementById("Mon").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
+            }
+            if(((ArrayList<String>) classTimeData.get("days")).contains("Tuesday")){
+                ele.getElementById("Tue").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
+            }
+            if(((ArrayList<String>) classTimeData.get("days")).contains("Wednesday")){
+                ele.getElementById("Wen").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
+            }
         }
         return reportDoc.html();
     }
-
-    private static ArrayList<ArrayList<Offering>> sortTimes(HashMap<String, Offering> offers) {
-        ArrayList<ArrayList<Offering>> list = new ArrayList<ArrayList<Offering>>();
-        ArrayList<ArrayList<Offering>> sortedList = new ArrayList<ArrayList<Offering>>();
-        for (Map.Entry<String, Offering> entry : offers.entrySet()) {
-            Offering o = (Offering) entry;
-            if (o.getClassTime().getDays().contains("Saturday")) {
-                list.get(0).add(o);
-            }
-            if (o.getClassTime().getDays().contains("Sunday")) {
-                list.get(1).add(o);
-            }
-            if (o.getClassTime().getDays().contains("Monday")) {
-                list.get(2).add(o);
-            }
-            if (o.getClassTime().getDays().contains("Tuesday")) {
-                list.get(3).add(o);
-            }
-            if (o.getClassTime().getDays().contains("Wednesday")) {
-                list.get(4).add(o);
-            }
-        }
-        for (int i = 0; i< list.size(); i++) {
-            for (int j = 0; j< list.get(i).size(); j++) {
-                switch (list.get(i).get(j).getClassTime().getTime()) {
-                    case "7:30-9:00":
-                        sortedList.get(i).set(0, list.get(i).get(j));
-                        break;
-                    case "9:00-10:30":
-                        sortedList.get(i).set(1, list.get(i).get(j));
-                        break;
-                    case "10:30-12:00":
-                        sortedList.get(i).set(2, list.get(i).get(j));
-                        break;
-                    case "14:00-15:30":
-                        sortedList.get(i).set(3, list.get(i).get(j));
-                        break;
-                    case "16:00-17:30":
-                        sortedList.get(i).set(4, list.get(i).get(j));
-                        break;
-                }
-            }
-        }
-        return sortedList;
-    }
-
+    
     //HashMap <"student", student send request Object>
     public static String renderSubmitPage(HashMap<String, Object> data) throws IOException {
 
