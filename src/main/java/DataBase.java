@@ -9,7 +9,7 @@ public class DataBase {
 
     public static class OfferingManager {
 
-        private static HashMap<String, HashMap<String, Offering>> courseOfferingsMap = new HashMap<String, HashMap<String, Offering>>();
+        private static HashMap<String, HashMap<String, Offering>> codeOfferingsMap = new HashMap<String, HashMap<String, Offering>>();
 
         static String retrieveAllUrl = "http://138.197.181.131:5000/api/courses";
 
@@ -21,26 +21,26 @@ public class DataBase {
             ArrayList<Offering> list = mapper.readValue(data, new TypeReference<ArrayList<Offering>>() {
             });
 
-            courseOfferingsMap.clear();
+            codeOfferingsMap.clear();
             for (Offering o : list) {
                 String code = o.getCode();
                 String classCode = o.getClassCode();
-                if (courseOfferingsMap.get(code) == null)
-                    courseOfferingsMap.put(code, new HashMap<String, Offering>());
-                courseOfferingsMap.get(code).put(classCode, o);
+                if (codeOfferingsMap.get(code) == null)
+                    codeOfferingsMap.put(code, new HashMap<String, Offering>());
+                codeOfferingsMap.get(code).put(classCode, o);
             }
         }
 
         public static ArrayList<Offering> getAll() throws IOException, InterruptedException {
             ArrayList<Offering> list = new ArrayList<Offering>();
-            for (HashMap<String, Offering> group : courseOfferingsMap.values()) {
+            for (HashMap<String, Offering> group : codeOfferingsMap.values()) {
                 list.addAll(group.values());
             }
             return list;
         }
 
         public static Offering get(String code, String classCode) throws Exception {
-            HashMap<String, Offering> group = courseOfferingsMap.get(code);
+            HashMap<String, Offering> group = codeOfferingsMap.get(code);
             if (group == null)
                 throw new Exceptions.offeringNotFound();
             Offering offering = group.get(classCode);
@@ -53,7 +53,7 @@ public class DataBase {
 
     public static class StudentManager {
 
-        private static HashMap<String, Student> allStudents = new HashMap<String, Student>();
+        private static HashMap<String, Student> students = new HashMap<String, Student>();
 
         static String retrieveAllUrl = "http://138.197.181.131:5000/api/students";
         static String retrieveGradesUrl = "http://138.197.181.131:5000/api/grades";
@@ -66,10 +66,10 @@ public class DataBase {
             ArrayList<Student> list = mapper.readValue(data, new TypeReference<ArrayList<Student>>() {
             });
 
-            allStudents.clear();
+            students.clear();
             for (Student s : list) {
                 String id = s.getId();
-                allStudents.put(id, s);
+                students.put(id, s);
                 ArrayList<Grade> grades = getAllGradesFromExternalServer(id);
                 for (Grade g : grades) {
                     s.addGrade(g);
@@ -78,12 +78,12 @@ public class DataBase {
         }
 
         public static ArrayList<Student> getAll() throws IOException, InterruptedException {
-            ArrayList<Student> list = new ArrayList<Student>(allStudents.values());
+            ArrayList<Student> list = new ArrayList<Student>(students.values());
             return list;
         }
 
         public static Student get(String studentId) throws Exception {
-            Student student = allStudents.get(studentId);
+            Student student = students.get(studentId);
             if (student == null)
                 throw new Exceptions.StudentNotFound();
             return student;
@@ -91,7 +91,7 @@ public class DataBase {
 
         public static ArrayList<Grade> getAllGradesFromExternalServer(String studentId) throws Exception {
 
-            Student student = allStudents.get(studentId);
+            Student student = students.get(studentId);
             if (student == null)
                 throw new Exceptions.StudentNotFound();
 
