@@ -61,21 +61,20 @@ public class Utils {
         Builder builder = HttpRequest.newBuilder().uri(uri);
         HttpRequest request;
         switch (method) {
-            case "GET":
-                request = builder.GET().build();
-                break;
-            case "POST":
-                request = builder.POST(BodyPublishers.ofString(body)).header("Content-Type", "application/json")
-                        .build();
-                break;
-            case "PUT":
-                request = builder.PUT(BodyPublishers.ofString(body)).header("Content-Type", "application/json").build();
-                break;
-            case "DELETE":
-                request = builder.DELETE().build();
-                break;
-            default:
-                return null;
+        case "GET":
+            request = builder.GET().build();
+            break;
+        case "POST":
+            request = builder.POST(BodyPublishers.ofString(body)).header("Content-Type", "application/json").build();
+            break;
+        case "PUT":
+            request = builder.PUT(BodyPublishers.ofString(body)).header("Content-Type", "application/json").build();
+            break;
+        case "DELETE":
+            request = builder.DELETE().build();
+            break;
+        default:
+            return null;
         }
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 

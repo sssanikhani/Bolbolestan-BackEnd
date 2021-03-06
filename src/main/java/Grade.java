@@ -1,5 +1,3 @@
-
-
 public class Grade {
     private String code;
     private float grade;

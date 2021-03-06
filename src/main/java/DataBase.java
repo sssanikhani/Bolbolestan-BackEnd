@@ -5,8 +5,6 @@ import java.util.HashMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jdk.jshell.spi.ExecutionControl.ExecutionControlException;
-
 public class DataBase {
 
     public static class OfferingManager {
@@ -109,7 +107,8 @@ public class DataBase {
             String data = (String) webRes.get("data");
 
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<Grade> list = mapper.readValue(data, new TypeReference<ArrayList<Grade>>(){});
+            ArrayList<Grade> list = mapper.readValue(data, new TypeReference<ArrayList<Grade>>() {
+            });
 
             return list;
         }

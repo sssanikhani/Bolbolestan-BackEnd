@@ -108,7 +108,7 @@ public class Student {
         }
         return passedGrades;
     }
-    
+
     public int getTotalPassedUnits() throws Exception {
         int passed = 0;
         for (Grade g : this.grades.values()) {
@@ -134,7 +134,7 @@ public class Student {
         }
         if (totalUnits == 0)
             return 0;
-        
+
         return sumGrades / totalUnits;
     }
 

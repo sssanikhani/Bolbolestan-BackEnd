@@ -21,19 +21,18 @@ public class Server {
             System.out.println("Trying to retrieve data from external DataBase...");
             DataBase.OfferingManager.updateFromExternalServer();
             DataBase.StudentManager.updateFromExternalServer();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ERROR: failed to connect with external server");
         }
-        
+
         app = Javalin.create().start(Constants.SERVER_PORT);
         addUrls();
     }
 
     public static void addUrls() {
         app.get(COURSES_URL, Handlers.courses);
-        app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId",  Handlers.studentProfile);
+        app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", Handlers.studentProfile);
         app.get(COURSE_URL_PREFIX + "/:code/:classCode", Handlers.singleCourse);
         app.get(CHANGE_PLAN_URL_PREFIX + "/:studentId", Handlers.changePlan);
         app.get(PLAN_URL_PREFIX + "/:studentId", Handlers.plan);
