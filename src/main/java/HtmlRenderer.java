@@ -86,7 +86,7 @@ public class HtmlRenderer {
         //      "gpa": GPA
         //      "totalPassedUnits": Total Passed Units
         //      "numberChosenUnits": Total Chosen Units
-        //      "passedCourses": ArrayList<HashMap<String, Object»
+        //      "passedCoursesGrades": ArrayList<HashMap<String, Object»
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element eleUl = reportDoc.getElementsByTag("ul").last();
@@ -97,7 +97,7 @@ public class HtmlRenderer {
                     "        <li id=\"gpa\">GPA: " + data.get("gpa") + "</li>\n" +
                     "        <li id=\"tpu\">Total Passed Units: " + data.get("totalPassedUnits") + "</li>\n");
         Element eleTable = reportDoc.getElementsByTag("table").last();
-        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("passedCourses")) {
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("passedCoursesGrades")) {
             eleTable.append("<tr>\n" +
                     "            <th>" + entry.get("code") + "</th>\n" +
                     "            <th>" + entry.get("grade") + "</th> \n" +
