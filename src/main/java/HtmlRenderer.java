@@ -26,7 +26,6 @@ public class HtmlRenderer {
         return s;
     }
 
-    //HashMap <"courses" , allCourses get form api>
     public static String renderCoursesPage(HashMap<String, Object> data) throws IOException {
         
         // data format: {
@@ -56,28 +55,27 @@ public class HtmlRenderer {
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            Offering o = (Offering) entry.getValue();
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("courses")) {
+            HashMap<String, Object> classTimeData = (HashMap<String, Object>) entry.get("classTime");
+            HashMap<String, Object> examTime = (HashMap<String, Object>) entry.get("examTime");
             ele.append("       <tr>\n" +
-                    "           <td>" + o.getCode() + "</td>\n" +
-                    "           <td>" + "01" + "</td>\n" +
-                    "           <td>" + o.getName() + "</td>\n" +
-                    "           <td>" + o.getUnits() + "</td>\n" +
-                    "           <td>" + o.getCapacity() + "</td>\n" +
-                    "           <td>" + o.getType() + "</td>\n" +
-                    "           <td>" + changeListFormat(o.getClassTime().getDays(), '|') + "</td>\n" +
-                    "           <td>" + o.getClassTime().getTime() + "</td>\n" +
-                    "           <td>" + o.getExamTime().getStart() + "</td>\n" +
-                    "           <td>" + o.getExamTime().getEnd() + "</td>\n" +
-                    "           <td>" + changeListFormat(o.getPrerequisites(), '|') + "</td>\n" +
-                    "           <td>" + "<a href=/course/" + o.getCode() + "/01" + ">Link</a>" + "</td>\n" +
+                    "           <td>" + entry.get("code") + "</td>\n" +
+                    "           <td>" + entry.get("classCode") + "</td>\n" +
+                    "           <td>" + entry.get("name") + "</td>\n" +
+                    "           <td>" + entry.get("units") + "</td>\n" +
+                    "           <td>" + entry.get("capacity") + "</td>\n" +
+                    "           <td>" + entry.get("type")+ "</td>\n" +
+                    "           <td>" + changeListFormat((ArrayList<String>) classTimeData.get("days"), '|') + "</td>\n" +
+                    "           <td>" + classTimeData.get("time") + "</td>\n" +
+                    "           <td>" + examTime.get("start") + "</td>\n" +
+                    "           <td>" + examTime.get("end") + "</td>\n" +
+                    "           <td>" + changeListFormat((ArrayList<String>) classTimeData.get("prerequisites"), '|') + "</td>\n" +
+                    "           <td>" + "<a href=/course/" + entry.get("code") + "/" + entry.get("classCode") + ">Link</a>" + "</td>\n" +
                     "       </tr>\n");
         }
         return reportDoc.html();
     }
 
-    //HashMap <"courses" , allCourses get form api>
-    //          <"student", student send request Object>
     public static String renderStudentProfilePage(HashMap<String, Object> data) throws IOException {
 
         // data format: {
@@ -88,43 +86,26 @@ public class HtmlRenderer {
         //      "gpa": GPA
         //      "totalPassedUnits": Total Passed Units
         //      "numberChosenUnits": Total Chosen Units
+        //      "passedCourses": ArrayList<HashMap<String, Object»
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element eleUl = reportDoc.getElementsByTag("ul").last();
-        //need here an item with key "courses" and value Hashmap of allCourses
-        HashMap<String, Offering> o = (HashMap<String, Offering>) data.get("courses");
-        //-------------------------------
-        Student s = (Student) data.get("student");
-        int mean = 0;
-        int totalPassedUnits = 0;
-        ArrayList<Grade> passedCourses = null;
-        for(Map.Entry<String, Grade> entry : s.getGrades().entrySet()) {
-            Grade g = (Grade)entry;
-            mean += g.getGrade();
-            if(g.getGrade() >= 10) {
-                totalPassedUnits += o.get(g.getCode()).getUnits();
-                passedCourses.add(g);
-            }
-        }
-        mean /= s.getGrades().size();
-        eleUl.append("<li id=\"std_id\">Student Id: " + s.getId() + "</li>\n" +
-                    "        <li id=\"first_name\">First Name: " + s.getName() + "</li>\n" +
-                    "        <li id=\"last_name\">Last Name: " + s.getSecondName() + "</li>\n" +
-                    "        <li id=\"birthdate\">Birthdate: " + s.getBirthDate() + "</li>\n" +
-                    "        <li id=\"gpa\">GPA: " + mean + "</li>\n" +
-                    "        <li id=\"tpu\">Total Passed Units: " + totalPassedUnits + "</li>\n");
+        eleUl.append("<li id=\"std_id\">Student Id: " + data.get("id") + "</li>\n" +
+                    "        <li id=\"first_name\">First Name: " + data.get("name") + "</li>\n" +
+                    "        <li id=\"last_name\">Last Name: " + data.get("secondName") + "</li>\n" +
+                    "        <li id=\"birthdate\">Birthdate: " + data.get("birthDate") + "</li>\n" +
+                    "        <li id=\"gpa\">GPA: " + data.get("gpa") + "</li>\n" +
+                    "        <li id=\"tpu\">Total Passed Units: " + data.get("totalPassedUnits") + "</li>\n");
         Element eleTable = reportDoc.getElementsByTag("table").last();
-        for (Grade g : passedCourses) {
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("passedCourses")) {
             eleTable.append("<tr>\n" +
-                    "            <th>" + g.getCode() + "</th>\n" +
-                    "            <th>" + g.getGrade() + "</th> \n" +
+                    "            <th>" + entry.get("code") + "</th>\n" +
+                    "            <th>" + entry.get("grade") + "</th> \n" +
                     "        </tr>");
         }
         return reportDoc.html();
     }
 
-    //HashMap <"course" ,  course send request Object>
-    //          <"student", student send request Object>
     public static String renderSingleCoursePage(HashMap<String, Object> data) throws IOException {
 
         // data format: {
@@ -149,19 +130,18 @@ public class HtmlRenderer {
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/course.html"), "UTF-8");
         Element eleBody = reportDoc.getElementsByTag("body").last();
-        Offering o = (Offering) data.get("course");
-        Student s = (Student) data.get("student");
+        HashMap<String, Object> classTimeData = (HashMap<String, Object>) data.get("classTime");
         eleBody.append("<ul>\n" +
-                "        <li id=\"code\">Code: " + o.getCode() + "</li>\n" +
-                "        <li id=\"class_code\">Class Code: " + o.getClassCode() + "</li>\n" +
-                "        <li id=\"units\">units: " + o.getUnits() + "</li>\n" +
-                "        <li id=\"days\">Days: " + changeListFormat(o.getClassTime().getDays(), ',')  + "</li>\n" +
-                "        <li id=\"time\">Time: " + o.getClassTime().getTime() + "</li>\n" +
+                "        <li id=\"code\">Code: " + data.get("code") + "</li>\n" +
+                "        <li id=\"class_code\">Class Code: " + data.get("classCode") + "</li>\n" +
+                "        <li id=\"units\">units: " +  data.get("units") + "</li>\n" +
+                "        <li id=\"days\">Days: " + changeListFormat((ArrayList<String>) classTimeData.get("days"), ',')  + "</li>\n" +
+                "        <li id=\"time\">Time: " + classTimeData.get("time") + "</li>\n" +
                 "        <form action=\"/addCourse\" method=\"POST\" >\n" +
                 "            <label>Student ID:</label>\n" +
-                "            <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + o.getCode() + "\">\n" +
-                "            <input id=\"courseClassCode\" type=\"hidden\" name=\"course_class_code\" value=\"" + o.getClassCode() + "\">\n" +
-                "            <input id=\"stdId\" type=\"text\" name=\"std_id\" value=\"" + s.getId() + "\"/>\n" +
+                "            <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + data.get("code") + "\">\n" +
+                "            <input id=\"courseClassCode\" type=\"hidden\" name=\"course_class_code\" value=\"" + data.get("classCode") + "\">\n" +
+                "            <input id=\"stdId\" type=\"text\" name=\"std_id\" value=\"\"/>\n" +
                 "            <button type=\"submit\">Add</button>\n" +
                 "        </form>\n" +
                 "    </ul>\n");
@@ -175,6 +155,7 @@ public class HtmlRenderer {
 
         // data format: {
         //      "courses": ArrayList<HashMap<String, Object>>
+        //      "studentId" : id
         // }
         // 
         // 
@@ -200,21 +181,17 @@ public class HtmlRenderer {
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
-        //need this key and value here
-        Student s =  (Student) data.get("student");
-        //------------------------------
-        for (Map.Entry<String, Offering> entry : s.getOfferings().entrySet()) {
-            Offering o = entry.getValue();
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("courses")) {
             ele.append("<tr>\n" +
-                    "            <td>" + o.getCode() + "</td>\n" +
-                    "            <td>" + o.getClassCode() + "</td> \n" +
-                    "            <td>" + o.getName() + "</td>\n" +
-                    "            <td>" + o.getUnits() + "</td>\n" +
+                    "            <td>" + entry.get("code") + "</td>\n" +
+                    "            <td>" + entry.get("classCode") + "</td> \n" +
+                    "            <td>" + entry.get("name") + "</td>\n" +
+                    "            <td>" + entry.get("units") + "</td>\n" +
                     "            <td>        \n" +
                     "                <form action=\"/remove\" method=\"POST\" >\n" +
-                    "                    <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + o.getCode() + "\">\n" +
-                    "                    <input id=\"classCode\" type=\"hidden\" name=\"class_code\" value=\"" + o.getClassCode() + "\">\n" +
-                    "                    <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + s.getId() + "\">\n" +
+                    "                    <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + entry.get("code") + "\">\n" +
+                    "                    <input id=\"classCode\" type=\"hidden\" name=\"class_code\" value=\"" + entry.get("classCode") + "\">\n" +
+                    "                    <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + entry.get("studentId") + "\">\n" +
                     "                    <button type=\"submit\">Remove</button>\n" +
                     "                </form>\n" +
                     "            </td>\n" +
@@ -223,7 +200,6 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    //HashMap <"student", student send request Object>
     public static String renderPlanPage(HashMap<String, Object> data) throws IOException {
 
         // data format: {
@@ -330,17 +306,11 @@ public class HtmlRenderer {
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit.html"), "UTF-8");
         Element eleBody = reportDoc.getElementsByTag("body").last();
-        Student s = (Student) data.get("student");
-        int totalUnits = 0;
-        for(Map.Entry<String, Offering> entry : s.getOfferings().entrySet()) {
-            Offering o = entry.getValue();
-            totalUnits += o.getUnits();
-        }
         eleBody.append(" <ul>\n" +
-                "        <li id=\"code\">Student Id: " + s.getId() + "</li>\n" +
-                "        <li id=\"units\">Total Units: " + totalUnits + "</li>\n" +
+                "        <li id=\"code\">Student Id: " + data.get("id") + "</li>\n" +
+                "        <li id=\"units\">Total Units: " + data.get("numberChosenUnits") + "</li>\n" +
                 "        <form action=\"/submit\" method=\"POST\" >\n" +
-                "            <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + s.getId() + "\">\n" +
+                "            <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + data.get("id") + "\">\n" +
                 "            <button type=\"submit\">submit</button>\n" +
                 "        </form>\n" +
                 "    </ul>\n");
