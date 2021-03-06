@@ -131,4 +131,16 @@ public class Handlers {
         // ctx.html(html);
     };
 
+    public static Handler addCourse = ctx -> {
+
+    };
+
+    public static Handler removeCourse = ctx -> {
+
+    };
+
+    public static Handler submitPlan = ctx -> {
+        ctx.redirect(Server.SUBMIT_FAILED_URL);
+    };
+
 }

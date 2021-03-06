@@ -14,6 +14,7 @@ public class Server {
     public static final String SUBMIT_FAILED_URL = "/submit_failed";
     public static final String ADD_COURSE_URL_PREFIX = "/addCourse";
     public static final String REMOVE_COURSE_URL_PREFIX = "/removeCourse";
+    public static final String SUBMIT_PLAN_URL = "/submitPlan";
 
     public static void main(String[] args) {
         System.out.println("Server Started Running...");
@@ -31,6 +32,7 @@ public class Server {
     }
 
     public static void addUrls() {
+        // GET methods
         app.get(COURSES_URL, Handlers.courses);
         app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", Handlers.studentProfile);
         app.get(COURSE_URL_PREFIX + "/:code/:classCode", Handlers.singleCourse);
@@ -39,5 +41,11 @@ public class Server {
         app.get(SUBMIT_URL_PREFIX + "/:studentId", Handlers.submit);
         app.get(SUBMIT_OK_URL, Handlers.okSubmit);
         app.get(SUBMIT_FAILED_URL, Handlers.failSubmit);
+
+        // POST methods
+        app.post(ADD_COURSE_URL_PREFIX + "/:code/:classCode", Handlers.addCourse);
+        app.post(REMOVE_COURSE_URL_PREFIX + "/:code/:classCode", Handlers.removeCourse);
+        app.post(SUBMIT_PLAN_URL, Handlers.submitPlan);
     }
 }
+
