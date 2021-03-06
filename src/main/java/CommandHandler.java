@@ -121,7 +121,7 @@ public class CommandHandler {
         JsonNode jn = mapper.readTree(js);
         String stdId = jn.get("StudentId").asText();
         if (allStds.get(stdId) != null) {
-            String message = mapper.writeValueAsString(allStds.get(stdId).getOfferingsData());
+            String message = mapper.writeValueAsString(allStds.get(stdId)._getChosenOfferingsData());
             message = "{\"weeklySchedule\": " + message + "}";
             return message;
         } else {
