@@ -13,7 +13,7 @@ import io.javalin.Javalin;
 public class HtmlRenderer {
     // Render every page in seperate methods in this module
 
-    // NOTE: this method is same as 'String.join("|", li)'
+    // ! NOTE: this method is same as 'String.join("|", li)'
     public static String changeListFormat(ArrayList<String> li) {
         String s = "";
         for(int i = 0; i< li.size(); i++){
@@ -27,6 +27,33 @@ public class HtmlRenderer {
     }
 
     public static String renderCoursesPage(HashMap<String, Object> data) throws IOException {
+        
+        // data format: {
+        //      "courses": ArrayList<HashMap<String, Object>>
+        // }
+        // 
+        // 
+        // each entry in data.get("courses"): {
+        //      "code": Code
+        //      "classCode": Class Code 
+        //      "name": Name
+        //      "instructor": Instructor
+        //      "units": Units
+        //      "capacity": Capacity
+        //      "numRegisteredStudents": Registered
+        //      "type": Type
+        //      "classTime": {
+        //          "days": []  Days
+        //          "time": Time
+        //      }
+        //      "examTime": {
+        //          "start": Exam Start
+        //          "end": Exam End
+        //      }
+        //      "prerequisites": []  Prerequisites
+        //      "link": Link
+        // }
+
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
 
@@ -51,6 +78,18 @@ public class HtmlRenderer {
     }
 
     public static String renderStudentProfilePage(HashMap<String, Object> data) throws IOException {
+
+        // data format: {
+        //      "id": Student Id
+        //      "name": First Name
+        //      "secondName": Last Name
+        //      "birthDate": Birth Date
+        //      "gpa": GPA
+        //      "totalPassedUnits": Total Passed Units
+        //      "numberChosenUnits": Total Chosen Units
+        // }
+
+
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("ul").last();
         Student s = (Student) data.values();
@@ -65,26 +104,114 @@ public class HtmlRenderer {
 
 
     public static String renderSingleCoursePage(HashMap<String, Object> data) {
+
+        // data format: {
+        //      "code": Code
+        //      "classCode": Class Code 
+        //      "name": Name
+        //      "instructor": Instructor
+        //      "units": Units
+        //      "capacity": Capacity
+        //      "numRegisteredStudents": Registered
+        //      "type": Type
+        //      "classTime": {
+        //          "days": []  Days
+        //          "time": Time
+        //      }
+        //      "examTime": {
+        //          "start": Exam Start
+        //          "end": Exam End
+        //      }
+        //      "prerequisites": []  Prerequisites
+        //      "link": Link
+        // }
+        
+        
         return "";
     }
 
     public static String renderChangePlanPage(HashMap<String, Object> data) {
+
+        // data format: {
+        //      "courses": ArrayList<HashMap<String, Object>>
+        // }
+        // 
+        // 
+        // each entry in data.get("courses"): {
+        //      "code": Code
+        //      "classCode": Class Code 
+        //      "name": Name
+        //      "instructor": Instructor
+        //      "units": Units
+        //      "capacity": Capacity
+        //      "numRegisteredStudents": Registered
+        //      "type": Type
+        //      "classTime": {
+        //          "days": []  Days
+        //          "time": Time
+        //      }
+        //      "examTime": {
+        //          "start": Exam Start
+        //          "end": Exam End
+        //      }
+        //      "prerequisites": []  Prerequisites
+        //      "link": Link
+        // }
+
         return "";
     }
 
     public static String renderPlanPage(HashMap<String, Object> data) {
+
+        // data format: {
+        //      "courses": ArrayList<HashMap<String, Object>>
+        // }
+        // 
+        // 
+        // each entry in data.get("courses"): {
+        //      "code": Code
+        //      "classCode": Class Code 
+        //      "name": Name
+        //      "instructor": Instructor
+        //      "units": Units
+        //      "capacity": Capacity
+        //      "numRegisteredStudents": Registered
+        //      "type": Type
+        //      "classTime": {
+        //          "days": []  Days
+        //          "time": Time
+        //      }
+        //      "examTime": {
+        //          "start": Exam Start
+        //          "end": Exam End
+        //      }
+        //      "prerequisites": []  Prerequisites
+        //      "link": Link
+        // }
+
+
         return "";
     }
 
     public static String renderSubmitPage(HashMap<String, Object> data) {
+
+        // data format: {
+        //      "id": Student Id
+        //      "name": First Name
+        //      "secondName": Last Name
+        //      "birthDate": Birth Date
+        //      "gpa": GPA
+        //      "totalPassedUnits": Total Passed Units
+        //      "numberChosenUnits": Total Chosen Units
+        // }
         return "";
     }
 
-    public static String renderOkSubmitPage(HashMap<String, Object> data) {
+    public static String renderOkSubmitPage() {
         return "";
     }
 
-    public static String renderFailSubmitPage(HashMap<String, Object> data) {
+    public static String renderFailSubmitPage() {
         return "";
     }
 
