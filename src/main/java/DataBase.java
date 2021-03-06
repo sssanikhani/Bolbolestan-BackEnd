@@ -9,7 +9,7 @@ public class DataBase {
 
     public static class OfferingManager {
 
-        public static HashMap<String, HashMap<String, Offering>> courseOfferingsMap = new HashMap<String, HashMap<String, Offering>>();
+        private static HashMap<String, HashMap<String, Offering>> courseOfferingsMap = new HashMap<String, HashMap<String, Offering>>();
 
         static String retrieveAllUrl = "http://138.197.181.131:5000/api/courses";
 
@@ -53,7 +53,7 @@ public class DataBase {
 
     public static class StudentManager {
 
-        public static HashMap<String, Student> allStudents = new HashMap<String, Student>();
+        private static HashMap<String, Student> allStudents = new HashMap<String, Student>();
 
         static String retrieveAllUrl = "http://138.197.181.131:5000/api/students";
         static String retrieveGradesUrl = "http://138.197.181.131:5000/api/grades";
