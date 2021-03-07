@@ -294,14 +294,16 @@ public class Handlers {
         }
 
         int numUnits = student.getNumberChosenUnits();
-        if (numUnits < Constants.MIN_ALLOWED_UNITS || numUnits > Constants.MAX_ALLOWED_UNITS)
-            ctx.redirect(Server.SUBMIT_FAILED_URL, 403);
+        if (numUnits < Constants.MIN_ALLOWED_UNITS || numUnits > Constants.MAX_ALLOWED_UNITS) {
+            ctx.redirect(Server.SUBMIT_FAILED_URL);
+            return;
+        }
 
         try {
             student.validateExamClassTimes();
             student.validateOfferingCapacities();
         } catch (Exceptions.OfferingCapacity e) {
-            ctx.redirect(Server.SUBMIT_FAILED_URL, 403);
+            ctx.redirect(Server.SUBMIT_FAILED_URL);
         } catch (Exception e) {
             response = Responses.ServerError;
             String html = HtmlRenderer.renderPage(response);
@@ -311,7 +313,7 @@ public class Handlers {
         }
 
         student.finalizeOfferings();
-        ctx.redirect(Server.SUBMIT_OK_URL, 200);
+        ctx.redirect(Server.SUBMIT_OK_URL);
 
     }
 
