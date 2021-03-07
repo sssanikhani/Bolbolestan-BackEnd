@@ -94,10 +94,7 @@ public class Handlers {
             offeringsDataList.add(oData);
         }
 
-        response = new HashMap<String, Object>();
-        response.put("courses", offeringsDataList);
-        //-------------
-        response.put("studentId", studentId);
+        response = mapper.convertValue(student, HashMap.class);
         String html = HtmlRenderer.renderChangePlanPage(response);
         ctx.html(html);
     }
@@ -234,7 +231,7 @@ public class Handlers {
 
         student.addOfferingToList(offering);
 
-        ctx.redirect("/courses");
+        ctx.redirect(Server.COURSES_URL);
 
     }
 
@@ -275,8 +272,8 @@ public class Handlers {
             ctx.html(html);
             return;
         }
-        //-------------
-        ctx.redirect("/change_plan/" + studentId);
+
+        ctx.redirect(Utils.mkChangePlanLink(studentId));
 
     }
 
