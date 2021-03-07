@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.jsoup.Jsoup;
@@ -14,19 +13,19 @@ import io.javalin.Javalin;
 public class HtmlRenderer {
     // Render every page in separate methods in this module
 
-    // ! NOTE: this method is same as 'String.join("|", li)'
-    public static String joinString(ArrayList<String> list, char ch) {
-        String s = "";
-        for(int i = 0; i< list.size(); i++){
-            if(i == 0)
-                s += list.get(i);
-            else
-                s += ch + list.get(i);
-        }
-        return s;
-    }
+    // // ! NOTE: this method is same as 'String.join("|", li)'
+    // public static String joinString(ArrayList<String> list, char ch) {
+    //     String s = "";
+    //     for(int i = 0; i< list.size(); i++){
+    //         if(i == 0)
+    //             s += list.get(i);
+    //         else
+    //             s += ch + list.get(i);
+    //     }
+    //     return s;
+    // }
 
-    public static String renderCoursesPage(HashMap<String, Object> data) throws IOException {
+    public static String renderCoursesPage(HashMap<String, Object> data) {
         
         // data format: {
         //      "courses": ArrayList<HashMap<String, Object>>
@@ -55,9 +54,14 @@ public class HtmlRenderer {
         //      "addLink": Add Link
         //      "removeLink": Remove Link
         // }
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element table = reportDoc.getElementsByTag("table").last();
-        HashMap<String, Object>[] courses = (HashMap<String, Object>[]) data.get("courses");
+        ArrayList<HashMap<String, Object>> courses = (ArrayList<HashMap<String, Object>>) data.get("courses");
         for (HashMap<String, Object> entry : courses) {
             HashMap<String, Object> classTimeData = (HashMap<String, Object>) entry.get("classTime");
             HashMap<String, String> examTimeData = (HashMap<String, String>) entry.get("examTime");
@@ -70,19 +74,19 @@ public class HtmlRenderer {
                 (String) entry.get("classCode"),
                 (String) entry.get("name"),
                 (String) entry.get("instructor"),
-                (String) entry.get("units"),
-                (String) entry.get("capacity"),
+                String.valueOf(entry.get("units")),
+                String.valueOf(entry.get("capacity")),
                 (String) entry.get("type"),
-                String.join("|", (String[]) classTimeData.get("days")),
+                String.join("|", (ArrayList<String>) classTimeData.get("days")),
                 (String) classTimeData.get("time"),
                 examTimeData.get("start"),
                 examTimeData.get("end"),
-                String.join("|", (String[]) entry.get("prerequisites")),
-                link.html()
+                String.join("|", (ArrayList<String>) entry.get("prerequisites")),
+                link.outerHtml()
             };
             for (String value : rowValues) {
                 Element cell = new Element(Tag.valueOf("td"), "");
-                cell.text(value);
+                cell.html(value);
                 row.appendChild(cell);
             }
 
@@ -105,7 +109,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String renderStudentProfilePage(HashMap<String, Object> data) throws IOException {
+    public static String renderStudentProfilePage(HashMap<String, Object> data) {
 
         // data format: {
         //      "id": Student Id
@@ -119,7 +123,12 @@ public class HtmlRenderer {
         //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
         //      "profileLink": Profile Link
         // }
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element ulElem = reportDoc.getElementsByTag("ul").last();
         String[] studentValues = {
             "Student ID:" + data.get("id"),
@@ -150,7 +159,7 @@ public class HtmlRenderer {
             String[] rowValues = {
                 (String) entry.get("code"),
                 (String) entry.get("name"),
-                (String) entry.get("grade")
+                String.valueOf(entry.get("grade"))
             };
             for (String value : rowValues) {
                 Element cell = new Element(Tag.valueOf("td"), "");
@@ -166,7 +175,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String renderSingleCoursePage(HashMap<String, Object> data) throws IOException {
+    public static String renderSingleCoursePage(HashMap<String, Object> data) {
 
         // data format: {
         //      "code": Code
@@ -192,7 +201,12 @@ public class HtmlRenderer {
         // }
         // 
 
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/course.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/course.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element bodyElem = reportDoc.getElementsByTag("body").last();
         
         Element ulElem = new Element(Tag.valueOf("ul"), "");
@@ -201,9 +215,9 @@ public class HtmlRenderer {
             "Code: " + data.get("code"),
             "Class Code: " + data.get("classCode"),
             "Name: " + data.get("name"),
-            "Instructor" + data.get("instructor"),
+            "Instructor: " + data.get("instructor"),
             "Units: "  + data.get("units"),
-            "Days: " + String.join(",", (String[]) classTimeData.get("days")),
+            "Days: " + String.join(",", (ArrayList<String>) classTimeData.get("days")),
             "Time: " + classTimeData.get("time"),
         };
         for (String value : courseValues) {
@@ -252,7 +266,7 @@ public class HtmlRenderer {
 
     }
 
-    public static String renderChangePlanPage(HashMap<String, Object> data) throws IOException {
+    public static String renderChangePlanPage(HashMap<String, Object> data) {
         // data format: {
         //      "id": Student Id
         //      "name": First Name
@@ -290,7 +304,12 @@ public class HtmlRenderer {
         //      "removeLink": Remove Link
         // }
         // 
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element table = reportDoc.getElementsByTag("table").last();
 
         ArrayList<HashMap<String, Object>> chosenOfferings = (ArrayList<HashMap<String, Object>>) data.get("chosenOfferings");
@@ -301,7 +320,7 @@ public class HtmlRenderer {
                 (String) entry.get("classCode"),
                 (String) entry.get("name"),
                 (String) entry.get("instructor"),
-                (String) entry.get("units")
+                String.valueOf(entry.get("units"))
             };
             for (String value : rowValues) {
                 Element cell = new Element(Tag.valueOf("td"), "");
@@ -353,7 +372,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String renderPlanPage(HashMap<String, Object> data) throws IOException {
+    public static String renderPlanPage(HashMap<String, Object> data) {
 
         // data format: {
         //      "courses": ArrayList<HashMap<String, Object>>
@@ -383,7 +402,12 @@ public class HtmlRenderer {
         //      "removeLink": Remove Link
         // }
         //
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element table = reportDoc.getElementsByTag("table").last();
         ArrayList<HashMap<String, Object>> courses = (ArrayList<HashMap<String, Object>>) data.get("courses");
         String[] weekDays = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday" };
@@ -420,7 +444,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
     
-    public static String renderSubmitPage(HashMap<String, Object> data) throws IOException {
+    public static String renderSubmitPage(HashMap<String, Object> data) {
 
         // data format: {
         //      "id": Student Id
@@ -438,7 +462,12 @@ public class HtmlRenderer {
         // }
         // 
 
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit.html"), "UTF-8");
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element ulElem = reportDoc.getElementsByTag("ul").last();
         String[] values = {
             "Student ID: " + data.get("id"),
@@ -478,23 +507,43 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static String renderOkSubmitPage() throws IOException {
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
+    public static String renderOkSubmitPage() {
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         return reportDoc.html();
     }
 
-    public static String renderFailSubmitPage() throws IOException {
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_failed.html"), "UTF-8");
+    public static String renderFailSubmitPage() {
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_failed.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         return reportDoc.html();
     }
 
-    public static String renderNotFoundPage() throws IOException {
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/404.html"), "UTF-8");
+    public static String renderNotFoundPage() {
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/404.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         return reportDoc.html();
     }
 
-    public static String renderPage(HashMap<String, Object> data) throws IOException {
-        Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/blank.html"), "UTF-8");
+    public static String renderPage(HashMap<String, Object> data) {
+        Document reportDoc;
+        try {
+            reportDoc = Jsoup.parse(new File("src/main/resources/templates/blank.html"), "UTF-8");
+        } catch (IOException e) {
+            return "";
+        }
         Element title = reportDoc.getElementsByTag("title").first();
 
         title.text((String) data.get("short"));
@@ -508,7 +557,7 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static void main(String args[]) throws IOException, InterruptedException {
+    public static void main(String args[]) throws InterruptedException {
         Javalin app = Javalin.create().start(7000);
 //        ArrayList<Offering> l = DataBase.OfferingManager.getAllFromWebServer();
 //        HashMap<String, Object> hashMap = new HashMap<>();
