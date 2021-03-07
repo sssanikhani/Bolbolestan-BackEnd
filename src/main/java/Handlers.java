@@ -233,7 +233,7 @@ public class Handlers {
 
         student.addOfferingToList(offering);
 
-        ctx.redirect(Utils.mkChangePlanLink(studentId), 200);
+        ctx.redirect("/courses");
 
     }
 
