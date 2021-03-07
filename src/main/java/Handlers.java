@@ -36,9 +36,9 @@ public class Handlers {
         } catch (Exception e) {
             e.printStackTrace();
             response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(500);
+            ctx.html(html);
             return;
         }
 
@@ -49,8 +49,8 @@ public class Handlers {
 
         response = new HashMap<String, Object>();
         response.put("courses", offeringsDataList);
-        // String html = HtmlRenderer.renderCoursesPage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderCoursesPage(response);
+        ctx.html(html);
     }
 
     // public static Handler studentProfile = ctx -> {
@@ -78,14 +78,14 @@ public class Handlers {
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage();
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.html(html);
             return;
         }
 
         response = mapper.convertValue(student, HashMap.class);
-        // String html = HtmlRenderer.renderStudentProfilePage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderStudentProfilePage(response);
+        ctx.html(html);
     }
 
     // public static Handler singleCourse = ctx -> {
@@ -115,14 +115,14 @@ public class Handlers {
         try {
             offering = DataBase.OfferingManager.get(code, classCode);
         } catch (Exceptions.offeringNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage();
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.html(html);
             return;
         }
 
         response = mapper.convertValue(offering, HashMap.class);
-        // String html = HtmlRenderer.renderSingleCoursePage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderSingleCoursePage(response);
+        ctx.html(html);
     }
 
     // public static Handler changePlan = ctx -> {
@@ -160,8 +160,8 @@ public class Handlers {
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage();
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.html(html);
             return;
         }
 
@@ -174,8 +174,8 @@ public class Handlers {
         response = new HashMap<String, Object>();
         response.put("courses", offeringsDataList);
         response.put("studentId", student.getId());
-        // String html = HtmlRenderer.renderChangePlanPage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderChangePlanPage(response);
+        ctx.html(html);
     }
 
     // public static Handler plan = ctx -> {
@@ -210,8 +210,8 @@ public class Handlers {
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage();
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.html(html);
             return;
         }
 
@@ -223,8 +223,8 @@ public class Handlers {
 
         response = new HashMap<String, Object>();
         response.put("courses", offeringsDataList);
-        // String html = HtmlRenderer.renderPlanPage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderPlanPage(response);
+        ctx.html(html);
     }
 
     // public static Handler submit = ctx -> {
@@ -252,14 +252,15 @@ public class Handlers {
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage();
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.html(html);
             return;
         }
 
         response = mapper.convertValue(student, HashMap.class);
-        // String html = HtmlRenderer.renderSubmitPage(response);
-        // ctx.html(html);
+        response.put("submitLink", Server.SUBMIT_PLAN_URL);
+        String html = HtmlRenderer.renderSubmitPage(response);
+        ctx.html(html);
     }
 
     // public static Handler okSubmit = ctx -> {
@@ -268,10 +269,8 @@ public class Handlers {
     // };
 
     public static void okSubmit(Context ctx) {
-        HashMap<String, Object> response;
-
-        // String html = HtmlRenderer.renderOkSubmitPage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderOkSubmitPage();
+        ctx.html(html);
     }
 
     // public static Handler failSubmit = ctx -> {
@@ -280,10 +279,8 @@ public class Handlers {
     // };
 
     public static void failSubmit(Context ctx) {
-        HashMap<String, Object> response;
-
-        // String html = HtmlRenderer.renderFailSubmitPage(response);
-        // ctx.html(html);
+        String html = HtmlRenderer.renderFailSubmitPage();
+        ctx.html(html);
     }
 
     // public static Handler addCourse = ctx -> {
@@ -329,33 +326,34 @@ public class Handlers {
         try {
             offering = DataBase.OfferingManager.get(code, classCode);
         } catch (Exceptions.offeringNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage(response);
-            // ctx.status(404);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.status(404);
+            ctx.html(html);
             return;
         }
 
-        String body = ctx.body();
-        JsonNode bodyJson;
-        try {
-            bodyJson = mapper.readTree(body);
-        } catch (Exception e) {
-            response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
-            return;
-        }
-        String studentId = bodyJson.get("studentId").asText();
+        // HashMap<String, Object> body = ctx.bodyAsClass(HashMap.class);
+        // JsonNode bodyJson;
+        // try {
+        //     bodyJson = mapper.readTree(body);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        //     response = Responses.ServerError;
+        //     String html = HtmlRenderer.renderPage(response);
+        //     ctx.status(500);
+        //     ctx.html(html);
+        //     return;
+        // }
+        String studentId = ctx.formParam("studentId");
 
         Student student;
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
             response = Responses.BadRequest;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(400);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(400);
+            ctx.html(html);
             return;
         }
 
@@ -364,16 +362,16 @@ public class Handlers {
             hasPassedPrerequisites = student.hasPassedPrerequisites(offering.getCode());
         } catch (Exception e) {
             response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(500);
+            ctx.html(html);
             return;
         }
         if (!hasPassedPrerequisites) {
             response = Responses.NotPassedPrerequisites;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(403);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(403);
+            ctx.html(html);
             return;
         }
 
@@ -381,9 +379,9 @@ public class Handlers {
         for (Offering o : chosenOfferings) {
             if (offering.hasOfferingTimeCollision(o)) {
                 response = Responses.CourseTimeCollision;
-                // String html = HtmlRenderer.renderPage(response);
-                // ctx.status(403);
-                // ctx.html(html);
+                String html = HtmlRenderer.renderPage(response);
+                ctx.status(403);
+                ctx.html(html);
                 return;
             }
             boolean hasExamTimeCollision;
@@ -392,16 +390,16 @@ public class Handlers {
             } catch (ParseException e) {
                 e.printStackTrace();
                 response = Responses.ServerError;
-                // String html = HtmlRenderer.renderPage(response);
-                // ctx.status(500);
-                // ctx.html(html);
+                String html = HtmlRenderer.renderPage(response);
+                ctx.status(500);
+                ctx.html(html);
                 return;
             }
             if (hasExamTimeCollision) {
                 response = Responses.ExamTimeCollision;
-                // String html = HtmlRenderer.renderPage(response);
-                // ctx.status(403);
-                // ctx.html(html);
+                String html = HtmlRenderer.renderPage(response);
+                ctx.status(403);
+                ctx.html(html);
                 return;
             }
         }
@@ -425,33 +423,33 @@ public class Handlers {
         try {
             offering = DataBase.OfferingManager.get(code, classCode);
         } catch (Exceptions.offeringNotFound e) {
-            // String html = HtmlRenderer.renderNotFoundPage(response);
-            // ctx.status(404);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderNotFoundPage();
+            ctx.status(404);
+            ctx.html(html);
             return;
         }
 
-        String body = ctx.body();
-        JsonNode bodyJson;
-        try {
-            bodyJson = mapper.readTree(body);
-        } catch (Exception e) {
-            response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
-            return;
-        }
-        String studentId = bodyJson.get("studentId").asText();
+        // HashMap<String, Object> body = ctx.bodyAsClass(HashMap.class);
+        // JsonNode bodyJson;
+        // try {
+        //     bodyJson = mapper.readTree(body);
+        // } catch (Exception e) {
+        //     response = Responses.ServerError;
+        //     String html = HtmlRenderer.renderPage(response);
+        //     ctx.status(500);
+        //     ctx.html(html);
+        //     return;
+        // }
+        String studentId = ctx.formParam("studentId");
 
         Student student;
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
             response = Responses.BadRequest;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(400);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(400);
+            ctx.html(html);
             return;
         }
 
@@ -459,9 +457,9 @@ public class Handlers {
             student.removeOfferingFromList(offering.getCode());
         } catch (Exceptions.offeringNotFound e) {
             response = Responses.BadRequest;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(400);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(400);
+            ctx.html(html);
             return;
         }
 
@@ -476,27 +474,27 @@ public class Handlers {
     public static void submitPlan(Context ctx) {
         HashMap<String, Object> response;
 
-        String body = ctx.body();
-        JsonNode bodyJson;
-        try {
-            bodyJson = mapper.readTree(body);
-        } catch (Exception e) {
-            response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
-            return;
-        }
-        String studentId = bodyJson.get("studentId").asText();
+        // HashMap<String, Object> body = ctx.bodyAsClass(HashMap.class);
+        // JsonNode bodyJson;
+        // try {
+        //     bodyJson = mapper.readTree(body);
+        // } catch (Exception e) {
+        //     response = Responses.ServerError;
+        //     String html = HtmlRenderer.renderPage(response);
+        //     ctx.status(500);
+        //     ctx.html(html);
+        //     return;
+        // }
+        String studentId = ctx.formParam("studentId");
 
         Student student;
         try {
             student = DataBase.StudentManager.get(studentId);
         } catch (Exceptions.StudentNotFound e) {
             response = Responses.BadRequest;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(400);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(400);
+            ctx.html(html);
             return;
         }
 
@@ -511,9 +509,9 @@ public class Handlers {
             ctx.redirect(Server.SUBMIT_FAILED_URL, 403);
         } catch (Exception e) {
             response = Responses.ServerError;
-            // String html = HtmlRenderer.renderPage(response);
-            // ctx.status(500);
-            // ctx.html(html);
+            String html = HtmlRenderer.renderPage(response);
+            ctx.status(500);
+            ctx.html(html);
             return;
         }
 
