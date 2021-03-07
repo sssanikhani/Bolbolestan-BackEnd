@@ -1,0 +1,4 @@
+{"stdId" : "810197220", "courseId": "8101007", "classCode" : "01"}
+{"stdId" : "810197220", "courseId": "8101008", "classCode" : "01"}
+{"stdId" : "810197220", "courseId": "8101013", "classCode" : "01"}
+{"stdId" : "810197220", "courseId": "8101023", "classCode" : "01"}
