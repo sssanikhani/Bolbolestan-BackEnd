@@ -88,7 +88,7 @@ public class Utils {
         return res;
     }
 
-    public static int getCodeUnits(String code) throws Exception {
+    public static int getCodeUnits(String code) throws Exceptions.offeringNotFound {
         ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(code);
         if (codeOfferings.size() == 0)
             throw new Exceptions.offeringNotFound();

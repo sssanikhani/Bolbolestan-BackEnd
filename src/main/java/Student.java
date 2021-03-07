@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -109,7 +110,7 @@ public class Student {
         return passedGrades;
     }
 
-    public int getTotalPassedUnits() throws Exception {
+    public int getTotalPassedUnits() throws Exceptions.offeringNotFound {
         int passed = 0;
         for (Grade g : this.grades.values()) {
             String code = g.getCode();
@@ -123,7 +124,7 @@ public class Student {
         return passed;
     }
 
-    public float getGpa() throws Exception {
+    public float getGpa() throws Exceptions.offeringNotFound {
         float sumGrades = 0;
         int totalUnits = 0;
         for (Grade g : this.grades.values()) {
@@ -142,7 +143,7 @@ public class Student {
         this.chosenOfferings.put(o.getCode(), o);
     }
 
-    public void removeOfferingFromList(String c) throws Exception {
+    public void removeOfferingFromList(String c) throws Exceptions.offeringNotFound, Exceptions.StudentNotFound {
         Offering offering = this.chosenOfferings.get(c);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
@@ -152,7 +153,8 @@ public class Student {
         this.chosenOfferings.remove(c);
     }
 
-    public void validateExamClassTimes() throws Exception {
+    public void validateExamClassTimes()
+            throws ParseException, Exceptions.ExamTimeCollision, Exceptions.ClassTimeCollision {
         for (String k1 : this.chosenOfferings.keySet()) {
             for (String k2 : this.chosenOfferings.keySet()) {
                 if (!k1.equals(k2)) {
@@ -167,7 +169,7 @@ public class Student {
         }
     }
 
-    public void validateOfferingCapacities() throws Exception {
+    public void validateOfferingCapacities() throws Exceptions.OfferingCapacity {
         Set<String> offeringKeySet = chosenOfferings.keySet();
         for (String key : offeringKeySet) {
             Offering o = chosenOfferings.get(key);

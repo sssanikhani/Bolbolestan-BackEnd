@@ -39,14 +39,14 @@ public class DataBase {
             return list;
         }
 
-        public static ArrayList<Offering> getCodeOfferings(String code) throws Exception {
+        public static ArrayList<Offering> getCodeOfferings(String code) throws Exceptions.offeringNotFound {
             HashMap<String, Offering> codeMap = codeOfferingsMap.get(code);
             if (codeMap == null)
                 throw new Exceptions.offeringNotFound();
             return new ArrayList<Offering>(codeMap.values());
         }
 
-        public static Offering get(String code, String classCode) throws Exception {
+        public static Offering get(String code, String classCode) throws Exceptions.offeringNotFound {
             HashMap<String, Offering> group = codeOfferingsMap.get(code);
             if (group == null)
                 throw new Exceptions.offeringNotFound();
@@ -65,7 +65,8 @@ public class DataBase {
         static String retrieveAllUrl = "http://138.197.181.131:5000/api/students";
         static String retrieveGradesUrl = "http://138.197.181.131:5000/api/grades";
 
-        public static void updateFromExternalServer() throws Exception {
+        public static void updateFromExternalServer()
+                throws IOException, InterruptedException, Exceptions.StudentNotFound {
             HashMap<String, Object> webRes = Utils.sendRequest("GET", retrieveAllUrl, null, null);
             String data = (String) webRes.get("data");
 
@@ -89,14 +90,15 @@ public class DataBase {
             return list;
         }
 
-        public static Student get(String studentId) throws Exception {
+        public static Student get(String studentId) throws Exceptions.StudentNotFound {
             Student student = students.get(studentId);
             if (student == null)
                 throw new Exceptions.StudentNotFound();
             return student;
         }
 
-        public static ArrayList<Grade> getAllGradesFromExternalServer(String studentId) throws Exception {
+        public static ArrayList<Grade> getAllGradesFromExternalServer(String studentId)
+                throws IOException, InterruptedException, Exceptions.StudentNotFound {
 
             Student student = students.get(studentId);
             if (student == null)

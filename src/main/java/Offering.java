@@ -68,7 +68,7 @@ public class Offering {
         this.registeredStudents.put(s.getId(), s);
     }
 
-    public void removeStudent(String stdId) throws Exception {
+    public void removeStudent(String stdId) throws Exceptions.StudentNotFound {
         Student s = this.registeredStudents.get(stdId);
         if (s == null)
             throw new Exceptions.StudentNotFound();
