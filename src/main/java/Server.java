@@ -25,6 +25,7 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ERROR: failed to connect with external server");
+            return;
         }
 
         app = Javalin.create().start(Constants.SERVER_PORT);
