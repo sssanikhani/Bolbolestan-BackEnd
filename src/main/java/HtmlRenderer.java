@@ -1,9 +1,7 @@
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -86,10 +84,11 @@ public class HtmlRenderer {
         //      "secondName": Last Name
         //      "birthDate": Birth Date
         //      "gpa": GPA
-        //      "chosenOfferings": ArrayList<HashMap<String, Object>>
         //      "totalPassedUnits": Total Passed Units
         //      "numberChosenUnits": Total Chosen Units
+        //      "chosenOfferings": ArrayList<HashMap<String, Object>>
         //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
+        //      "profileLink": Profile Link
         // }
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
         Element eleUl = reportDoc.getElementsByTag("ul").last();
@@ -157,16 +156,22 @@ public class HtmlRenderer {
 
     }
 
-    //HashMap <"student", student send request Object>
     public static String renderChangePlanPage(HashMap<String, Object> data) throws IOException {
-        // TODO: change format
         // data format: {
-        //      "courses": ArrayList<HashMap<String, Object>>
-        //      "studentId" : id
+        //      "id": Student Id
+        //      "name": First Name
+        //      "secondName": Last Name
+        //      "birthDate": Birth Date
+        //      "gpa": GPA
+        //      "totalPassedUnits": Total Passed Units
+        //      "numberChosenUnits": Total Chosen Units
+        //      "chosenOfferings": ArrayList<HashMap<String, Object>>
+        //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
+        //      "profileLink": Profile Link
         // }
         // 
         // 
-        // each entry in data.get("courses"): {
+        // each entry in data.get("chosenOfferings"): {
         //      "code": Code
         //      "classCode": Class Code 
         //      "name": Name
@@ -189,10 +194,9 @@ public class HtmlRenderer {
         //      "removeLink": Remove Link
         // }
         // 
-
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
-        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("courses")) {
+        for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("chosenOfferings")) {
             ele.append("<tr>\n" +
                     "            <td>" + entry.get("code") + "</td>\n" +
                     "            <td>" + entry.get("classCode") + "</td> \n" +
@@ -237,9 +241,10 @@ public class HtmlRenderer {
         //      }
         //      "prerequisites": []  Prerequisites
         //      "link": Link
-        //      "addLink": Link
-        //      "removeLink": Link
+        //      "addLink": Add Link
+        //      "removeLink": Remove Link
         // }
+        //
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
         Element ele = reportDoc.getElementsByTag("table").last();
         for (HashMap<String, Object> entry : (ArrayList<HashMap<String, Object>>)data.get("courses")) {
@@ -275,8 +280,11 @@ public class HtmlRenderer {
         //      "totalPassedUnits": Total Passed Units
         //      "numberChosenUnits": Total Chosen Units
         //      "chosenOfferings": ArrayList<HashMap<String, Object>>
+        //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
         //      "profileLink": Profile Link
         // }
+        // 
+
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit.html"), "UTF-8");
         Element eleBody = reportDoc.getElementsByTag("body").last();
         eleBody.append(" <ul>\n" +
