@@ -238,7 +238,7 @@ public class HtmlRenderer {
         }
         Element table = reportDoc.getElementsByTag("table").last();
 
-        ArrayList<HashMap<String, Object>> chosenOfferings = (ArrayList<HashMap<String, Object>>) data.get("courses");
+        ArrayList<HashMap<String, Object>> chosenOfferings = (ArrayList<HashMap<String, Object>>) data.get("chosenOfferings");
         for (HashMap<String, Object> entry : chosenOfferings) {
             Element row = new Element(Tag.valueOf("tr"), "");
             String[] rowValues = {
@@ -264,7 +264,7 @@ public class HtmlRenderer {
             studentIdInputElem.attr("id", "studentId");
             studentIdInputElem.attr("type", "hidden");
             studentIdInputElem.attr("name", "studentId");
-            studentIdInputElem.attr("value", (String) data.get("studentId"));
+            studentIdInputElem.attr("value", (String) data.get("id"));
 
             Element submit = new Element(Tag.valueOf("button"), "");
             submit.attr("type", "submit");
