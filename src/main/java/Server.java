@@ -33,21 +33,6 @@ public class Server {
     }
 
     public static void addUrls() {
-        // // GET methods
-        // app.get(COURSES_URL, Handlers.courses);
-        // app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", Handlers.studentProfile);
-        // app.get(COURSE_URL_PREFIX + "/:code/:classCode", Handlers.singleCourse);
-        // app.get(CHANGE_PLAN_URL_PREFIX + "/:studentId", Handlers.changePlan);
-        // app.get(PLAN_URL_PREFIX + "/:studentId", Handlers.plan);
-        // app.get(SUBMIT_URL_PREFIX + "/:studentId", Handlers.submit);
-        // app.get(SUBMIT_OK_URL, Handlers.okSubmit);
-        // app.get(SUBMIT_FAILED_URL, Handlers.failSubmit);
-
-        // // POST methods
-        // app.post(ADD_COURSE_URL_PREFIX + "/:code/:classCode", Handlers.addCourse);
-        // app.post(REMOVE_COURSE_URL_PREFIX + "/:code/:classCode", Handlers.removeCourse);
-        // app.post(SUBMIT_PLAN_URL, Handlers.submitPlan);
-
         // GET methods
         app.get(COURSES_URL, ctx -> {Handlers.courses(ctx);});
         app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", ctx -> {Handlers.studentProfile(ctx);});
