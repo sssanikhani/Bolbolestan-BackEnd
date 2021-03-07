@@ -1,6 +1,0 @@
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150102"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150103"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150102"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150104"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150106"}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150109"}
