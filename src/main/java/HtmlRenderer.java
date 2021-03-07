@@ -11,27 +11,6 @@ import org.jsoup.parser.Tag;
 import io.javalin.Javalin;
 
 public class HtmlRenderer {
-    // Render every page in separate methods in this module
-
-    // // ! NOTE: this method is same as 'String.join("|", li)'
-    // public static String joinString(ArrayList<String> list, char ch) {
-    //     String s = "";
-    //     for(int i = 0; i< list.size(); i++){
-    //         if(i == 0)
-    //             s += list.get(i);
-    //         else
-    //             s += ch + list.get(i);
-    //     }
-    //     return s;
-    // }
-
-    public static String renderCoursesPage(HashMap<String, Object> data) {
-        
-        // data format: {
-        //      "courses": ArrayList<HashMap<String, Object>>
-        // }
-        // 
-        // 
         // each entry in data.get("courses"): {
         //      "code": Code
         //      "classCode": Class Code 
@@ -54,6 +33,14 @@ public class HtmlRenderer {
         //      "addLink": Add Link
         //      "removeLink": Remove Link
         // }
+    public static String renderCoursesPage(HashMap<String, Object> data) {
+        
+        // data format: {
+        //      "courses": ArrayList<HashMap<String, Object>>
+        // }
+        // 
+        // 
+
         Document reportDoc;
         try {
             reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
@@ -91,20 +78,6 @@ public class HtmlRenderer {
             }
 
             table.appendChild(row);
-            // ele.append("       <tr>\n" +
-            //         "           <td>" + entry.get("code") + "</td>\n" +
-            //         "           <td>" + entry.get("classCode") + "</td>\n" +
-            //         "           <td>" + entry.get("name") + "</td>\n" +
-            //         "           <td>" + entry.get("units") + "</td>\n" +
-            //         "           <td>" + entry.get("capacity") + "</td>\n" +
-            //         "           <td>" + entry.get("type")+ "</td>\n" +
-            //         "           <td>" + joinString((ArrayList<String>) classTimeData.get("days"), '|') + "</td>\n" +
-            //         "           <td>" + classTimeData.get("time") + "</td>\n" +
-            //         "           <td>" + examTimeData.get("start") + "</td>\n" +
-            //         "           <td>" + examTimeData.get("end") + "</td>\n" +
-            //         "           <td>" + joinString((ArrayList<String>) classTimeData.get("prerequisites"), '|') + "</td>\n" +
-            //         "           <td>" + "<a href=/course/" + entry.get("code") + "/" + entry.get("classCode") + ">Link</a>" + "</td>\n" +
-            //         "       </tr>\n");
         }
         return reportDoc.html();
     }
@@ -144,13 +117,6 @@ public class HtmlRenderer {
             field.text(value);
             ulElem.appendChild(field);
         }
-
-        // ulElem.append("<li id=\"std_id\">Student ID: " + data.get("id") + "</li>\n" +
-        //             "        <li id=\"first_name\">First Name: " + data.get("name") + "</li>\n" +
-        //             "        <li id=\"last_name\">Last Name: " + data.get("secondName") + "</li>\n" +
-        //             "        <li id=\"birthdate\">Birthdate: " + data.get("birthDate") + "</li>\n" +
-        //             "        <li id=\"gpa\">GPA: " + data.get("gpa") + "</li>\n" +
-        //             "        <li id=\"tpu\">Total Passed Units: " + data.get("totalPassedUnits") + "</li>\n");
         
         ArrayList<HashMap<String, Object>> passedGrades = (ArrayList<HashMap<String, Object>>) data.get("passedCoursesGrades");
         Element table = reportDoc.getElementsByTag("table").last();
@@ -158,7 +124,6 @@ public class HtmlRenderer {
             Element row = new Element(Tag.valueOf("tr"), "");
             String[] rowValues = {
                 (String) entry.get("code"),
-                (String) entry.get("name"),
                 String.valueOf(entry.get("grade"))
             };
             for (String value : rowValues) {
@@ -247,21 +212,6 @@ public class HtmlRenderer {
         bodyElem.appendChild(ulElem);
         bodyElem.appendChild(form);
 
-        // bodyElem.append("<ul>\n" +
-        //         "        <li id=\"code\">Code: " + data.get("code") + "</li>\n" +
-        //         "        <li id=\"class_code\">Class Code: " + data.get("classCode") + "</li>\n" +
-        //         "        <li id=\"units\">units: " +  data.get("units") + "</li>\n" +
-        //         "        <li id=\"days\">Days: " + joinString((ArrayList<String>) classTimeData.get("days"), ',')  + "</li>\n" +
-        //         "        <li id=\"time\">Time: " + classTimeData.get("time") + "</li>\n" +
-        //         "        <form action=\"/addCourse\" method=\"post\" >\n" +
-        //         "            <label>Student ID:</label>\n" +
-        //         "            <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + data.get("code") + "\">\n" +
-        //         "            <input id=\"courseClassCode\" type=\"hidden\" name=\"course_class_code\" value=\"" + data.get("classCode") + "\">\n" +
-        //         "            <input id=\"stdId\" type=\"text\" name=\"std_id\" value=\"\"/>\n" +
-        //         "            <button type=\"submit\">Add</button>\n" +
-        //         "        </form>\n" +
-        //         "    </ul>\n");
-
         return reportDoc.html();
 
     }
@@ -279,31 +229,7 @@ public class HtmlRenderer {
         //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
         //      "profileLink": Profile Link
         // }
-        // 
-        // 
-        // each entry in data.get("chosenOfferings"): {
-        //      "code": Code
-        //      "classCode": Class Code 
-        //      "name": Name
-        //      "instructor": Instructor
-        //      "units": Units
-        //      "capacity": Capacity
-        //      "numRegisteredStudents": Registered
-        //      "type": Type
-        //      "classTime": {
-        //          "days": []  Days
-        //          "time": Time
-        //      }
-        //      "examTime": {
-        //          "start": Exam Start
-        //          "end": Exam End
-        //      }
-        //      "prerequisites": []  Prerequisites
-        //      "link": Link
-        //      "addLink": Add Link
-        //      "removeLink": Remove Link
-        // }
-        // 
+        
         Document reportDoc;
         try {
             reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
@@ -352,22 +278,6 @@ public class HtmlRenderer {
             row.appendChild(formCell);
 
             table.appendChild(row);
-            
-            
-            // table.append("<tr>\n" +
-            //         "            <td>" + entry.get("code") + "</td>\n" +
-            //         "            <td>" + entry.get("classCode") + "</td> \n" +
-            //         "            <td>" + entry.get("name") + "</td>\n" +
-            //         "            <td>" + entry.get("units") + "</td>\n" +
-            //         "            <td>        \n" +
-            //         "                <form action=\"/remove\" method=\"post\" >\n" +
-            //         "                    <input id=\"courseId\" type=\"hidden\" name=\"course_code\" value=\"" + entry.get("code") + "\">\n" +
-            //         "                    <input id=\"classCode\" type=\"hidden\" name=\"class_code\" value=\"" + entry.get("classCode") + "\">\n" +
-            //         "                    <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + data.get("id") + "\">\n" +
-            //         "                    <button type=\"submit\">Remove</button>\n" +
-            //         "                </form>\n" +
-            //         "            </td>\n" +
-            //         "        </tr>\n");
         }
         return reportDoc.html();
     }
@@ -377,31 +287,7 @@ public class HtmlRenderer {
         // data format: {
         //      "courses": ArrayList<HashMap<String, Object>>
         // }
-        // 
-        // 
-        // each entry in data.get("courses"): {
-        //      "code": Code
-        //      "classCode": Class Code 
-        //      "name": Name
-        //      "instructor": Instructor
-        //      "units": Units
-        //      "capacity": Capacity
-        //      "numRegisteredStudents": Registered
-        //      "type": Type
-        //      "classTime": {
-        //          "days": []  Days
-        //          "time": Time
-        //      }
-        //      "examTime": {
-        //          "start": Exam Start
-        //          "end": Exam End
-        //      }
-        //      "prerequisites": []  Prerequisites
-        //      "link": Link
-        //      "addLink": Add Link
-        //      "removeLink": Remove Link
-        // }
-        //
+
         Document reportDoc;
         try {
             reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
@@ -425,21 +311,6 @@ public class HtmlRenderer {
                 }
             }
             
-            // if(days.contains("Saturday")){
-            //     table.getElementById("Sat").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
-            // }
-            // if(days.contains("Sunday")){
-            //     table.getElementById("Sun").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
-            // }
-            // if(days.contains("Monday")){
-            //     table.getElementById("Mon").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
-            // }
-            // if(days.contains("Tuesday")){
-            //     table.getElementById("Tue").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
-            // }
-            // if(days.contains("Wednesday")){
-            //     table.getElementById("Wen").getElementById((String) classTimeData.get("time")).text((String) entry.get("name"));
-            // }
         }
         return reportDoc.html();
     }
