@@ -94,4 +94,22 @@ public class Utils {
             throw new Exceptions.offeringNotFound();
         return codeOfferings.get(0).getUnits();
     }
+
+    public static String mkChangePlanLink(String studentId) {
+        String[] linkParts = { Server.CHANGE_PLAN_URL_PREFIX, studentId };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
+    public static String mkPlanLink(String studentId) {
+        String[] linkParts = { Server.PLAN_URL_PREFIX, studentId };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
+    public static String mkSubmitLink(String studentId) {
+        String[] linkParts = { Server.SUBMIT_URL_PREFIX, studentId };
+        String link = String.join("/", linkParts);
+        return link;
+    }
 }
