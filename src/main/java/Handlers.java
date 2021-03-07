@@ -96,7 +96,8 @@ public class Handlers {
 
         response = new HashMap<String, Object>();
         response.put("courses", offeringsDataList);
-        response.put("studentId", student.getId());
+        //-------------
+        response.put("studentId", studentId);
         String html = HtmlRenderer.renderChangePlanPage(response);
         ctx.html(html);
     }
@@ -254,7 +255,6 @@ public class Handlers {
         }
 
         String studentId = ctx.formParam("studentId");
-
         Student student;
         try {
             student = DataBase.StudentManager.get(studentId);
@@ -275,8 +275,8 @@ public class Handlers {
             ctx.html(html);
             return;
         }
-
-        ctx.redirect(Server.CHANGE_PLAN_URL_PREFIX, 200);
+        //-------------
+        ctx.redirect("/change_plan/" + studentId);
 
     }
 
