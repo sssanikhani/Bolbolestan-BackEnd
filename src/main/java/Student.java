@@ -101,6 +101,19 @@ public class Student {
         return true;
     }
 
+    public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
+        ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(_code);
+        if (codeOfferings.size() == 0)
+            throw new Exceptions.offeringNotFound();
+        Offering o = codeOfferings.get(0);
+        ArrayList<String> preCodes = o.getPrerequisites();
+        for (String preCode : preCodes) {
+            if (!hasPassed(preCode))
+                return false;
+        }
+        return true;
+    }
+
     public ArrayList<Grade> getPassedCoursesGrades() {
         ArrayList<Grade> passedGrades = new ArrayList<Grade>();
         for (Grade g : this.grades.values()) {
@@ -139,18 +152,28 @@ public class Student {
         return sumGrades / totalUnits;
     }
 
+    public String getProfileLink() {
+        String[] linkParts = { Server.STUDENT_PROFILE_URL_PREFIX, this.id };
+        String link = String.join("/", linkParts);
+        return link;
+    }
+
     public void addOfferingToList(Offering o) {
         this.chosenOfferings.put(o.getCode(), o);
     }
 
-    public void removeOfferingFromList(String c) throws Exceptions.offeringNotFound, Exceptions.StudentNotFound {
-        Offering offering = this.chosenOfferings.get(c);
+    public void removeOfferingFromList(String _code) throws Exceptions.offeringNotFound {
+        Offering offering = this.chosenOfferings.get(_code);
         if (offering == null)
             throw new Exceptions.offeringNotFound();
         boolean finalized = offering.existStudent(this.id);
-        if (finalized)
-            offering.removeStudent(this.id);
-        this.chosenOfferings.remove(c);
+        try {
+            if (finalized)
+                offering.removeStudent(this.id);
+        } catch (Exceptions.StudentNotFound e) {
+            // Never Execute
+        }
+        this.chosenOfferings.remove(_code);
     }
 
     public void validateExamClassTimes()
@@ -179,8 +202,7 @@ public class Student {
     }
 
     public void finalizeOfferings() {
-        for (String code : this.chosenOfferings.keySet()) {
-            Offering o = this.chosenOfferings.get(code);
+        for (Offering o : this.chosenOfferings.values()) {
             o.addStudent(this);
         }
     }
