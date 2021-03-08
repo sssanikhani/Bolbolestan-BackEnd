@@ -1,7 +1,11 @@
+package entities;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import utils.Utils;
 
 public class OfferingClassTime {
     private ArrayList<String> days;

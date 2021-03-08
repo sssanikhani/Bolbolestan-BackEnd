@@ -15,6 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.javalin.Javalin;
+import logic.DataBase;
+import logic.Handlers;
+import logic.Server;
+import statics.Constants;
+import utils.Utils;
 
 public class serverTest {
 

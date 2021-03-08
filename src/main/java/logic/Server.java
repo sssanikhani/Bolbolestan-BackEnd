@@ -1,4 +1,7 @@
+package logic;
+
 import io.javalin.Javalin;
+import statics.Constants;
 
 public class Server {
 
@@ -34,19 +37,40 @@ public class Server {
 
     public static void addUrls() {
         // GET methods
-        app.get(COURSES_URL, ctx -> {Handlers.courses(ctx);});
-        app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", ctx -> {Handlers.studentProfile(ctx);});
-        app.get(COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {Handlers.singleCourse(ctx);});
-        app.get(CHANGE_PLAN_URL_PREFIX + "/:studentId", ctx -> {Handlers.changePlan(ctx);});
-        app.get(PLAN_URL_PREFIX + "/:studentId", ctx -> {Handlers.plan(ctx);});
-        app.get(SUBMIT_URL_PREFIX + "/:studentId", ctx -> {Handlers.submit(ctx);});
-        app.get(SUBMIT_OK_URL, ctx -> {Handlers.okSubmit(ctx);});
-        app.get(SUBMIT_FAILED_URL, ctx -> {Handlers.failSubmit(ctx);});
+        app.get(COURSES_URL, ctx -> {
+            Handlers.courses(ctx);
+        });
+        app.get(STUDENT_PROFILE_URL_PREFIX + "/:studentId", ctx -> {
+            Handlers.studentProfile(ctx);
+        });
+        app.get(COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {
+            Handlers.singleCourse(ctx);
+        });
+        app.get(CHANGE_PLAN_URL_PREFIX + "/:studentId", ctx -> {
+            Handlers.changePlan(ctx);
+        });
+        app.get(PLAN_URL_PREFIX + "/:studentId", ctx -> {
+            Handlers.plan(ctx);
+        });
+        app.get(SUBMIT_URL_PREFIX + "/:studentId", ctx -> {
+            Handlers.submit(ctx);
+        });
+        app.get(SUBMIT_OK_URL, ctx -> {
+            Handlers.okSubmit(ctx);
+        });
+        app.get(SUBMIT_FAILED_URL, ctx -> {
+            Handlers.failSubmit(ctx);
+        });
 
         // POST methods
-        app.post(ADD_COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {Handlers.addCourse(ctx);});
-        app.post(REMOVE_COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {Handlers.removeCourse(ctx);});
-        app.post(SUBMIT_PLAN_URL, ctx -> {Handlers.submitPlan(ctx);});
+        app.post(ADD_COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {
+            Handlers.addCourse(ctx);
+        });
+        app.post(REMOVE_COURSE_URL_PREFIX + "/:code/:classCode", ctx -> {
+            Handlers.removeCourse(ctx);
+        });
+        app.post(SUBMIT_PLAN_URL, ctx -> {
+            Handlers.submitPlan(ctx);
+        });
     }
 }
-

@@ -1,47 +1,49 @@
+package view;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Tag;
 
-import io.javalin.Javalin;
+import statics.Constants;
 
 public class HtmlRenderer {
-        // each entry in data.get("courses"): {
-        //      "code": Code
-        //      "classCode": Class Code 
-        //      "name": Name
-        //      "instructor": Instructor
-        //      "units": Units
-        //      "capacity": Capacity
-        //      "numRegisteredStudents": Registered
-        //      "type": Type
-        //      "classTime": {
-        //          "days": []  Days
-        //          "time": Time
-        //      }
-        //      "examTime": {
-        //          "start": Exam Start
-        //          "end": Exam End
-        //      }
-        //      "prerequisites": []  Prerequisites
-        //      "link": Link
-        //      "addLink": Add Link
-        //      "removeLink": Remove Link
-        // }
+
+    // each entry in data.get("courses"): {
+    //      "code": Code
+    //      "classCode": Class Code 
+    //      "name": Name
+    //      "instructor": Instructor
+    //      "units": Units
+    //      "capacity": Capacity
+    //      "numRegisteredStudents": Registered
+    //      "type": Type
+    //      "classTime": {
+    //          "days": []  Days
+    //          "time": Time
+    //      }
+    //      "examTime": {
+    //          "start": Exam Start
+    //          "end": Exam End
+    //      }
+    //      "prerequisites": []  Prerequisites
+    //      "link": Link
+    //      "addLink": Add Link
+    //      "removeLink": Remove Link
+    // }
+
     public static String renderCoursesPage(HashMap<String, Object> data) {
-        
+
         // data format: {
         //      "courses": ArrayList<HashMap<String, Object>>
         // }
-        // 
-        // 
+        //
+        //
 
         Document reportDoc;
         try {
@@ -119,7 +121,7 @@ public class HtmlRenderer {
             field.text(value);
             ulElem.appendChild(field);
         }
-        
+
         ArrayList<HashMap<String, Object>> passedGrades = (ArrayList<HashMap<String, Object>>) data.get("passedCoursesGrades");
         Element table = reportDoc.getElementsByTag("table").last();
         for (HashMap<String, Object> entry : passedGrades) {
@@ -134,10 +136,6 @@ public class HtmlRenderer {
                 row.appendChild(cell);
             }
             table.appendChild(row);
-            // table.append("<tr>\n" +
-            //         "            <th>" + entry.get("code") + "</th>\n" +
-            //         "            <th>" + entry.get("grade") + "</th> \n" +
-            //         "        </tr>");
         }
         return reportDoc.html();
     }
@@ -166,7 +164,7 @@ public class HtmlRenderer {
         //      "addLink": Add Link
         //      "removeLink": Remove Link
         // }
-        // 
+        //
 
         Document reportDoc;
         try {
@@ -175,7 +173,7 @@ public class HtmlRenderer {
             return "";
         }
         Element bodyElem = reportDoc.getElementsByTag("body").last();
-        
+
         Element ulElem = new Element(Tag.valueOf("ul"), "");
         HashMap<String, Object> classTimeData = (HashMap<String, Object>) data.get("classTime");
         String[] courseValues = {
@@ -202,7 +200,7 @@ public class HtmlRenderer {
         studentIdInputElem.attr("name", "studentId");
         studentIdInputElem.attr("type", "text");
         studentIdInputElem.attr("value", "");
-        
+
         Element submitElem = new Element(Tag.valueOf("button"), "");
         submitElem.attr("type", "submit");
         submitElem.text("Add");
@@ -210,7 +208,7 @@ public class HtmlRenderer {
         form.append("<label>Student ID:</label>");
         form.appendChild(studentIdInputElem);
         form.appendChild(submitElem);
-        
+
         bodyElem.appendChild(ulElem);
         bodyElem.appendChild(form);
 
@@ -231,7 +229,7 @@ public class HtmlRenderer {
         //      "passedCoursesGrades": ArrayList<HashMap<String, Object>>
         //      "profileLink": Profile Link
         // }
-        
+
         Document reportDoc;
         try {
             reportDoc = Jsoup.parse(new File(Constants.PAGE_CHANGE_PLAN_PATH), "UTF-8");
@@ -257,7 +255,7 @@ public class HtmlRenderer {
             }
 
             Element formCell = new Element(Tag.valueOf("td"), "");
-            
+
             Element form = new Element(Tag.valueOf("form"), "");
             form.attr("action", (String) entry.get("removeLink"));
             form.attr("method", "post");
@@ -274,7 +272,7 @@ public class HtmlRenderer {
 
             form.appendChild(studentIdInputElem);
             form.appendChild(submit);
-            
+
             formCell.appendChild(form);
 
             row.appendChild(formCell);
@@ -304,7 +302,7 @@ public class HtmlRenderer {
             String name = (String) entry.get("name");
             ArrayList<String> days = (ArrayList<String>) classTimeData.get("days");
             String time = (String) classTimeData.get("time");
-            
+
             for (String weekDay : weekDays) {
                 if (days.contains(weekDay)) {
                     Element dayElem = table.getElementById(weekDay);
@@ -312,11 +310,10 @@ public class HtmlRenderer {
                     cell.text(name);
                 }
             }
-            
         }
         return reportDoc.html();
     }
-    
+
     public static String renderSubmitPage(HashMap<String, Object> data) {
 
         // data format: {
@@ -333,7 +330,7 @@ public class HtmlRenderer {
         // 
         //      "submitLink": Submit Link
         // }
-        // 
+        //
 
         Document reportDoc;
         try {
@@ -370,13 +367,7 @@ public class HtmlRenderer {
         form.appendChild(submit);
 
         ulElem.appendChild(form);
-        
-        // ulElem.append("  <li id=\"code\">Student Id: " + data.get("id") + "</li>\n" +
-        //         "        <li id=\"units\">Total Units: " + data.get("numberChosenUnits") + "</li>\n" +
-        //         "        <form action=\"/submit\" method=\"post\" >\n" +
-        //         "            <input id=\"stdId\" type=\"hidden\" name=\"std_id\" value=\"" + data.get("id") + "\">\n" +
-        //         "            <button type=\"submit\">submit</button>\n" +
-        //         "        </form>\n");
+
         return reportDoc.html();
     }
 
@@ -385,7 +376,6 @@ public class HtmlRenderer {
         try {
             reportDoc = Jsoup.parse(new File(Constants.PAGE_SUBMIT_OK_PATH), "UTF-8");
         } catch (IOException e) {
-            System.out.println("Salama!!!!!!!!!!!!!!");
             return "";
         }
         return reportDoc.html();

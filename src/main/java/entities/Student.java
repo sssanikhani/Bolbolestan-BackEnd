@@ -1,9 +1,16 @@
+package entities;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+
+import logic.DataBase;
+import logic.Server;
+import statics.Exceptions;
+import utils.Utils;
 
 public class Student {
     private String id;

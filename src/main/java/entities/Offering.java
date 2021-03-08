@@ -1,6 +1,11 @@
+package entities;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import logic.Server;
+import statics.Exceptions;
 
 public class Offering {
     private String code;

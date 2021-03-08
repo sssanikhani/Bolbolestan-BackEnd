@@ -1,3 +1,5 @@
+package utils;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,9 +11,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import entities.Offering;
+import logic.DataBase;
+import logic.Server;
+import statics.Exceptions;
+
 public class Utils {
 
-    static LocalTime convertToLocalTime(String time) {
+    public static LocalTime convertToLocalTime(String time) {
         LocalTime response;
         String timeStr = time;
         if (!timeStr.contains(":")) {
