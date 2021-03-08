@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,7 +45,7 @@ public class HtmlRenderer {
 
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/courses.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_COURSES_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -98,7 +100,7 @@ public class HtmlRenderer {
         // }
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/profile.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_PROFILE_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -168,7 +170,7 @@ public class HtmlRenderer {
 
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/course.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_SINGLE_COURSE_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -232,7 +234,7 @@ public class HtmlRenderer {
         
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/change_plan.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_CHANGE_PLAN_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -290,7 +292,7 @@ public class HtmlRenderer {
 
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/plan.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_PLAN_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -335,7 +337,7 @@ public class HtmlRenderer {
 
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_SUBMIT_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -381,8 +383,9 @@ public class HtmlRenderer {
     public static String renderOkSubmitPage() {
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_SUBMIT_OK_PATH), "UTF-8");
         } catch (IOException e) {
+            System.out.println("Salama!!!!!!!!!!!!!!");
             return "";
         }
         return reportDoc.html();
@@ -391,7 +394,7 @@ public class HtmlRenderer {
     public static String renderFailSubmitPage() {
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_failed.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_SUBMIT_FAILED_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -401,7 +404,7 @@ public class HtmlRenderer {
     public static String renderNotFoundPage() {
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/404.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_NOT_FOUND_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
@@ -411,7 +414,7 @@ public class HtmlRenderer {
     public static String renderPage(HashMap<String, Object> data) {
         Document reportDoc;
         try {
-            reportDoc = Jsoup.parse(new File("src/main/resources/templates/blank.html"), "UTF-8");
+            reportDoc = Jsoup.parse(new File(Constants.PAGE_BLANK_PATH), "UTF-8");
         } catch (IOException e) {
             return "";
         }
