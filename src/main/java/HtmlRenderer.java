@@ -428,14 +428,4 @@ public class HtmlRenderer {
         return reportDoc.html();
     }
 
-    public static void main(String args[]) throws InterruptedException {
-        Javalin app = Javalin.create().start(7000);
-//        ArrayList<Offering> l = DataBase.OfferingManager.getAllFromWebServer();
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        for (Offering str : l) {
-//            hashMap.put(str.getCode(), str);
-//        }
-//        System.out.println(renderCoursesPage(hashMap));
-//        app.get("/courses", ctx -> ctx.html(renderCoursesPage(hashMap)));
-    }
 }
