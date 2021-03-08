@@ -9,8 +9,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class Utils {
 
     static LocalTime convertToLocalTime(String time) {
@@ -52,7 +50,6 @@ public class Utils {
 
         String body = "";
         if (requestBody != null) {
-//            ObjectMapper mapper = new ObjectMapper();
             body = requestBody;
         }
 
@@ -65,10 +62,10 @@ public class Utils {
             request = builder.GET().build();
             break;
         case "POST":
-            request = builder.POST(BodyPublishers.ofString(body)).header("Content-Type", "application/json").build();
+            request = builder.POST(BodyPublishers.ofString(body)).build();
             break;
         case "PUT":
-            request = builder.PUT(BodyPublishers.ofString(body)).header("Content-Type", "application/json").build();
+            request = builder.PUT(BodyPublishers.ofString(body)).build();
             break;
         case "DELETE":
             request = builder.DELETE().build();
@@ -79,10 +76,15 @@ public class Utils {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         String resBody = response.body();
+        String redirectURL = response.headers().firstValue("location").toString();
         int resStatus = response.statusCode();
 
         HashMap<String, Object> res = new HashMap<String, Object>();
         res.put("status", resStatus);
+        if (redirectURL != null)
+            res.put("location", redirectURL);
+        else
+            res.put("location", "");
         res.put("data", resBody);
 
         return res;
