@@ -27,7 +27,7 @@ public class Utils {
     }
 
     public static HashMap<String, Object> sendRequest(String method, String url, HashMap<String, String> params,
-            HashMap<String, Object> requestBody) throws IOException, InterruptedException {
+            String requestBody) throws IOException, InterruptedException {
 
         // An util to send request with "method", "params", "requestBody" to specified
         // "url"
@@ -52,8 +52,8 @@ public class Utils {
 
         String body = "";
         if (requestBody != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            body = mapper.writeValueAsString(requestBody);
+//            ObjectMapper mapper = new ObjectMapper();
+            body = requestBody;
         }
 
         HttpClient client = HttpClient.newHttpClient();
