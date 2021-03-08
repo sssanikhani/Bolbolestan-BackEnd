@@ -281,6 +281,7 @@ public class Handlers {
         HashMap<String, Object> response;
 
         String studentId = ctx.formParam("studentId");
+
         Student student;
         try {
             student = DataBase.StudentManager.get(studentId);
@@ -294,7 +295,7 @@ public class Handlers {
 
         int numUnits = student.getNumberChosenUnits();
         if (numUnits < Constants.MIN_ALLOWED_UNITS || numUnits > Constants.MAX_ALLOWED_UNITS) {
-            ctx.html(HtmlRenderer.renderFailSubmitPage());
+            ctx.redirect(Server.SUBMIT_FAILED_URL);
             return;
         }
 
@@ -312,8 +313,7 @@ public class Handlers {
         }
 
         student.finalizeOfferings();
-        ctx.html(HtmlRenderer.renderOkSubmitPage());
-
+        ctx.redirect(Server.SUBMIT_OK_URL);
     }
 
 }
