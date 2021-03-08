@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Plan</title>
+  <style>
+        table{
+            width: 100%;
+            text-align: center;
+
+        }
+        table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+ </head>
+ <body>
+  <table>
+   <tbody>
+    <tr>
+     <th></th>
+     <th>7:30-9:00</th>
+     <th>9:00-10:30</th>
+     <th>10:30-12:00</th>
+     <th>14:00-15:30</th>
+     <th>16:00-17:30</th>
+    </tr>
+    <tr id="Saturday">
+     <td>Saturday</td>
+     <td id="7:30-9:00"></td>
+     <td id="9:00-10:30">Engineering Probability and Statistics</td>
+     <td id="10:30-12:00"></td>
+     <td id="14:00-15:30">Calculus 1</td>
+     <td id="16:00-17:30"></td>
+    </tr>
+    <tr id="Sunday">
+     <td>Sunday</td>
+     <td id="7:30-9:00">Data Structures</td>
+     <td id="9:00-10:30">Logic Circuits</td>
+     <td id="10:30-12:00">Object Oriented Systems Design</td>
+     <td id="14:00-15:30"></td>
+     <td id="16:00-17:30"></td>
+    </tr>
+    <tr id="Monday">
+     <td>Monday</td>
+     <td id="7:30-9:00"></td>
+     <td id="9:00-10:30">Engineering Probability and Statistics</td>
+     <td id="10:30-12:00"></td>
+     <td id="14:00-15:30">Calculus 1</td>
+     <td id="16:00-17:30"></td>
+    </tr>
+    <tr id="Tuesday">
+     <td>Tuesday</td>
+     <td id="7:30-9:00">Data Structures</td>
+     <td id="9:00-10:30">Logic Circuits</td>
+     <td id="10:30-12:00">Object Oriented Systems Design</td>
+     <td id="14:00-15:30"></td>
+     <td id="16:00-17:30"></td>
+    </tr>
+    <tr id="Wednesday">
+     <td>Wednesday</td>
+     <td id="7:30-9:00"></td>
+     <td id="9:00-10:30"></td>
+     <td id="10:30-12:00"></td>
+     <td id="14:00-15:30"></td>
+     <td id="16:00-17:30"></td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>
