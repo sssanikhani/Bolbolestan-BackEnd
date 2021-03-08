@@ -61,10 +61,13 @@ public class serverTest {
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
             Utils.sendRequest("POST", url, null, "studentId=810195115");
         }
-        HashMap<String, Object> response =  Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810195115");
+        HashMap<String, Object> response =
+                Utils.sendRequest("POST", "http://localhost:7000/submitPlan",
+                                    null, "studentId=810195115");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data")));
-
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("body").text().equals(reportDoc.select("body").text()));
     }
 
     @Test
@@ -76,13 +79,17 @@ public class serverTest {
             String line = scanner.nextLine();
             HashMap<String, String> params = mapper.readValue(line, HashMap.class);
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
-            Utils.sendRequest("POST", url, null, "studentId=810195115");
+            Utils.sendRequest("POST", url,
+                                null, "studentId=810195115");
         }
         String url = "http://localhost:7000/removeCourse/8101014/01";
         Utils.sendRequest("POST", url, null, "studentId=810195115");
-        HashMap<String, Object> response =  Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810195115");
+        HashMap<String, Object> response =
+                Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810195115");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data")));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("body").text().equals(reportDoc.select("body").text()));
     }
 
     @Test
@@ -94,13 +101,18 @@ public class serverTest {
             String line = scanner.nextLine();
             HashMap<String, String> params = mapper.readValue(line, HashMap.class);
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
-            Utils.sendRequest("POST", url, null, "studentId=810197220");
+            Utils.sendRequest("POST", url,
+                                null, "studentId=810197220");
         }
         HashMap<String, Object> response =
-                Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810197220");
+                Utils.sendRequest("POST", "http://localhost:7000/submitPlan",
+                                    null, "studentId=810197220");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_failed.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("body").text().equals(reportDoc.select("body").text()));
     }
+
     @Test
     public void Test4() throws IOException, InterruptedException {
         //failed with 22 units
@@ -110,12 +122,16 @@ public class serverTest {
             String line = scanner.nextLine();
             HashMap<String, String> params = mapper.readValue(line, HashMap.class);
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
-            Utils.sendRequest("POST", url, null, "studentId=810197227");
+            Utils.sendRequest("POST", url,
+                                    null, "studentId=810197227");
         }
         HashMap<String, Object> response =
-                Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810197227");
+                Utils.sendRequest("POST", "http://localhost:7000/submitPlan",
+                                    null, "studentId=810197227");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_failed.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("body").text().equals(reportDoc.select("body").text()));
     }
 
     @Test
@@ -127,12 +143,16 @@ public class serverTest {
             String line = scanner.nextLine();
             HashMap<String, String> params = mapper.readValue(line, HashMap.class);
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
-            Utils.sendRequest("POST", url, null, "studentId=810197227");
+            Utils.sendRequest("POST", url,
+                                null, "studentId=810197227");
         }
         HashMap<String, Object> response =
-                Utils.sendRequest("POST", "http://localhost:7000/submitPlan", null, "studentId=810197227");
+                Utils.sendRequest("POST", "http://localhost:7000/submitPlan",
+                                    null, "studentId=810197227");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/submit_ok.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("body").text().equals(reportDoc.select("body").text()));
     }
 
     @Test
@@ -140,9 +160,13 @@ public class serverTest {
         //failed 404 course not found
         String url = "http://localhost:7000/addCourse/8101152/01";
         HashMap<String, Object> response =
-                Utils.sendRequest("POST", url, null, "studentId=810197227");
+                Utils.sendRequest("POST", url,
+                                    null, "studentId=810197227");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/404.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("h1").text().equals(reportDoc.select("h1").text()));
+        assertTrue(res.select("br").text().equals(reportDoc.select("br").text()));
     }
 
     @Test
@@ -150,27 +174,78 @@ public class serverTest {
         //failed 404 student not found
         String url = "http://localhost:7000/addCourse/8101152/01";
         HashMap<String, Object> response =
-                Utils.sendRequest("POST", url, null, "studentId=815367227");
+                Utils.sendRequest("POST", url,
+                                        null, "studentId=815367227");
         Document reportDoc = Jsoup.parse(new File("src/main/resources/templates/404.html"), "UTF-8");
-        assertTrue(reportDoc.html().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.select("h1").text().equals(reportDoc.select("h1").text()));
+        assertTrue(res.select("br").text().equals(reportDoc.select("br").text()));
     }
 
     @Test
     public void Test8() throws IOException, InterruptedException {
+        //test plan
         Scanner scanner = new Scanner(new File("src/test/resources/serverTest/test8.txt"));
         ObjectMapper mapper = new ObjectMapper();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             HashMap<String, String> params = mapper.readValue(line, HashMap.class);
             String url = "http://localhost:7000/addCourse/" + params.get("code") + "/" + params.get("classCode");
-            Utils.sendRequest("POST", url, null, "studentId=810195115");
+            Utils.sendRequest("POST", url,
+                                null, "studentId=810195115");
         }
         HashMap<String, Object> response =
-                Utils.sendRequest("GET", "http://localhost:7000/plan/810195115", null, null);
+                Utils.sendRequest("GET", "http://localhost:7000/plan/810195115",
+                                    null, null);
         Document reportDoc = Jsoup.parse(new File("src/test/resources/serverTest/test8R.html"), "UTF-8");
-        System.out.println(response.get("data"));
-        System.out.println("---------------");
-        System.out.println(reportDoc.html());
-        System.out.println( reportDoc.toString().equals(response.get("data").toString()));
+        Document res = Jsoup.parse((String) response.get("data"));
+
+        assertTrue(res.select("title").text().equals(reportDoc.select("title").text()));
+        assertTrue(res.getElementById("Saturday").getElementById("9:00-10:30").text().
+                        equals(reportDoc.getElementById("Saturday").getElementById("9:00-10:30").text()));
+        assertTrue(res.getElementById("Saturday").getElementById("14:00-15:30").text().
+                equals(reportDoc.getElementById("Saturday").getElementById("14:00-15:30").text()));
+
+        assertTrue(res.getElementById("Sunday").getElementById("7:30-9:00").text().
+                equals(reportDoc.getElementById("Sunday").getElementById("7:30-9:00").text()));
+        assertTrue(res.getElementById("Sunday").getElementById("9:00-10:30").text().
+                equals(reportDoc.getElementById("Sunday").getElementById("9:00-10:30").text()));
+        assertTrue(res.getElementById("Sunday").getElementById("10:30-12:00").text().
+                equals(reportDoc.getElementById("Sunday").getElementById("10:30-12:00").text()));
+
+        assertTrue(res.getElementById("Monday").getElementById("9:00-10:30").text().
+                equals(reportDoc.getElementById("Monday").getElementById("9:00-10:30").text()));
+        assertTrue(res.getElementById("Monday").getElementById("14:00-15:30").text().
+                equals(reportDoc.getElementById("Monday").getElementById("14:00-15:30").text()));
+
+        assertTrue(res.getElementById("Tuesday").getElementById("7:30-9:00").text().
+                equals(reportDoc.getElementById("Tuesday").getElementById("7:30-9:00").text()));
+        assertTrue(res.getElementById("Tuesday").getElementById("9:00-10:30").text().
+                equals(reportDoc.getElementById("Tuesday").getElementById("9:00-10:30").text()));
+        assertTrue(res.getElementById("Tuesday").getElementById("10:30-12:00").text().
+                equals(reportDoc.getElementById("Tuesday").getElementById("10:30-12:00").text()));
+
+    }
+
+    @Test
+    public void Test9() throws IOException, InterruptedException {
+        //prerequisites are not passed
+        HashMap<String, Object> response =
+                Utils.sendRequest("POST", "http://localhost:7000/addCourse/8101015/01",
+                                    null, "studentId=810197227");
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("body").text().equals("403 class can not be added because prerequisites are not passed"));
+    }
+
+    @Test
+    public void Test10() throws IOException, InterruptedException {
+        //class time collision
+        Utils.sendRequest("POST", "http://localhost:7000/addCourse/8101015/01",
+                            null, "studentId=810195115");
+        HashMap<String, Object> response =
+                Utils.sendRequest("POST", "http://localhost:7000/addCourse/8101008/01", null, "studentId=810195115");
+        Document res = Jsoup.parse((String) response.get("data"));
+        assertTrue(res.select("body").text().equals("403 class can not be added because of class time collision"));
     }
 }
