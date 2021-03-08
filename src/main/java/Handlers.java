@@ -312,7 +312,6 @@ public class Handlers {
         }
 
         student.finalizeOfferings();
-        System.out.println(HtmlRenderer.renderOkSubmitPage());
         ctx.html(HtmlRenderer.renderOkSubmitPage());
 
     }
