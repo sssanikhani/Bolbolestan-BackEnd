@@ -8,82 +8,79 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import utils.Utils;
 
 public class OfferingClassTime {
-    private ArrayList<String> days;
-    @JsonIgnore
-    private LocalTime startTime;
-    @JsonIgnore
-    private LocalTime endTime;
-    private String time;
 
-    public OfferingClassTime() {
-    }
+	private ArrayList<String> days;
 
-    public ArrayList<String> getDays() {
-        return days;
-    }
+	@JsonIgnore
+	private LocalTime startTime;
 
-    public void setDays(ArrayList<String> days) {
-        this.days = days;
-    }
+	@JsonIgnore
+	private LocalTime endTime;
 
-    public String getTime() {
-        return time;
-    }
+	private String time;
 
-    public void setTime(String time) {
-        this.time = time;
-        String[] timePart = time.split("-");
-        String s = timePart[0];
-        String e = timePart[1];
-        this.startTime = Utils.convertToLocalTime(s);
-        this.endTime = Utils.convertToLocalTime(e);
-    }
+	public OfferingClassTime() {}
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
+	public ArrayList<String> getDays() {
+		return days;
+	}
 
-    public LocalTime getEndTime() {
-        return endTime;
-    }
+	public void setDays(ArrayList<String> days) {
+		this.days = days;
+	}
 
-    public boolean hasTimeCollision(OfferingClassTime t) {
-        LocalTime s1 = this.startTime;
-        LocalTime s2 = t.getStartTime();
-        LocalTime e1 = this.endTime;
-        LocalTime e2 = t.getEndTime();
+	public String getTime() {
+		return time;
+	}
 
-        // (S1, _________E1)
-        // _____(S2, E2)
-        if (s1.compareTo(s2) <= 0 && e1.compareTo(e2) >= 0)
-            return true;
+	public void setTime(String time) {
+		this.time = time;
+		String[] timePart = time.split("-");
+		String s = timePart[0];
+		String e = timePart[1];
+		this.startTime = Utils.convertToLocalTime(s);
+		this.endTime = Utils.convertToLocalTime(e);
+	}
 
-        // _____(S1, E1)
-        // (S2, _________E2)
-        if (s1.compareTo(s2) >= 0 && e1.compareTo(e2) <= 0)
-            return true;
+	public LocalTime getStartTime() {
+		return startTime;
+	}
 
-        // (S1, E1)
-        // ____(S2, E2)
-        if (s1.compareTo(s2) < 0 && e1.compareTo(s2) > 0)
-            return true;
+	public LocalTime getEndTime() {
+		return endTime;
+	}
 
-        // ____(S1, E1)
-        // (S2, E2)
-        if (s1.compareTo(s2) > 0 && s1.compareTo(e2) < 0)
-            return true;
+	public boolean hasTimeCollision(OfferingClassTime t) {
+		LocalTime s1 = this.startTime;
+		LocalTime s2 = t.getStartTime();
+		LocalTime e1 = this.endTime;
+		LocalTime e2 = t.getEndTime();
 
-        return false;
-    }
+		// (S1, _________E1)
+		// _____(S2, E2)
+		if (s1.compareTo(s2) <= 0 && e1.compareTo(e2) >= 0) return true;
 
-    public boolean hasCollision(OfferingClassTime t) {
-        for (String d1 : days) {
-            for (String d2 : t.getDays()) {
-                if (d1.equals(d2))
-                    if (this.hasTimeCollision(t))
-                        return true;
-            }
-        }
-        return false;
-    }
+		// _____(S1, E1)
+		// (S2, _________E2)
+		if (s1.compareTo(s2) >= 0 && e1.compareTo(e2) <= 0) return true;
+
+		// (S1, E1)
+		// ____(S2, E2)
+		if (s1.compareTo(s2) < 0 && e1.compareTo(s2) > 0) return true;
+
+		// ____(S1, E1)
+		// (S2, E2)
+		if (s1.compareTo(s2) > 0 && s1.compareTo(e2) < 0) return true;
+
+		return false;
+	}
+
+	public boolean hasCollision(OfferingClassTime t) {
+		for (String d1 : days) {
+			for (String d2 : t.getDays()) {
+				if (d1.equals(d2)) if (this.hasTimeCollision(t)) return true;
+			}
+		}
+		return false;
+	}
 }
