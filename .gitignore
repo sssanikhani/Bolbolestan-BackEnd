@@ -16,3 +16,9 @@ target/
 
 # Prettier Configuration File
 .prettierrc
+
+# Build Server Configuraiton Files
+/logs/
+/conf/
+/webapps/
+/work/
