@@ -1,7 +1,0 @@
-{"code": "8101004", "classCode" : "01"}
-{"code": "8101009", "classCode" : "01"}
-{"code": "8101012", "classCode" : "01"}
-{"code": "8101014", "classCode" : "01"}
-{"code": "8101027", "classCode" : "01"}
-{"code": "8101030", "classCode" : "01"}
-{"code": "8101032", "classCode" : "01"}
