@@ -1,9 +1,5 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.io.File" %>
-<%@ page import="org.jsoup.nodes.Document" %>
-<%@ page import="org.jsoup.nodes.Element" %>
-<%@ page import="org.jsoup.Jsoup" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>

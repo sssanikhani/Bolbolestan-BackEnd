@@ -1,6 +1,5 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="models.Offering" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
