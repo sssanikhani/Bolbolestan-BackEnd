@@ -21,7 +21,7 @@ public class Courses extends HttpServlet {
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/courses.jsp");
             HashMap<String, Object> student = Handlers.getStudentData(DataBase.getLoggedInUserId());
-            HashMap<String, Object> courses = Handlers.getInstance().search(DataBase.getLastSearchFilter());
+            HashMap<String, Object> courses = Handlers.search(DataBase.getLastSearchFilter());
             request.setAttribute("courses", courses.get("courses"));
             request.setAttribute("searchBox", DataBase.getLastSearchFilter());
             request.setAttribute("student", student);
@@ -59,7 +59,7 @@ public class Courses extends HttpServlet {
                 }
                 break;
             case "reset":
-                result = Handlers.getInstance().reset(studentId);
+                result = Handlers.reset(studentId);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/courses");
                 } else {
