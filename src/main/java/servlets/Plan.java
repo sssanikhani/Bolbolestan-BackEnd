@@ -3,14 +3,12 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import models.logic.DataBase;
 import models.logic.Handlers;
 
@@ -30,7 +28,35 @@ public class Plan extends HttpServlet {
 			ArrayList<HashMap<String, Object>> submittedOfferings = (ArrayList<HashMap<String, Object>>) student.get(
 				"lastPlan"
 			);
-			request.setAttribute("courses", submittedOfferings);
+
+			HashMap<String, Object> plan = new HashMap<>();
+			String[] weekDays = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday" };
+			String[] times = {
+				"7:30-9:00",
+				"9:00-10:30",
+				"10:30-12:00",
+				"14:00-15:30",
+				"16:00-17:30",
+			};
+			for (String day : weekDays) {
+				plan.put(day, new HashMap<String, String>());
+				HashMap<String, String> dayMap = (HashMap<String, String>) plan.get(day);
+				for (String time : times) {
+					dayMap.put(time, null);
+				}
+			}
+			
+			for (HashMap<String, Object> c : submittedOfferings) {
+				HashMap<String, Object> classTime = (HashMap<String, Object>) c.get("classTime");
+				ArrayList<String> days = (ArrayList<String>) classTime.get("days");
+				String time = (String) classTime.get("time");
+				for (String d : days) {
+					HashMap<String, String> dayMap = (HashMap<String, String>) plan.get(d);
+					dayMap.put(time, (String) c.get("name"));
+				}
+			}
+			
+			request.setAttribute("plan", plan);
 			request.setAttribute("student", student);
 			requestDispatcher.forward(request, response);
 		}
