@@ -49,7 +49,7 @@ public class Plan extends HttpServlet {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/plan.jsp");
-            HashMap<String, Object> student = Handlers.getInstance().getStudentData(DataBase.getLoggedInUserId());
+            HashMap<String, Object> student = Handlers.getStudentData(DataBase.getLoggedInUserId());
             ArrayList<HashMap<String, Object>> selectedCourses =
                     (ArrayList<HashMap<String, Object>>) student.get("lastPlan");
             request.setAttribute("planBody", createBody(selectedCourses));

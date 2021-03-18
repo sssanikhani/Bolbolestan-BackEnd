@@ -80,7 +80,7 @@ public class Handlers {
 		return response;
 	}
 
-	public HashMap<String, Object> getStudentData(String studentId) {
+	public static HashMap<String, Object> getStudentData(String studentId) {
 		HashMap<String, Object> response;
 
 		Student student = new Student();

@@ -20,7 +20,7 @@ public class Courses extends HttpServlet {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/courses.jsp");
-            HashMap<String, Object> student = Handlers.getInstance().getStudentData(DataBase.getLoggedInUserId());
+            HashMap<String, Object> student = Handlers.getStudentData(DataBase.getLoggedInUserId());
             HashMap<String, Object> courses = Handlers.getInstance().search(DataBase.getLastSearchFilter());
             request.setAttribute("courses", courses.get("courses"));
             request.setAttribute("searchBox", DataBase.getLastSearchFilter());
