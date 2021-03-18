@@ -20,11 +20,11 @@ public class Login extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String stdId = request.getParameter("stdId");
-        if (stdId.equals("")) {
+        String studentId = request.getParameter("studentId");
+        if (studentId.equals("")) {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-            Handlers.getInstance().setLoginUserId(stdId);
+            Handlers.getInstance().setLoginUserId(studentId);
             response.sendRedirect(request.getContextPath() + "/");
         }
     }

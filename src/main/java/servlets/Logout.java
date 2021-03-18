@@ -14,7 +14,7 @@ public class Logout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO erase std form dataBase
-        // String stdId = (String) request.getAttribute("stdId");
+        // String studentId = (String) request.getAttribute("studentId");
         // call remove function
         Handlers.getInstance().setLoginUserId(null);
         response.sendRedirect(request.getContextPath() + "/login");

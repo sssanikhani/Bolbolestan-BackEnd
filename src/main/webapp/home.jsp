@@ -6,7 +6,7 @@
 </head>
 <body>
     <ul>
-        <% String id = (String) request.getAttribute("stdId");%>
+        <% String id = (String) request.getAttribute("studentId");%>
         <li id="std_id">Student Id: <%= id%> </li>
         <li>
             <a href="courses">Select Courses</a>

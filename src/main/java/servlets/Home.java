@@ -19,7 +19,7 @@ public class Home extends HttpServlet {
         if (Handlers.getInstance().getLoginUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
-            request.setAttribute("stdId", Handlers.getInstance().getLoginUserId());
+            request.setAttribute("studentId", Handlers.getInstance().getLoginUserId());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/home.jsp");
             requestDispatcher.forward(request, response);
         }

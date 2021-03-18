@@ -71,15 +71,15 @@ public class Offering {
         this.registeredStudents.put(s.getId(), s);
     }
 
-    public void removeStudent(String stdId) throws Exceptions.StudentNotFound {
-        Student s = this.registeredStudents.get(stdId);
+    public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
+        Student s = this.registeredStudents.get(studentId);
         if (s == null)
             throw new Exceptions.StudentNotFound();
-        this.registeredStudents.remove(stdId);
+        this.registeredStudents.remove(studentId);
     }
 
-    public boolean existStudent(String stdId) {
-        Student s = this.registeredStudents.get(stdId);
+    public boolean existStudent(String studentId) {
+        Student s = this.registeredStudents.get(studentId);
         return s != null;
     }
 

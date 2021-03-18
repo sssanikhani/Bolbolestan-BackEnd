@@ -31,14 +31,14 @@ public class Courses extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action =  request.getParameter("action");
-        String stdId = Handlers.getInstance().getLoginUserId();
+        String studentId = Handlers.getInstance().getLoginUserId();
         RequestDispatcher requestDispatcher;
         HashMap<String, Object> result;
         switch (action) {
             case "remove":
                 String code_ = request.getParameter("code");
                 String classCode_ = request.getParameter("classCode");
-                result = Handlers.removeCourse(stdId, code_, classCode_);
+                result = Handlers.removeCourse(studentId, code_, classCode_);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/courses");
                 } else {
@@ -48,7 +48,7 @@ public class Courses extends HttpServlet {
                 }
                 break;
             case "submit":
-                result = Handlers.submitPlan(stdId);
+                result = Handlers.submitPlan(studentId);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/plan");
                 } else {
@@ -58,7 +58,7 @@ public class Courses extends HttpServlet {
                 }
                 break;
             case "reset":
-                result = Handlers.getInstance().reset(stdId);
+                result = Handlers.getInstance().reset(studentId);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/courses");
                 } else {
@@ -79,7 +79,7 @@ public class Courses extends HttpServlet {
                 String code = request.getParameter("code");
                 String classCode = request.getParameter("classCode");
                 // TODO we need add
-                result = Handlers.addCourse(stdId, code, classCode);
+                result = Handlers.addCourse(studentId, code, classCode);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/courses");
                 } else {

@@ -8,7 +8,7 @@
         <form action="login" method="POST">
             <label>Student ID:</label>
             <label>
-                <input type="text" name="stdId" value="">
+                <input type="text" name="studentId" value="">
             </label>
             <button type="submit">Login</button>
         </form>
