@@ -22,8 +22,8 @@ public class Student {
 	private HashMap<String, Grade> grades;
 
 	public Student() {
-		this.chosenOfferings = new HashMap<String, Offering>();
-		this.grades = new HashMap<String, Grade>();
+		this.chosenOfferings = new HashMap<>();
+		this.grades = new HashMap<>();
 	}
 
 	public String getId() {
@@ -59,31 +59,11 @@ public class Student {
 	}
 
 	public ArrayList<Offering> getChosenOfferings() {
-		return new ArrayList<Offering>(this.chosenOfferings.values());
+		return new ArrayList<>(this.chosenOfferings.values());
 	}
 
 	public ArrayList<Offering> getLastPlan() {
-		return new ArrayList<Offering>(this.lastPlan.values());
-	}
-
-	public List<LinkedHashMap<String, Object>> _getChosenOfferingsData() {
-		List<LinkedHashMap<String, Object>> data = new ArrayList<LinkedHashMap<String, Object>>();
-		for (String code : this.chosenOfferings.keySet()) {
-			Offering o = this.chosenOfferings.get(code);
-			LinkedHashMap<String, Object> oData = new LinkedHashMap<String, Object>();
-
-			oData.put("code", o.getCode());
-			oData.put("name", o.getName());
-			oData.put("instructor", o.getInstructor());
-			oData.put("classTime", o.getClassTime());
-			oData.put("examTime", o.getExamTime());
-			boolean isFinalized = o.existStudent(this.id);
-			String finalized = isFinalized ? "finalized" : "non-finalized";
-			oData.put("status", finalized);
-
-			data.add(oData);
-		}
-		return data;
+		return new ArrayList<>(this.lastPlan.values());
 	}
 
 	public HashMap<String, Grade> _getGrades() {
@@ -123,7 +103,7 @@ public class Student {
 	}
 
 	public ArrayList<Grade> getPassedCoursesGrades() {
-		ArrayList<Grade> passedGrades = new ArrayList<Grade>();
+		ArrayList<Grade> passedGrades = new ArrayList<>();
 		for (Grade g : this.grades.values()) {
 			if (this.hasPassed(g.getCode())) passedGrades.add(g);
 		}
@@ -176,7 +156,7 @@ public class Student {
 	}
 
 	public void validateExamClassTimes()
-		throws ParseException, Exceptions.ExamTimeCollision, Exceptions.ClassTimeCollision {
+		throws Exceptions.ExamTimeCollision, Exceptions.ClassTimeCollision {
 		for (String k1 : this.chosenOfferings.keySet()) {
 			for (String k2 : this.chosenOfferings.keySet()) {
 				if (!k1.equals(k2)) {

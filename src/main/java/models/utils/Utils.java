@@ -46,7 +46,7 @@ public class Utils {
 		// }
 
 		if (params != null) {
-			ArrayList<String> paramsList = new ArrayList<String>();
+			ArrayList<String> paramsList = new ArrayList<>();
 
 			for (String param : params.keySet()) {
 				paramsList.add(param + "=" + params.get(param));
@@ -100,7 +100,7 @@ public class Utils {
 		String resBody = response.body();
 		int resStatus = response.statusCode();
 
-		HashMap<String, Object> res = new HashMap<String, Object>();
+		HashMap<String, Object> res = new HashMap<>();
 		res.put("status", resStatus);
 		res.put("data", resBody);
 

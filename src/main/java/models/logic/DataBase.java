@@ -36,7 +36,7 @@ public class DataBase {
 
 	public static class OfferingManager {
 
-		private static HashMap<String, HashMap<String, Offering>> codeOfferingsMap = new HashMap<String, HashMap<String, Offering>>();
+		private static HashMap<String, HashMap<String, Offering>> codeOfferingsMap = new HashMap<>();
 
 		static String retrieveAllUrl = "http://138.197.181.131:5000/api/courses";
 
@@ -53,23 +53,24 @@ public class DataBase {
 			ObjectMapper mapper = new ObjectMapper();
 			ArrayList<Offering> list = mapper.readValue(
 				data,
-				new TypeReference<ArrayList<Offering>>() {}
+					new TypeReference<>() {
+					}
 			);
 
 			codeOfferingsMap.clear();
 			for (Offering o : list) {
 				String code = o.getCode();
 				String classCode = o.getClassCode();
-				if (codeOfferingsMap.get(code) == null) codeOfferingsMap.put(
-					code,
-					new HashMap<String, Offering>()
+				codeOfferingsMap.computeIfAbsent(
+						code,
+						k -> new HashMap<>()
 				);
 				codeOfferingsMap.get(code).put(classCode, o);
 			}
 		}
 
 		public static ArrayList<Offering> getAll() {
-			ArrayList<Offering> list = new ArrayList<Offering>();
+			ArrayList<Offering> list = new ArrayList<>();
 			for (HashMap<String, Offering> group : codeOfferingsMap.values()) {
 				list.addAll(group.values());
 			}
@@ -80,7 +81,7 @@ public class DataBase {
 			throws Exceptions.offeringNotFound {
 			HashMap<String, Offering> codeMap = codeOfferingsMap.get(code);
 			if (codeMap == null) throw new Exceptions.offeringNotFound();
-			return new ArrayList<Offering>(codeMap.values());
+			return new ArrayList<>(codeMap.values());
 		}
 
 		public static Offering get(String code, String classCode)
@@ -96,7 +97,7 @@ public class DataBase {
 
 	public static class StudentManager {
 
-		private static HashMap<String, Student> students = new HashMap<String, Student>();
+		private static HashMap<String, Student> students = new HashMap<>();
 
 		static String retrieveAllUrl = "http://138.197.181.131:5000/api/students";
 		static String retrieveGradesUrl = "http://138.197.181.131:5000/api/grades";
@@ -114,7 +115,8 @@ public class DataBase {
 			ObjectMapper mapper = new ObjectMapper();
 			ArrayList<Student> list = mapper.readValue(
 				data,
-				new TypeReference<ArrayList<Student>>() {}
+					new TypeReference<>() {
+					}
 			);
 
 			students.clear();
@@ -128,15 +130,13 @@ public class DataBase {
 			}
 		}
 
-		public static ArrayList<Student> getAll() throws IOException, InterruptedException {
-			ArrayList<Student> list = new ArrayList<Student>(students.values());
-			return list;
+		public static ArrayList<Student> getAll() {
+			return new ArrayList<>(students.values());
 		}
 
 		public static boolean exists(String studentId) {
 			Student student = students.get(studentId);
-			if (student == null) return false;
-			return true;
+			return student != null;
 		}
 
 		public static Student get(String studentId) throws Exceptions.StudentNotFound {
@@ -155,12 +155,12 @@ public class DataBase {
 			String data = (String) webRes.get("data");
 
 			ObjectMapper mapper = new ObjectMapper();
-			ArrayList<Grade> list = mapper.readValue(
-				data,
-				new TypeReference<ArrayList<Grade>>() {}
-			);
 
-			return list;
+			return mapper.readValue(
+				data,
+					new TypeReference<>() {
+					}
+			);
 		}
 	}
 }

@@ -21,7 +21,7 @@ public class Offering {
 	private HashMap<String, Student> registeredStudents;
 
 	public Offering() {
-		this.registeredStudents = new HashMap<String, Student>();
+		this.registeredStudents = new HashMap<>();
 	}
 
 	public String getCode() {

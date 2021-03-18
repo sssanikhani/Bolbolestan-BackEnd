@@ -2,27 +2,6 @@ package models.statics;
 
 public class Exceptions extends Throwable {
 
-	public static class UnknownCommand extends Exception {
-
-		public UnknownCommand(String cmd) {
-			super("Unknown Command: '" + cmd + "'");
-		}
-	}
-
-	public static class MinimumUnits extends Exception {
-
-		public MinimumUnits() {
-			super("MinimumUnitsError");
-		}
-	}
-
-	public static class MaximumUnits extends Exception {
-
-		public MaximumUnits() {
-			super("MaximumUnitsError");
-		}
-	}
-
 	public static class ClassTimeCollision extends Exception {
 
 		public ClassTimeCollision(String c1, String c2) {
