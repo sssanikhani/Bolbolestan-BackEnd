@@ -122,15 +122,6 @@ public class Student {
         return true;
     }
 
-    public boolean takePassedCourse(String _code) {
-        for (String key: this.grades.keySet()) {
-            if(key.equals(_code) & (this.grades.get(key)).getGrade() >= 10) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public ArrayList<Grade> getPassedCoursesGrades() {
         ArrayList<Grade> passedGrades = new ArrayList<Grade>();
         for (Grade g : this.grades.values()) {

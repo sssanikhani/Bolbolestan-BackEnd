@@ -152,7 +152,6 @@ public class Handlers {
 		} catch (Exceptions.offeringNotFound e) {
 			response = Responses.OfferingNotFound;
 			return response;
-			// TODO
 		}
 
 		Student student = null;
@@ -175,11 +174,10 @@ public class Handlers {
 			return response;
 		}
 
-		// TODO passed Course
-		//        if(student.takePassedCourse(offering.getCode())) {
-		//            response = statics.Responses.TakePassedCourse;
-		//            return response;
-		//        }
+		if(student.hasPassed(offering.getCode())) {
+			response = Responses.CoursePassedBefore;
+			return response;
+		}
 
 		ArrayList<Offering> chosenOfferings = student.getChosenOfferings();
 		for (Offering o : chosenOfferings) {
