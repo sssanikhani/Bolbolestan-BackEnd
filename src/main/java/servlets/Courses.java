@@ -79,7 +79,6 @@ public class Courses extends HttpServlet {
             case "add":
                 String code = request.getParameter("code");
                 String classCode = request.getParameter("classCode");
-                // TODO we need add
                 result = Handlers.addCourse(studentId, code, classCode);
                 if(result == null) {
                     response.sendRedirect(request.getContextPath() + "/courses");
@@ -97,7 +96,5 @@ public class Courses extends HttpServlet {
                 requestDispatcher.forward(request, response);
 
         }
-        //TODO get action parameter form page and choose a routine
-        // to do from models package { remove, submit, reset, search, clear, add}
     }
 }
