@@ -1,5 +1,6 @@
 package servlets;
 
+import models.logic.DataBase;
 import models.logic.Handlers;
 
 import javax.servlet.RequestDispatcher;
@@ -15,15 +16,15 @@ import java.util.HashMap;
 public class Courses extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (Handlers.getInstance().getLoginUserId() == null) {
+        if (DataBase.getLoggedInUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/courses.jsp");
-            HashMap<String, Object> student = Handlers.getInstance().selectStd(Handlers.getInstance().getLoginUserId());
-            HashMap<String, Object> courses = Handlers.getInstance().search(Handlers.getInstance().getLastSearchFilter());
+            HashMap<String, Object> student = Handlers.getInstance().getStudentData(DataBase.getLoggedInUserId());
+            HashMap<String, Object> courses = Handlers.getInstance().search(DataBase.getLastSearchFilter());
             request.setAttribute("courses", courses.get("courses"));
-            request.setAttribute("searchBox", Handlers.getInstance().getLastSearchFilter());
-            request.setAttribute("std", student.get("student"));
+            request.setAttribute("searchBox", DataBase.getLastSearchFilter());
+            request.setAttribute("student", student.get("student"));
             requestDispatcher.forward(request, response);
         }
     }
@@ -31,7 +32,7 @@ public class Courses extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action =  request.getParameter("action");
-        String studentId = Handlers.getInstance().getLoginUserId();
+        String studentId = DataBase.getLoggedInUserId();
         RequestDispatcher requestDispatcher;
         HashMap<String, Object> result;
         switch (action) {

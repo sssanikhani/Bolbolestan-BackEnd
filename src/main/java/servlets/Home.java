@@ -1,5 +1,6 @@
 package servlets;
 
+import models.logic.DataBase;
 import models.logic.Handlers;
 
 import javax.servlet.RequestDispatcher;
@@ -16,10 +17,10 @@ public class Home extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (Handlers.getInstance().getLoginUserId() == null) {
+        if (DataBase.getLoggedInUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
-            request.setAttribute("studentId", Handlers.getInstance().getLoginUserId());
+            request.setAttribute("studentId", DataBase.getLoggedInUserId());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/home.jsp");
             requestDispatcher.forward(request, response);
         }

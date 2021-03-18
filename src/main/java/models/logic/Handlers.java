@@ -11,25 +11,6 @@ import models.statics.Responses;
 
 public class Handlers {
 
-	String loginUserId;
-	String lastSearchFilter = "";
-
-	public String getLastSearchFilter() {
-		return lastSearchFilter;
-	}
-
-	public void setLastSearchFilter(String lastSearchFilter) {
-		this.lastSearchFilter = lastSearchFilter;
-	}
-
-	public String getLoginUserId() {
-		return loginUserId;
-	}
-
-	public void setLoginUserId(String loginUserId) {
-		this.loginUserId = loginUserId;
-	}
-
 	private static Handlers instance;
 
 	private Handlers() {}
@@ -99,7 +80,7 @@ public class Handlers {
 		return response;
 	}
 
-	public HashMap<String, Object> selectStd(String studentId) {
+	public HashMap<String, Object> getStudentData(String studentId) {
 		HashMap<String, Object> response;
 
 		Student student = new Student();
@@ -109,9 +90,9 @@ public class Handlers {
 			// TODO
 		}
 
-		HashMap<String, Object> std = mapper.convertValue(student, HashMap.class);
+		HashMap<String, Object> student = mapper.convertValue(student, HashMap.class);
 		response = new HashMap<>();
-		response.put("student", std);
+		response.put("student", student);
 		return response;
 	}
 

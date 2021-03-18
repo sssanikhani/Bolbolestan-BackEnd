@@ -14,6 +14,25 @@ import java.util.HashMap;
 
 public class DataBase {
 
+    private static String loggedInUserId = null;
+	private static String lastSearchFilter = "";
+
+	public static String getLastSearchFilter() {
+		return lastSearchFilter;
+	}
+
+	public static void setLastSearchFilter(String _lastSearchFilter) {
+		lastSearchFilter = _lastSearchFilter;
+	}
+
+	public static String getLoggedInUserId() {
+		return loggedInUserId;
+	}
+
+	public static void setLoggedInUserId(String _loggedInUserId) {
+		loggedInUserId = _loggedInUserId;
+	}
+
     public static class OfferingManager {
 
         private static HashMap<String, HashMap<String, Offering>> codeOfferingsMap = new HashMap<String, HashMap<String, Offering>>();

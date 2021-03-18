@@ -48,12 +48,12 @@ public class Plan extends HttpServlet {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/plan.jsp");
-            HashMap<String, Object> studentHashMap = Handlers.getInstance().selectStd(Handlers.getInstance().getLoginUserId());
-            HashMap<String , Object> std = (HashMap<String, Object>) studentHashMap.get("student");
+            HashMap<String, Object> studentHashMap = Handlers.getInstance().getStudentData(Handlers.getInstance().getLoginUserId());
+            HashMap<String , Object> student = (HashMap<String, Object>) studentHashMap.get("student");
             ArrayList<HashMap<String, Object>> selectedCourses =
-                    (ArrayList<HashMap<String, Object>>) std.get("lastPlan");
+                    (ArrayList<HashMap<String, Object>>) student.get("lastPlan");
             request.setAttribute("planBody", createBody(selectedCourses));
-            request.setAttribute("std", std);
+            request.setAttribute("student", student);
             requestDispatcher.forward(request, response);
         }
     }

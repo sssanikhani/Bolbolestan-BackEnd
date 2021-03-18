@@ -32,8 +32,8 @@ public class Profile extends HttpServlet {
         if (Handlers.getInstance().getLoginUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
-            HashMap<String, Object> student = Handlers.getInstance().selectStd(Handlers.getInstance().getLoginUserId());
-            request.setAttribute("std", student.get("student"));
+            HashMap<String, Object> student = Handlers.getInstance().getStudentData(Handlers.getInstance().getLoginUserId());
+            request.setAttribute("student", student.get("student"));
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/profile.jsp");
             requestDispatcher.forward(request, response);
         }
