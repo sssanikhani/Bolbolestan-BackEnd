@@ -17,24 +17,26 @@ import models.utils.Utils;
 
 @WebServlet(name = "ProfileServlet", value = "/profile")
 public class Profile extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (DataBase.getLoggedInUserId() == null) {
-            response.sendRedirect("/login");
-            return;
-        }
 
-        HashMap<String, Object> student;
-        try {
-            student = Utils.getStudentData(DataBase.getLoggedInUserId());
-        } catch (Exceptions.StudentNotFound e) {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/error.jsp");
-            request.setAttribute("result", Responses.StudentNotFound);
-            requestDispatcher.forward(request, response);
-            return;
-        }
-        request.setAttribute("student", student);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/profile.jsp");
-        requestDispatcher.forward(request, response);
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		if (DataBase.getLoggedInUserId() == null) {
+			response.sendRedirect("/login");
+			return;
+		}
+
+		HashMap<String, Object> student;
+		try {
+			student = Utils.getStudentData(DataBase.getLoggedInUserId());
+		} catch (Exceptions.StudentNotFound e) {
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/error.jsp");
+			request.setAttribute("result", Responses.StudentNotFound);
+			requestDispatcher.forward(request, response);
+			return;
+		}
+		request.setAttribute("student", student);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/profile.jsp");
+		requestDispatcher.forward(request, response);
+	}
 }

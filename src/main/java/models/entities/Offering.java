@@ -1,134 +1,133 @@
 package models.entities;
 
-import models.statics.Exceptions;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import models.statics.Exceptions;
+
 public class Offering {
-    private String code;
-    private String classCode;
-    private String name;
-    private String type;
-    private String instructor;
-    private int units;
-    private OfferingClassTime classTime;
-    private OfferingExamTime examTime;
-    private int capacity;
-    private ArrayList<String> prerequisites;
 
-    private HashMap<String, Student> registeredStudents;
+	private String code;
+	private String classCode;
+	private String name;
+	private String type;
+	private String instructor;
+	private int units;
+	private OfferingClassTime classTime;
+	private OfferingExamTime examTime;
+	private int capacity;
+	private ArrayList<String> prerequisites;
 
-    public Offering() {
-        this.registeredStudents = new HashMap<String, Student>();
-    }
+	private HashMap<String, Student> registeredStudents;
 
-    public String getCode() {
-        return this.code;
-    }
+	public Offering() {
+		this.registeredStudents = new HashMap<String, Student>();
+	}
 
-    public void setCode(String _code) {
-        this.code = _code;
-    }
+	public String getCode() {
+		return this.code;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public void setCode(String _code) {
+		this.code = _code;
+	}
 
-    public void setName(String _name) {
-        this.name = _name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getInstructor() {
-        return this.instructor;
-    }
+	public void setName(String _name) {
+		this.name = _name;
+	}
 
-    public void setInstructor(String _instructor) {
-        this.instructor = _instructor;
-    }
+	public String getInstructor() {
+		return this.instructor;
+	}
 
-    public int getUnits() {
-        return this.units;
-    }
+	public void setInstructor(String _instructor) {
+		this.instructor = _instructor;
+	}
 
-    public void setUnits(int _units) {
-        this.units = _units;
-    }
+	public int getUnits() {
+		return this.units;
+	}
 
-    public int getCapacity() {
-        return this.capacity;
-    }
+	public void setUnits(int _units) {
+		this.units = _units;
+	}
 
-    public void setCapacity(int _capacity) {
-        this.capacity = _capacity;
-    }
+	public int getCapacity() {
+		return this.capacity;
+	}
 
-    public int getNumRegisteredStudents() {
-        return this.registeredStudents.size();
-    }
+	public void setCapacity(int _capacity) {
+		this.capacity = _capacity;
+	}
 
-    public void addStudent(Student s) {
-        this.registeredStudents.put(s.getId(), s);
-    }
+	public int getNumRegisteredStudents() {
+		return this.registeredStudents.size();
+	}
 
-    public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
-        Student s = this.registeredStudents.get(studentId);
-        if (s == null)
-            throw new Exceptions.StudentNotFound();
-        this.registeredStudents.remove(studentId);
-    }
+	public void addStudent(Student s) {
+		this.registeredStudents.put(s.getId(), s);
+	}
 
-    public boolean existStudent(String studentId) {
-        Student s = this.registeredStudents.get(studentId);
-        return s != null;
-    }
+	public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
+		Student s = this.registeredStudents.get(studentId);
+		if (s == null) throw new Exceptions.StudentNotFound();
+		this.registeredStudents.remove(studentId);
+	}
 
-    public String getClassCode() {
-        return classCode;
-    }
+	public boolean existStudent(String studentId) {
+		Student s = this.registeredStudents.get(studentId);
+		return s != null;
+	}
 
-    public void setClassCode(String classCode) {
-        this.classCode = classCode;
-    }
+	public String getClassCode() {
+		return classCode;
+	}
 
-    public ArrayList<String> getPrerequisites() {
-        return prerequisites;
-    }
+	public void setClassCode(String classCode) {
+		this.classCode = classCode;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public ArrayList<String> getPrerequisites() {
+		return prerequisites;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setPrerequisites(ArrayList<String> prerequisites) {
-        this.prerequisites = prerequisites;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public OfferingClassTime getClassTime() {
-        return this.classTime;
-    }
+	public void setPrerequisites(ArrayList<String> prerequisites) {
+		this.prerequisites = prerequisites;
+	}
 
-    public void setClassTime(OfferingClassTime _classTime) {
-        this.classTime = _classTime;
-    }
+	public OfferingClassTime getClassTime() {
+		return this.classTime;
+	}
 
-    public OfferingExamTime getExamTime() {
-        return this.examTime;
-    }
+	public void setClassTime(OfferingClassTime _classTime) {
+		this.classTime = _classTime;
+	}
 
-    public void setExamTime(OfferingExamTime _examTime) {
-        this.examTime = _examTime;
-    }
+	public OfferingExamTime getExamTime() {
+		return this.examTime;
+	}
 
+	public void setExamTime(OfferingExamTime _examTime) {
+		this.examTime = _examTime;
+	}
 
-    public boolean hasOfferingTimeCollision(Offering c) {
-        return this.classTime.hasCollision(c.getClassTime());
-    }
+	public boolean hasOfferingTimeCollision(Offering c) {
+		return this.classTime.hasCollision(c.getClassTime());
+	}
 
-    public boolean hasExamTimeCollision(Offering c) {
-        return this.examTime.hasCollision(c.getExamTime());
-    }
+	public boolean hasExamTimeCollision(Offering c) {
+		return this.examTime.hasCollision(c.getExamTime());
+	}
 }
