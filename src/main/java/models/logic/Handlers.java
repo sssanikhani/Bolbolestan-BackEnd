@@ -148,7 +148,6 @@ import java.util.HashMap;
             try {
                 student = DataBase.StudentManager.get(studentId);
             } catch (Exceptions.StudentNotFound e) {
-                // TODO
             }
 
             response = mapper.convertValue(student, HashMap.class);
@@ -195,11 +194,10 @@ import java.util.HashMap;
                 return response;
             }
 
-            // TODO passed Course
-    //        if(student.takePassedCourse(offering.getCode())) {
-    //            response = statics.Responses.TakePassedCourse;
-    //            return response;
-    //        }
+           if(student.takePassedCourse(offering.getCode())) {
+               response = statics.Responses.TakePassedCourse;
+               return response;
+           }
 
             ArrayList<Offering> chosenOfferings = student.getChosenOfferings();
             for (Offering o : chosenOfferings) {
