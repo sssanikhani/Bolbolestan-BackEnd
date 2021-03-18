@@ -244,14 +244,13 @@ public class Handlers {
 
 		int numUnits = student.getNumberChosenUnits();
 		if (numUnits < Constants.MIN_ALLOWED_UNITS || numUnits > Constants.MAX_ALLOWED_UNITS) {
-			response = Responses.UnitsError;
+			response = Responses.MaxMinUnits;
 			return response;
 		}
 		try {
-			student.validateExamClassTimes();
 			student.validateOfferingCapacities();
 		} catch (Exception e) {
-			response = Responses.Error(e.getMessage());
+			response = Responses.OfferingCapacity;
 			return response;
 		}
 
@@ -279,7 +278,7 @@ public class Handlers {
 		try {
 			offeringsList = DataBase.OfferingManager.getAll();
 		} catch (Exception e) {
-			// TODO
+			return Responses.InternalServerError;
 		}
 
 		for (Offering o : offeringsList) {
