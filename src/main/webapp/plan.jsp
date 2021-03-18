@@ -18,10 +18,10 @@
     </style>
 </head>
 <body>
-<% HashMap<String , Object> std = (HashMap<String, Object>) request.getAttribute("std");%>
+<% HashMap<String , Object> student = (HashMap<String, Object>) request.getAttribute("student");%>
 <ul>
     <a href="/">Home</a>
-    <li id="code">Student Id: <%= std.get("id") %> </li>
+    <li id="code">Student Id: <%= student.get("id") %> </li>
 </ul>
 <br>
     <%= request.getAttribute("planBody")%>

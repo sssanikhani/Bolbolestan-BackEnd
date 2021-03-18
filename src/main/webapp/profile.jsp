@@ -15,11 +15,11 @@
         }
     </style>
 </head>
-<% HashMap<String, Object> data = (HashMap<String, Object>) request.getAttribute("std");%>
+<% HashMap<String, Object> data = (HashMap<String, Object>) request.getAttribute("student");%>
 <body>
     <a href="/">Home</a>
     <ul>
-        <li id="std_id">Student Id: <%= data.get("id")%></li>
+        <li id="student_id">Student Id: <%= data.get("id")%></li>
         <li id="first_name">First Name: <%= data.get("name")%></li>
         <li id="last_name">Last Name: <%= data.get("secondName")%></li>
         <li id="birthdate">Birthdate: <%= data.get("birthDate")%></li>

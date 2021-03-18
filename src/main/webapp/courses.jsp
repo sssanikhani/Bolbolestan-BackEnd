@@ -16,16 +16,16 @@
     </style>
 </head>
 <body>
-<% HashMap<String , Object> std = (HashMap<String, Object>) request.getAttribute("std");%>
+<% HashMap<String , Object> student = (HashMap<String, Object>) request.getAttribute("student");%>
 <ul>
     <li>
         <a href="/">Home</a>
     </li>
-    <li id="code">Student Id: <%= std.get("id")%> </li>
-    <li id="units">Total Selected Units: <%= std.get("numberChosenUnits")%></li>
+    <li id="code">Student Id: <%= student.get("id")%> </li>
+    <li id="units">Total Selected Units: <%= student.get("numberChosenUnits")%></li>
 </ul>
 <br>
-<% ArrayList<HashMap<String, Object>> selectedCourses = (ArrayList<HashMap<String, Object>>) std.get("chosenOfferings");%>
+<% ArrayList<HashMap<String, Object>> selectedCourses = (ArrayList<HashMap<String, Object>>) student.get("chosenOfferings");%>
 <table>
     <tr>
         <th>Code</th>
