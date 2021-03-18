@@ -13,6 +13,9 @@
         .search_form {
             text-align: center;
         }
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
