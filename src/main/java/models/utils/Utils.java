@@ -1,6 +1,7 @@
 package models.utils;
 
 import models.entities.Offering;
+import models.entities.Student;
 import models.logic.DataBase;
 import models.statics.Exceptions;
 
@@ -12,6 +13,8 @@ import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Utils {
 
@@ -89,6 +92,16 @@ public class Utils {
 
         return res;
     }
+
+    public static HashMap<String, Object> getStudentData(String studentId) throws Exceptions.StudentNotFound {
+		HashMap<String, Object> response;
+
+		Student student = DataBase.StudentManager.get(studentId);
+
+        ObjectMapper mapper = new ObjectMapper();
+		response = mapper.convertValue(student, HashMap.class);
+		return response;
+	}
 
     public static int getCodeUnits(String code) throws Exceptions.offeringNotFound {
         ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(code);

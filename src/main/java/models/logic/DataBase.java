@@ -57,7 +57,7 @@ public class DataBase {
             }
         }
 
-        public static ArrayList<Offering> getAll() throws IOException, InterruptedException {
+        public static ArrayList<Offering> getAll() {
             ArrayList<Offering> list = new ArrayList<Offering>();
             for (HashMap<String, Offering> group : codeOfferingsMap.values()) {
                 list.addAll(group.values());
