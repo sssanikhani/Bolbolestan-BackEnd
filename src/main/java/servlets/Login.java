@@ -25,7 +25,6 @@ public class Login extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             Handlers.getInstance().setLoginUserId(stdId);
-            Handlers.getInstance().startup();
             response.sendRedirect(request.getContextPath() + "/");
         }
     }
