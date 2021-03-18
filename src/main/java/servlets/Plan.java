@@ -1,6 +1,7 @@
 package servlets;
 
 import models.statics.Constants;
+import models.logic.DataBase;
 import models.logic.Handlers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,11 +45,11 @@ public class Plan extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (Handlers.getInstance().getLoginUserId() == null) {
+        if (DataBase.getLoggedInUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/plan.jsp");
-            HashMap<String, Object> studentHashMap = Handlers.getInstance().getStudentData(Handlers.getInstance().getLoginUserId());
+            HashMap<String, Object> studentHashMap = Handlers.getInstance().getStudentData(DataBase.getLoggedInUserId());
             HashMap<String , Object> student = (HashMap<String, Object>) studentHashMap.get("student");
             ArrayList<HashMap<String, Object>> selectedCourses =
                     (ArrayList<HashMap<String, Object>>) student.get("lastPlan");

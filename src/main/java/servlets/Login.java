@@ -1,5 +1,6 @@
 package servlets;
 
+import models.logic.DataBase;
 import models.logic.Handlers;
 
 import javax.servlet.RequestDispatcher;
@@ -24,7 +25,7 @@ public class Login extends HttpServlet {
         if (studentId.equals("")) {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
-            Handlers.getInstance().setLoginUserId(studentId);
+            DataBase.setLoggedInUserId(studentId);
             response.sendRedirect(request.getContextPath() + "/");
         }
     }

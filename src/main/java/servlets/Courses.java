@@ -69,11 +69,11 @@ public class Courses extends HttpServlet {
                 }
                 break;
             case "search":
-                Handlers.getInstance().setLastSearchFilter(request.getParameter("searchBox"));
+                DataBase.setLastSearchFilter(request.getParameter("searchBox"));
                 response.sendRedirect(request.getContextPath() + "/courses");
                 break;
             case "clear":
-                Handlers.getInstance().setLastSearchFilter("");
+                DataBase.setLastSearchFilter("");
                 response.sendRedirect(request.getContextPath() + "/courses");
                 break;
             case "add":

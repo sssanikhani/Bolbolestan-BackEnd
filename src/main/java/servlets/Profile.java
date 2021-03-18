@@ -1,5 +1,6 @@
 package servlets;
 
+import models.logic.DataBase;
 import models.logic.Handlers;
 
 import javax.servlet.RequestDispatcher;
@@ -29,10 +30,10 @@ public class Profile extends HttpServlet {
         //      "profileLink": Profile Link
         // }
         //TODO set request.setAttribute("data", profileData);
-        if (Handlers.getInstance().getLoginUserId() == null) {
+        if (DataBase.getLoggedInUserId() == null) {
             response.sendRedirect(request.getContextPath()+ "/login");
         } else {
-            HashMap<String, Object> student = Handlers.getInstance().getStudentData(Handlers.getInstance().getLoginUserId());
+            HashMap<String, Object> student = Handlers.getInstance().getStudentData(DataBase.getLoggedInUserId());
             request.setAttribute("student", student.get("student"));
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/profile.jsp");
             requestDispatcher.forward(request, response);
