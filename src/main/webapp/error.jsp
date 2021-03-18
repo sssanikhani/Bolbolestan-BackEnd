@@ -1,11 +1,11 @@
 <%@ page import="java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
+    <%HashMap<String, Object> result = (HashMap<String, Object>) request.getAttribute("result"); %>
     <head>
         <meta charset="UTF-8">
-        <title>Error</title>
+        <title><%= result.get("short") %></title>
     </head>
-    <%HashMap<String, Object> result = (HashMap<String, Object>) request.getAttribute("result"); %>
     <body>
         <a href="/">Home</a>
         <h1> <%= result.get("status")%> </h1>
