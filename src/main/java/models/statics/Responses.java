@@ -34,9 +34,9 @@ public class Responses {
         put("message", "offering has no enough capacity");
     }};
 
-    public static HashMap<String, Object> TakePassedCourse = new HashMap<>() {{
+    public static HashMap<String, Object> CoursePassedBefore = new HashMap<>() {{
         put("status", 403);
-        put("short", "TakePassedCourse");
+        put("short", "Course Passed Before");
         put("message", "you passed this course before");
     }};
 
