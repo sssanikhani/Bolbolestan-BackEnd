@@ -115,6 +115,13 @@ public class DataBase {
             ArrayList<Student> list = new ArrayList<Student>(students.values());
             return list;
         }
+        
+        public static boolean exists(String studentId) {
+            Student student = students.get(studentId);
+            if (student == null)
+                return false;
+            return true;
+        }
 
         public static Student get(String studentId) throws Exceptions.StudentNotFound {
             Student student = students.get(studentId);
