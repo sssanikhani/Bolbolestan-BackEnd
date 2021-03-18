@@ -24,7 +24,7 @@ public class Courses extends HttpServlet {
             HashMap<String, Object> courses = Handlers.getInstance().search(DataBase.getLastSearchFilter());
             request.setAttribute("courses", courses.get("courses"));
             request.setAttribute("searchBox", DataBase.getLastSearchFilter());
-            request.setAttribute("student", student.get("student"));
+            request.setAttribute("student", student);
             requestDispatcher.forward(request, response);
         }
     }

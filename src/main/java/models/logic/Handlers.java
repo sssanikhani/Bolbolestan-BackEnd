@@ -90,9 +90,7 @@ public class Handlers {
 			// TODO
 		}
 
-		HashMap<String, Object> data = mapper.convertValue(student, HashMap.class);
-		response = new HashMap<>();
-		response.put("student", data);
+		response = mapper.convertValue(student, HashMap.class);
 		return response;
 	}
 
