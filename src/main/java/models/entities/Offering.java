@@ -13,9 +13,9 @@ public class Offering {
 	private String type;
 	private String instructor;
 	private int units;
+	private int capacity;
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
-	private int capacity;
 	private ArrayList<String> prerequisites;
 
 	private HashMap<String, Student> waitingStudents;
@@ -34,12 +34,28 @@ public class Offering {
 		this.code = _code;
 	}
 
+	public String getClassCode() {
+		return classCode;
+	}
+
+	public void setClassCode(String classCode) {
+		this.classCode = classCode;
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
 	public void setName(String _name) {
 		this.name = _name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String _type) {
+		this.type = _type;
 	}
 
 	public String getInstructor() {
@@ -64,6 +80,30 @@ public class Offering {
 
 	public void setCapacity(int _capacity) {
 		this.capacity = _capacity;
+	}
+
+	public OfferingClassTime getClassTime() {
+		return this.classTime;
+	}
+
+	public void setClassTime(OfferingClassTime _classTime) {
+		this.classTime = _classTime;
+	}
+
+	public OfferingExamTime getExamTime() {
+		return this.examTime;
+	}
+
+	public void setExamTime(OfferingExamTime _examTime) {
+		this.examTime = _examTime;
+	}
+
+	public ArrayList<String> getPrerequisites() {
+		return prerequisites;
+	}
+
+	public void setPrerequisites(ArrayList<String> prerequisites) {
+		this.prerequisites = prerequisites;
 	}
 
 	public int getNumRegisteredStudents() {
@@ -104,46 +144,6 @@ public class Offering {
 	public void registerWaitingStudents() {
 		this.registeredStudents.putAll(this.waitingStudents);
 		this.waitingStudents.clear();
-	}
-
-	public String getClassCode() {
-		return classCode;
-	}
-
-	public void setClassCode(String classCode) {
-		this.classCode = classCode;
-	}
-
-	public ArrayList<String> getPrerequisites() {
-		return prerequisites;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public void setPrerequisites(ArrayList<String> prerequisites) {
-		this.prerequisites = prerequisites;
-	}
-
-	public OfferingClassTime getClassTime() {
-		return this.classTime;
-	}
-
-	public void setClassTime(OfferingClassTime _classTime) {
-		this.classTime = _classTime;
-	}
-
-	public OfferingExamTime getExamTime() {
-		return this.examTime;
-	}
-
-	public void setExamTime(OfferingExamTime _examTime) {
-		this.examTime = _examTime;
 	}
 
 	public boolean hasOfferingTimeCollision(Offering c) {
