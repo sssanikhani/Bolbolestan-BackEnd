@@ -75,22 +75,30 @@ public class Offering {
 	}
 
 	public int getRemainingCapacity() {
-		return this.getCapacity() - (this.getNumRegisteredStudents() + this.getNumWaitingStudents());
+		return (
+			this.getCapacity() -
+			(this.getNumRegisteredStudents() + this.getNumWaitingStudents())
+		);
 	}
 
 	public void addStudent(Student s) {
-		this.registeredStudents.put(s.getId(), s);
+		this.waitingStudents.put(s.getId(), s);
 	}
 
 	public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
-		Student s = this.registeredStudents.get(studentId);
-		if (s == null) throw new Exceptions.StudentNotFound();
-		this.registeredStudents.remove(studentId);
+		Student s_reg = this.registeredStudents.get(studentId);
+		Student s_wait = this.waitingStudents.get(studentId);
+		if (s_reg == null && s_wait == null) throw new Exceptions.StudentNotFound();
+		if (s_reg == null)
+			this.waitingStudents.remove(studentId);
+		else
+			this.registeredStudents.remove(studentId);
 	}
 
 	public boolean existStudent(String studentId) {
-		Student s = this.registeredStudents.get(studentId);
-		return s != null;
+		Student s_reg = this.registeredStudents.get(studentId);
+		Student s_wait = this.waitingStudents.get(studentId);
+		return s_reg != null || s_wait != null;
 	}
 
 	public String getClassCode() {
