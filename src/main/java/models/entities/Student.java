@@ -1,11 +1,9 @@
 package models.entities;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
+
 import models.logic.DataBase;
 import models.statics.Exceptions;
 import models.utils.Utils;
@@ -16,6 +14,11 @@ public class Student {
 	private String name;
 	private String secondName;
 	private String birthDate;
+	private String field;
+	private String faculty;
+	private String level;
+	private String status;
+	private String img;
 	private HashMap<String, Offering> chosenOfferings;
 	private HashMap<String, Offering> lastPlan = new HashMap<>();
 	private HashMap<String, Grade> grades;
@@ -31,6 +34,14 @@ public class Student {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String _name) {
+		this.name = _name;
 	}
 
 	public String getSecondName() {
@@ -49,12 +60,44 @@ public class Student {
 		this.birthDate = birthDate;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getField() {
+		return this.field;
 	}
 
-	public void setName(String _name) {
-		this.name = _name;
+	public void setField(String _field) {
+		this.field = _field;
+	}
+
+	public String getFaculty() {
+		return this.faculty;
+	}
+
+	public void setFaculty(String _faculty) {
+		this.faculty = _faculty;
+	}
+
+	public String getLevel() {
+		return this.level;
+	}
+
+	public void setLevel(String _level) {
+		this.level = _level;
+	}
+
+	public String getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(String _status) {
+		this.status = _status;
+	}
+
+	public String getImg() {
+		return this.img;
+	}
+
+	public void setImg(String _img) {
+		this.img = _img;
 	}
 
 	public ArrayList<Offering> getChosenOfferings() {
