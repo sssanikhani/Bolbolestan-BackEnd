@@ -15,6 +15,8 @@ import models.utils.Utils;
 
 public class DataBase {
 
+	private static String externalServerUrl = "http://138.197.181.131:5100/api/";
+
 	private static String loggedInUserId = null;
 	private static String lastSearchFilter = "";
 
@@ -38,7 +40,7 @@ public class DataBase {
 
 		private static HashMap<String, HashMap<String, Offering>> codeOfferingsMap = new HashMap<>();
 
-		static String retrieveAllUrl = "http://138.197.181.131:5000/api/courses";
+		static String retrieveAllUrl = externalServerUrl + "courses";
 
 		public static void updateFromExternalServer()
 			throws IOException, InterruptedException {
@@ -99,8 +101,8 @@ public class DataBase {
 
 		private static HashMap<String, Student> students = new HashMap<>();
 
-		static String retrieveAllUrl = "http://138.197.181.131:5000/api/students";
-		static String retrieveGradesUrl = "http://138.197.181.131:5000/api/grades";
+		static String retrieveAllUrl = externalServerUrl + "students";
+		static String retrieveGradesUrl = externalServerUrl + "grades";
 
 		public static void updateFromExternalServer()
 			throws IOException, InterruptedException, Exceptions.StudentNotFound {
