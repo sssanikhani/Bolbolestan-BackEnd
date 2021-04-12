@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-
 import models.logic.DataBase;
 import models.statics.Exceptions;
 import models.utils.Utils;
@@ -178,9 +177,9 @@ public class Student {
 		Set<String> offeringKeySet = chosenOfferings.keySet();
 		for (String key : offeringKeySet) {
 			Offering o = chosenOfferings.get(key);
-			if (
-				o.getCapacity() <= o.getNumRegisteredStudents()
-			) throw new Exceptions.OfferingCapacity(o.getCode());
+			if (o.getRemainingCapacity() <= 0) {
+				throw new Exceptions.OfferingCapacity(o.getCode());
+			}
 		}
 	}
 

@@ -18,10 +18,12 @@ public class Offering {
 	private int capacity;
 	private ArrayList<String> prerequisites;
 
+	private HashMap<String, Student> waitingStudents;
 	private HashMap<String, Student> registeredStudents;
 
 	public Offering() {
 		this.registeredStudents = new HashMap<>();
+		this.waitingStudents = new HashMap<>();
 	}
 
 	public String getCode() {
@@ -66,6 +68,14 @@ public class Offering {
 
 	public int getNumRegisteredStudents() {
 		return this.registeredStudents.size();
+	}
+
+	public int getNumWaitingStudents() {
+		return this.waitingStudents.size();
+	}
+
+	public int getRemainingCapacity() {
+		return this.getCapacity() - (this.getNumRegisteredStudents() + this.getNumWaitingStudents());
 	}
 
 	public void addStudent(Student s) {
