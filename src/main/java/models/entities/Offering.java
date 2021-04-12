@@ -103,6 +103,7 @@ public class Offering {
 
 	public void registerWaitingStudents() {
 		this.registeredStudents.putAll(this.waitingStudents);
+		this.waitingStudents.clear();
 	}
 
 	public String getClassCode() {
