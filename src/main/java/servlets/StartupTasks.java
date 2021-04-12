@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebListener;
 import models.logic.DataBase;
 
 @WebListener
-public class ContextListener implements ServletContextListener {
+public class StartupTasks implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
