@@ -2,9 +2,11 @@ package servlets;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import models.logic.DataBase;
 
+@WebListener
 public class ContextListener implements ServletContextListener {
 
 	@Override
