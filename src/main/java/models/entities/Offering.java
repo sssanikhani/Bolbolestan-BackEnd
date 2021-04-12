@@ -129,10 +129,8 @@ public class Offering {
 		Student s_reg = this.registeredStudents.get(studentId);
 		Student s_wait = this.waitingStudents.get(studentId);
 		if (s_reg == null && s_wait == null) throw new Exceptions.StudentNotFound();
-		if (s_reg != null)
-			this.registeredStudents.remove(studentId);
-		if (s_wait != null)
-			this.waitingStudents.remove(studentId);
+		if (s_reg != null) this.registeredStudents.remove(studentId);
+		if (s_wait != null) this.waitingStudents.remove(studentId);
 	}
 
 	public boolean existStudent(String studentId) {

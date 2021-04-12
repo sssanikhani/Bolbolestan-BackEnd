@@ -53,20 +53,13 @@ public class DataBase {
 			String data = (String) webRes.get("data");
 
 			ObjectMapper mapper = new ObjectMapper();
-			ArrayList<Offering> list = mapper.readValue(
-				data,
-					new TypeReference<>() {
-					}
-			);
+			ArrayList<Offering> list = mapper.readValue(data, new TypeReference<>() {});
 
 			codeOfferingsMap.clear();
 			for (Offering o : list) {
 				String code = o.getCode();
 				String classCode = o.getClassCode();
-				codeOfferingsMap.computeIfAbsent(
-						code,
-						k -> new HashMap<>()
-				);
+				codeOfferingsMap.computeIfAbsent(code, k -> new HashMap<>());
 				codeOfferingsMap.get(code).put(classCode, o);
 			}
 		}
@@ -115,11 +108,7 @@ public class DataBase {
 			String data = (String) webRes.get("data");
 
 			ObjectMapper mapper = new ObjectMapper();
-			ArrayList<Student> list = mapper.readValue(
-				data,
-					new TypeReference<>() {
-					}
-			);
+			ArrayList<Student> list = mapper.readValue(data, new TypeReference<>() {});
 
 			students.clear();
 			for (Student s : list) {
@@ -158,11 +147,7 @@ public class DataBase {
 
 			ObjectMapper mapper = new ObjectMapper();
 
-			return mapper.readValue(
-				data,
-					new TypeReference<>() {
-					}
-			);
+			return mapper.readValue(data, new TypeReference<>() {});
 		}
 	}
 }
