@@ -101,6 +101,10 @@ public class Offering {
 		return s_reg != null || s_wait != null;
 	}
 
+	public void registerWaitingStudents() {
+		this.registeredStudents.putAll(this.waitingStudents);
+	}
+
 	public String getClassCode() {
 		return classCode;
 	}
