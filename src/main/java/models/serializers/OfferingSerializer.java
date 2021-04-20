@@ -14,7 +14,7 @@ import models.logic.DataBase;
 
 public class OfferingSerializer {
 
-	public static String serialize(Offering o) throws JsonProcessingException {
+	public static HashMap<String, Object> getMap(Offering o) {
 		HashMap<String, Object> objectMap = new HashMap<>();
 		objectMap.put("classCode", o.getClassCode());
 		objectMap.put("teacher", o.getInstructor());
@@ -22,6 +22,11 @@ public class OfferingSerializer {
 		objectMap.put("time", o.getClassTime().getTime());
 		objectMap.put("registered", o.getNumRegisteredStudents());
 		objectMap.put("course", o.getCourse());
+		return objectMap;
+	}
+
+	public static String serialize(Offering o) throws JsonProcessingException {
+		HashMap<String, Object> objectMap = getMap(o);
 
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(objectMap);
@@ -29,14 +34,15 @@ public class OfferingSerializer {
 
 	public static String serializeList(ArrayList<Offering> oList)
 		throws JsonProcessingException {
-		ArrayList<String> dataList = new ArrayList<>();
+		ArrayList<HashMap<String, Object>> dataList = new ArrayList<>();
 
 		for (Offering o : oList) {
-			String oData = serialize(o);
-			dataList.add(oData);
+			HashMap<String, Object> oMap = getMap(o);
+			dataList.add(oMap);
 		}
 
-		return dataList.toString();
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(dataList);
 	}
 
 	public static Offering deserialize(String json)
