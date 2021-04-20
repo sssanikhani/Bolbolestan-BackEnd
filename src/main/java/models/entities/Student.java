@@ -128,7 +128,7 @@ public class Student {
 		int units = 0;
 		for (String key : this.chosenOfferings.keySet()) {
 			Offering o = this.chosenOfferings.get(key);
-			units += o.getUnits();
+			units += o.getCourse().getUnits();
 		}
 		return units;
 	}
@@ -143,9 +143,9 @@ public class Student {
 		ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(_code);
 		if (codeOfferings.size() == 0) throw new Exceptions.offeringNotFound();
 		Offering o = codeOfferings.get(0);
-		ArrayList<String> preCodes = o.getPrerequisites();
-		for (String preCode : preCodes) {
-			if (!hasPassed(preCode)) return false;
+		ArrayList<Course> preCourses = o.getPrerequisites();
+		for (Course preCourse : preCourses) {
+			if (!hasPassed(preCourse.getCode())) return false;
 		}
 		return true;
 	}
@@ -153,7 +153,8 @@ public class Student {
 	public ArrayList<Grade> getPassedCoursesGrades() {
 		ArrayList<Grade> passedGrades = new ArrayList<>();
 		for (Grade g : this.grades.values()) {
-			if (this.hasPassed(g.getCode())) passedGrades.add(g);
+			String code = g.getCourse().getCode();
+			if (this.hasPassed(code)) passedGrades.add(g);
 		}
 		return passedGrades;
 	}
@@ -161,13 +162,9 @@ public class Student {
 	public int getTotalPassedUnits() throws Exceptions.offeringNotFound {
 		int passed = 0;
 		for (Grade g : this.grades.values()) {
-			String code = g.getCode();
+			String code = g.getCourse().getCode();
 			if (this.hasPassed(code)) {
-				ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(
-					code
-				);
-				if (codeOfferings.size() == 0) throw new Exceptions.offeringNotFound();
-				passed += codeOfferings.get(0).getUnits();
+				passed += DataBase.CourseManager.get(code).getUnits();
 			}
 		}
 		return passed;
@@ -177,8 +174,8 @@ public class Student {
 		float sumGrades = 0;
 		int totalUnits = 0;
 		for (Grade g : this.grades.values()) {
-			String code = g.getCode();
-			int unit = Utils.getCodeUnits(code);
+			String code = g.getCourse().getCode();
+			int unit = DataBase.CourseManager.get(code).getUnits();
 			sumGrades += g.getGrade() * unit;
 			totalUnits += unit;
 		}
@@ -188,7 +185,7 @@ public class Student {
 	}
 
 	public void addOfferingToList(Offering o) {
-		this.chosenOfferings.put(o.getCode(), o);
+		this.chosenOfferings.put(o.getCourse().getCode(), o);
 	}
 
 	public void removeOfferingFromList(String _code) throws Exceptions.offeringNotFound {
@@ -212,10 +209,10 @@ public class Student {
 					Offering o2 = this.chosenOfferings.get(k2);
 					if (
 						o1.hasOfferingTimeCollision(o2)
-					) throw new Exceptions.ClassTimeCollision(o1.getCode(), o2.getCode());
+					) throw new Exceptions.ClassTimeCollision(o1.getCourse().getCode(), o2.getCourse().getCode());
 					if (o1.hasExamTimeCollision(o2)) throw new Exceptions.ExamTimeCollision(
-						o1.getCode(),
-						o2.getCode()
+						o1.getCourse().getCode(),
+						o2.getCourse().getCode()
 					);
 				}
 			}
@@ -227,7 +224,7 @@ public class Student {
 		for (String key : offeringKeySet) {
 			Offering o = chosenOfferings.get(key);
 			if (o.getRemainingCapacity() <= 0) {
-				throw new Exceptions.OfferingCapacity(o.getCode());
+				throw new Exceptions.OfferingCapacity(o.getCourse().getCode());
 			}
 		}
 	}
