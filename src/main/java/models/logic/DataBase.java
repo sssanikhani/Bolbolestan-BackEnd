@@ -7,9 +7,11 @@ import java.util.HashMap;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.entities.Course;
 import models.entities.Grade;
 import models.entities.Offering;
 import models.entities.Student;
+import models.serializers.OfferingSerializer;
 import models.statics.Exceptions;
 import models.utils.Utils;
 
@@ -52,12 +54,11 @@ public class DataBase {
 			);
 			String data = (String) webRes.get("data");
 
-			ObjectMapper mapper = new ObjectMapper();
-			ArrayList<Offering> list = mapper.readValue(data, new TypeReference<>() {});
+			ArrayList<Offering> list = OfferingSerializer.deserializeList(data);
 
 			codeOfferingsMap.clear();
 			for (Offering o : list) {
-				String code = o.getCode();
+				String code = o.getCourse().getCode();
 				String classCode = o.getClassCode();
 				codeOfferingsMap.computeIfAbsent(code, k -> new HashMap<>());
 				codeOfferingsMap.get(code).put(classCode, o);
@@ -148,6 +149,31 @@ public class DataBase {
 			ObjectMapper mapper = new ObjectMapper();
 
 			return mapper.readValue(data, new TypeReference<>() {});
+		}
+	}
+
+	public static class CourseManager {
+		private static HashMap<String, Course> courses = new HashMap<>();
+
+		public static Course get(String code) {
+			return courses.get(code);
+		}
+
+		public static Course getOrCreate(String code) {
+			Course course = courses.get(code);
+			if (course == null) {
+				course = new Course(code);
+				courses.put(code, course);
+			}
+				
+			return course;
+		}
+
+		public static void updateOrCreate(String code, String name, String type, int units) {
+			Course course = getOrCreate(code);
+			course.setName(name);
+			course.setType(type);
+			course.setUnits(units);
 		}
 	}
 }
