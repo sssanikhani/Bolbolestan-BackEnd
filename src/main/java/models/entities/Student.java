@@ -3,6 +3,7 @@ package models.entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeMap;
 
 import models.logic.DataBase;
 import models.statics.Exceptions;
@@ -21,10 +22,12 @@ public class Student {
 	private String img;
 	private HashMap<String, Offering> chosenOfferings;
 	private HashMap<String, Offering> lastPlan = new HashMap<>();
+	private TreeMap<Integer, Term> termsReport;
 	private HashMap<String, Grade> grades;
 
 	public Student() {
 		this.chosenOfferings = new HashMap<>();
+		this.termsReport = new TreeMap<>();
 		this.grades = new HashMap<>();
 	}
 
@@ -113,7 +116,11 @@ public class Student {
 	}
 
 	public void addGrade(Grade _grade) {
-		String code = _grade.getCode();
+		String code = _grade.getCourse().getCode();
+		int term = _grade.getTerm();
+		Term termObj = this.termsReport.computeIfAbsent(term, k -> new Term());
+
+		termObj.addGrade(_grade);
 		this.grades.put(code, _grade);
 	}
 
@@ -129,8 +136,7 @@ public class Student {
 	public boolean hasPassed(String _code) {
 		Grade grade = this.grades.get(_code);
 		if (grade == null) return false;
-		if (grade.getGrade() < 10) return false;
-		return true;
+		return grade.getPassed();
 	}
 
 	public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
