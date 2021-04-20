@@ -2,16 +2,16 @@ package models.entities;
 
 public class Grade {
 
-	private String code;
 	private float grade;
 	private int term;
+	private Course course;
 
-	public String getCode() {
-		return this.code;
+	public Course getCourse() {
+		return this.course;
 	}
 
-	public void setCode(String _code) {
-		this.code = _code;
+	public void setCourse(Course _course) {
+		this.course = _course;
 	}
 
 	public float getGrade() {
@@ -20,6 +20,10 @@ public class Grade {
 
 	public void setGrade(float _grade) {
 		this.grade = _grade;
+	}
+
+	public boolean getPassed() {
+		return this.grade >= 10;
 	}
 
 	public int getTerm() {
