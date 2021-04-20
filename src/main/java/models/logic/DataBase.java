@@ -11,6 +11,7 @@ import models.entities.Course;
 import models.entities.Grade;
 import models.entities.Offering;
 import models.entities.Student;
+import models.serializers.GradeSerializer;
 import models.serializers.OfferingSerializer;
 import models.statics.Exceptions;
 import models.utils.Utils;
@@ -146,13 +147,13 @@ public class DataBase {
 			HashMap<String, Object> webRes = Utils.sendRequest("GET", url, null, null);
 			String data = (String) webRes.get("data");
 
-			ObjectMapper mapper = new ObjectMapper();
-
-			return mapper.readValue(data, new TypeReference<>() {});
+			ArrayList<Grade> grades = GradeSerializer.deserializeList(data);
+			return grades;
 		}
 	}
 
 	public static class CourseManager {
+
 		private static HashMap<String, Course> courses = new HashMap<>();
 
 		public static Course get(String code) {
@@ -165,7 +166,7 @@ public class DataBase {
 				course = new Course(code);
 				courses.put(code, course);
 			}
-				
+
 			return course;
 		}
 
