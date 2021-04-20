@@ -7,13 +7,13 @@ import models.statics.Exceptions;
 
 public class Offering {
 
-	private String code;
+	private String classCode;
 	private String instructor;
 	private int capacity;
 	private Course course;
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
-	private ArrayList<String> prerequisites;
+	private ArrayList<Course> prerequisites;
 
 	private HashMap<String, Student> waitingStudents;
 	private HashMap<String, Student> registeredStudents;
@@ -23,12 +23,12 @@ public class Offering {
 		this.waitingStudents = new HashMap<>();
 	}
 
-	public String getCode() {
-		return this.code;
+	public String getClassCode() {
+		return this.classCode;
 	}
 
-	public void setCode(String _code) {
-		this.code = _code;
+	public void setClassCode(String _classCode) {
+		this.classCode = _classCode;
 	}
 
 	
@@ -72,12 +72,12 @@ public class Offering {
 		this.examTime = _examTime;
 	}
 
-	public ArrayList<String> getPrerequisites() {
-		return prerequisites;
+	public ArrayList<Course> getPrerequisites() {
+		return this.prerequisites;
 	}
 
-	public void setPrerequisites(ArrayList<String> prerequisites) {
-		this.prerequisites = prerequisites;
+	public void setPrerequisites(ArrayList<Course> _prerequisites) {
+		this.prerequisites = _prerequisites;
 	}
 
 	public int getNumRegisteredStudents() {
