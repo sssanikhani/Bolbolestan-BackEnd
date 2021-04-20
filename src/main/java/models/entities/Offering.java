@@ -8,12 +8,9 @@ import models.statics.Exceptions;
 public class Offering {
 
 	private String code;
-	private String classCode;
-	private String name;
-	private String type;
 	private String instructor;
-	private int units;
 	private int capacity;
+	private Course course;
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
 	private ArrayList<String> prerequisites;
@@ -34,52 +31,29 @@ public class Offering {
 		this.code = _code;
 	}
 
-	public String getClassCode() {
-		return classCode;
-	}
-
-	public void setClassCode(String classCode) {
-		this.classCode = classCode;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String _name) {
-		this.name = _name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String _type) {
-		this.type = _type;
-	}
-
+	
 	public String getInstructor() {
 		return this.instructor;
 	}
-
+	
 	public void setInstructor(String _instructor) {
 		this.instructor = _instructor;
 	}
-
-	public int getUnits() {
-		return this.units;
-	}
-
-	public void setUnits(int _units) {
-		this.units = _units;
-	}
-
+	
 	public int getCapacity() {
 		return this.capacity;
 	}
-
+	
 	public void setCapacity(int _capacity) {
 		this.capacity = _capacity;
+	}
+
+	public Course getCourse() {
+		return this.course;
+	}
+
+	public void setCourse(Course _course) {
+		this.course = _course;
 	}
 
 	public OfferingClassTime getClassTime() {
