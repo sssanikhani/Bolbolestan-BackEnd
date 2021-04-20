@@ -4,6 +4,7 @@ public class Course {
 
 	private String code;
 	private String name;
+    private String type;
 	private int units;
 
 	public Course() {}
@@ -23,6 +24,14 @@ public class Course {
 	public void setName(String _name) {
 		this.name = _name;
 	}
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String _type) {
+        this.type = _type;
+    }
 
 	public int getUnits() {
 		return this.units;
