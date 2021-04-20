@@ -25,4 +25,9 @@ public class Term {
         }
         return total / this.getUnits();
     }
+
+    public void addGrade(Grade _grade) {
+        String code = _grade.getCourse().getCode();
+        this.grades.put(code, _grade);
+    }
 }
