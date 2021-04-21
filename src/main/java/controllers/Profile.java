@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controllers.responses.Responses;
 import models.logic.DataBase;
 import models.statics.Exceptions;
-import models.statics.Responses;
 import models.utils.Utils;
 
 @WebServlet(name = "ProfileServlet", value = "/profile")

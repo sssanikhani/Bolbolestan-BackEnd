@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import controllers.responses.Responses;
 import models.entities.Offering;
 import models.entities.Student;
 import models.logic.DataBase;
 import models.statics.Constants;
 import models.statics.Exceptions;
-import models.statics.Responses;
 import models.utils.Utils;
 
 @WebServlet(name = "CoursesServlet", value = "/courses")
