@@ -25,8 +25,7 @@ public class OfferingSerializer {
 		return result;
 	}
 
-	public static ArrayList<HashMap<String, Object>> serializeList(ArrayList<Offering> oList)
-		throws JsonProcessingException {
+	public static ArrayList<HashMap<String, Object>> serializeList(ArrayList<Offering> oList) {
 		ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 
 		for (Offering o : oList) {
