@@ -117,7 +117,7 @@ public class Student {
 	public void addGrade(Grade _grade) {
 		String code = _grade.getCourse().getCode();
 		int term = _grade.getTerm();
-		Term termObj = this.termsReport.computeIfAbsent(term, k -> new Term());
+		Term termObj = this.termsReport.computeIfAbsent(term, k -> new Term(term));
 
 		termObj.addGrade(_grade);
 		this.grades.put(code, _grade);
@@ -132,6 +132,14 @@ public class Student {
 		return units;
 	}
 
+	public Term getTerm(int term) {
+		return this.termsReport.get(term);
+	}
+
+	public ArrayList<Term> getTermsReport() {
+		return (ArrayList<Term>) this.termsReport.values();
+	}
+
 	public boolean hasPassed(String _code) {
 		Grade grade = this.grades.get(_code);
 		if (grade == null) return false;
@@ -139,10 +147,8 @@ public class Student {
 	}
 
 	public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
-		ArrayList<Offering> codeOfferings = DataBase.OfferingManager.getCodeOfferings(_code);
-		if (codeOfferings.size() == 0) throw new Exceptions.offeringNotFound();
-		Offering o = codeOfferings.get(0);
-		ArrayList<Course> preCourses = o.getPrerequisites();
+		Course course = DataBase.CourseManager.getOrCreate(_code);
+		ArrayList<Course> preCourses = course.getPrerequisites();
 		for (Course preCourse : preCourses) {
 			if (!hasPassed(preCourse.getCode())) return false;
 		}
