@@ -7,7 +7,7 @@ import models.statics.Exceptions;
 
 public class StudentSerializer {
     
-    public HashMap<String, Object> serialize(Student s) throws Exceptions.offeringNotFound {
+    public static HashMap<String, Object> serialize(Student s) throws Exceptions.offeringNotFound {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", s.getId());
         result.put("name", s.getName());
