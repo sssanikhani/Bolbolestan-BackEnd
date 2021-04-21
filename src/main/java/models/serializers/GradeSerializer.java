@@ -14,32 +14,24 @@ import models.logic.DataBase;
 
 public class GradeSerializer {
 
-	public static HashMap<String, Object> getMap(Grade g) {
-		HashMap<String, Object> gradeMap = new HashMap<>();
-		gradeMap.put("term", g.getTerm());
-		gradeMap.put("grade", g.getGrade());
-		gradeMap.put("passed", g.getPassed());
-		gradeMap.put("course", g.getCourse());
-		return gradeMap;
+	public static HashMap<String, Object> serialize(Grade g) {
+		HashMap<String, Object> result = new HashMap<>();
+		result.put("term", g.getTerm());
+		result.put("grade", g.getGrade());
+		result.put("passed", g.getPassed());
+		result.put("course", g.getCourse());
+		return result;
 	}
 
-	public static String serialize(Grade g) throws JsonProcessingException {
-		HashMap<String, Object> gMap = getMap(g);
-
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(gMap);
-	}
-
-	public static String serializeList(ArrayList<Grade> gList) throws JsonProcessingException {
-		ArrayList<HashMap<String, Object>> dataList = new ArrayList<>();
+	public static ArrayList<HashMap<String, Object>> serializeList(ArrayList<Grade> gList) {
+		ArrayList<HashMap<String, Object>> result = new ArrayList<>();
 
 		for (Grade g : gList) {
-			HashMap<String, Object> gMap = getMap(g);
-			dataList.add(gMap);
+			HashMap<String, Object> gMap = serialize(g);
+			result.add(gMap);
 		}
 
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(dataList);
+		return result;
 	}
 
 	public static Grade deserialize(String json)
