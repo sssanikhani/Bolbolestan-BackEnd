@@ -76,6 +76,16 @@ public class DataBase {
 			return list;
 		}
 
+		public static ArrayList<Offering> search(String query) {
+			ArrayList<Offering> filtered = new ArrayList<>();
+			for (Offering o : getAll()) {
+				String name = o.getCourse().getName();
+				if (name.contains(query))
+					filtered.add(o);
+			}
+			return filtered;
+		}
+
 		public static ArrayList<Offering> getCodeOfferings(String code)
 			throws Exceptions.offeringNotFound {
 			HashMap<String, Offering> codeMap = codeOfferingsMap.get(code);
