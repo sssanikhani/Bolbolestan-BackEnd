@@ -78,14 +78,18 @@ public class Offering {
 	}
 
 	public int getRemainingCapacity() {
-		return (
-			this.getCapacity() -
-			(this.getNumRegisteredStudents() + this.getNumWaitingStudents())
-		);
+		return this.getCapacity() - this.getNumRegisteredStudents();
+	}
+
+	public boolean isFull() {
+		return this.getRemainingCapacity() <= 0;
 	}
 
 	public void addStudent(Student s) {
-		this.waitingStudents.put(s.getId(), s);
+		if (this.existStudent(s.getId())) return;
+		if (this.isFull()) 
+			this.waitingStudents.put(s.getId(), s); 
+		else this.registeredStudents.put(s.getId(), s);
 	}
 
 	public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
@@ -103,6 +107,8 @@ public class Offering {
 	}
 
 	public void registerWaitingStudents() {
+		int remainingCapacity = this.getRemainingCapacity();
+		for (int i = 0; i < remainingCapacity; i++) {}
 		this.registeredStudents.putAll(this.waitingStudents);
 		this.waitingStudents.clear();
 	}
