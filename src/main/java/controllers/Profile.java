@@ -21,14 +21,14 @@ public class Profile extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		if (DataBase.getLoggedInUserId() == null) {
+		if (!DataBase.AuthManager.isLoggedIn()) {
 			response.sendRedirect("/login");
 			return;
 		}
 
 		HashMap<String, Object> student;
 		try {
-			student = Utils.getStudentData(DataBase.getLoggedInUserId());
+			student = Utils.getStudentData(DataBase.AuthManager.getLoggedInUser().getId());
 		} catch (Exceptions.StudentNotFound e) {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/error.jsp");
 			request.setAttribute("result", Responses.StudentNotFound);

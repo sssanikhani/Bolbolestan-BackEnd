@@ -17,10 +17,10 @@ public class Home extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		if (DataBase.getLoggedInUserId() == null) {
+		if (!DataBase.AuthManager.isLoggedIn()) {
 			response.sendRedirect(request.getContextPath() + "/login");
 		} else {
-			request.setAttribute("studentId", DataBase.getLoggedInUserId());
+			request.setAttribute("studentId", DataBase.AuthManager.getLoggedInUser().getId());
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/home.jsp");
 			requestDispatcher.forward(request, response);
 		}

@@ -29,23 +29,21 @@ public class Courses extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		if (DataBase.getLoggedInUserId() == null) {
+		if (!DataBase.AuthManager.isLoggedIn()) {
 			response.sendRedirect("/login");
 			return;
 		}
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/courses.jsp");
 		HashMap<String, Object> student = null;
 		try {
-			student = Utils.getStudentData(DataBase.getLoggedInUserId());
+			student = Utils.getStudentData(DataBase.AuthManager.getLoggedInUser().getId());
 		} catch (Exceptions.StudentNotFound e) {
 			responseError(request, response, Responses.StudentNotFound);
 			return;
 		}
-		ArrayList<HashMap<String, Object>> courses = searchCourses(
-			DataBase.getLastSearchFilter()
-		);
+		ArrayList<HashMap<String, Object>> courses = searchCourses("");
 		request.setAttribute("courses", courses);
-		request.setAttribute("searchBox", DataBase.getLastSearchFilter());
+		request.setAttribute("searchBox", "");
 		request.setAttribute("student", student);
 		requestDispatcher.forward(request, response);
 	}
@@ -54,7 +52,7 @@ public class Courses extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		String action = request.getParameter("action");
-		String studentId = DataBase.getLoggedInUserId();
+		String studentId = DataBase.AuthManager.getLoggedInUser().getId();
 		RequestDispatcher requestDispatcher;
 		HashMap<String, Object> result;
 		switch (action) {
@@ -68,11 +66,9 @@ public class Courses extends HttpServlet {
 				resetPlan(request, response, studentId);
 				return;
 			case "search":
-				DataBase.setLastSearchFilter(request.getParameter("searchBox"));
 				response.sendRedirect("/courses");
 				return;
 			case "clear":
-				DataBase.setLastSearchFilter("");
 				response.sendRedirect("/courses");
 				return;
 			case "add":

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.logic.DataBase;
+import models.statics.Exceptions;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class Login extends HttpServlet {
@@ -26,7 +27,11 @@ public class Login extends HttpServlet {
 		throws ServletException, IOException {
 		String studentId = request.getParameter("studentId");
 		if (DataBase.StudentManager.exists(studentId)) {
-			DataBase.setLoggedInUserId(studentId);
+			try {
+				DataBase.AuthManager.login(studentId);
+			} catch(Exceptions.StudentNotFound e) {
+				return;
+			}
 			response.sendRedirect("/");
 		} else {
 			response.sendRedirect(request.getServletPath());
