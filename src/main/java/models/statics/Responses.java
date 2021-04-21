@@ -75,4 +75,12 @@ public class Responses {
 			put("message", "sorry! server encountered an error");
 		}
 	};
+
+	public static HashMap<String, Object> UnAuthorized = new HashMap<>() {
+		{
+			put("status", 401);
+			put("short", "Not Authorized");
+			put("message", "you should login first");
+		}
+	};
 }
