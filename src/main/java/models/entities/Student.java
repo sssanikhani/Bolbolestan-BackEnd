@@ -140,6 +140,24 @@ public class Student {
 		return new ArrayList<Term>(this.termsReport.values());
 	}
 
+	public ArrayList<Offering> getDayOfferings(String day) {
+		ArrayList<Offering> result = new ArrayList<>();
+		for (Offering o : this.lastPlan.values()) {
+			ArrayList<String> oDays = o.getClassTime().getDays();
+			if (oDays.contains(day)) result.add(o);
+		}
+		return result;
+	}
+
+	public TreeMap<String, ArrayList<Offering>> getPlan() {
+		TreeMap<String, ArrayList<Offering>> result = new TreeMap<>();
+		String[] days = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" };
+		for (String day : days) {
+			result.put(day, this.getDayOfferings(day));
+		}
+		return result;
+	}
+
 	public boolean hasPassed(String _code) {
 		Grade grade = this.grades.get(_code);
 		if (grade == null) return false;
