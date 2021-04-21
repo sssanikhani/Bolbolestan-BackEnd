@@ -21,6 +21,7 @@ public class OfferingSerializer {
 		result.put("capacity", o.getCapacity());
 		result.put("time", o.getClassTime().getTime());
 		result.put("registered", o.getNumRegisteredStudents());
+		result.put("isFull", o.isFull());
 		result.put("course", o.getCourse());
 		return result;
 	}
