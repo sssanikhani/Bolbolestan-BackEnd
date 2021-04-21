@@ -1,4 +1,4 @@
-package models.statics;
+package controllers.responses;
 
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ public class Responses {
 
 	public static HashMap<String, Object> OfferingNotFound = new HashMap<>() {
 		{
-			put("status", 403);
+			put("status", 404);
 			put("short", "OfferingNotFound");
 			put("message", "this offering not found.");
 		}
@@ -30,7 +30,7 @@ public class Responses {
 
 	public static HashMap<String, Object> StudentNotFound = new HashMap<>() {
 		{
-			put("status", 403);
+			put("status", 404);
 			put("short", "StudentNotFound");
 			put("message", "student not found.");
 		}
@@ -81,6 +81,14 @@ public class Responses {
 			put("status", 401);
 			put("short", "Not Authorized");
 			put("message", "you should login first");
+		}
+	};
+
+	public static HashMap<String, Object> OK = new HashMap<>() {
+		{
+			put("status", 200);
+			put("short", "OK");
+			put("message", "operation was successful");
 		}
 	};
 }
