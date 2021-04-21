@@ -164,7 +164,7 @@ public class Student {
 		return passedGrades;
 	}
 
-	public int getTotalPassedUnits() throws Exceptions.offeringNotFound {
+	public int getTotalPassedUnits() {
 		int passed = 0;
 		for (Grade g : this.grades.values()) {
 			String code = g.getCourse().getCode();
@@ -175,7 +175,7 @@ public class Student {
 		return passed;
 	}
 
-	public float getGpa() throws Exceptions.offeringNotFound {
+	public float getGpa() {
 		float sumGrades = 0;
 		int totalUnits = 0;
 		for (Grade g : this.grades.values()) {
