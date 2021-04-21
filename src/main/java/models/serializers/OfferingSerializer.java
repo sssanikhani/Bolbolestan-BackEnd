@@ -54,6 +54,12 @@ public class OfferingSerializer {
 
 		HashMap<String, Object> offeringMap = mapper.readValue(json, HashMap.class);
 
+		String courseCode = (String) offeringMap.get("classCode");
+		String courseName = (String) offeringMap.get("name");
+		String courseType = (String) offeringMap.get("type");
+		int courseUnits = (int) offeringMap.get("units");
+		DataBase.CourseManager.updateOrCreate(courseCode, courseName, courseType, courseUnits);
+		Course course = DataBase.CourseManager.get(courseCode);
 		ArrayList<String> prerequisitesCode = (ArrayList<String>) offeringMap.get(
 			"prerequisites"
 		);
@@ -62,14 +68,8 @@ public class OfferingSerializer {
 			Course preCourse = DataBase.CourseManager.getOrCreate(code);
 			prerequisites.add(preCourse);
 		}
-		obj.setPrerequisites(prerequisites);
+		course.setPrerequisites(prerequisites);
 
-		String courseCode = (String) offeringMap.get("classCode");
-		String courseName = (String) offeringMap.get("name");
-		String courseType = (String) offeringMap.get("type");
-		int courseUnits = (int) offeringMap.get("units");
-		DataBase.CourseManager.updateOrCreate(courseCode, courseName, courseType, courseUnits);
-		Course course = DataBase.CourseManager.get(courseCode);
 		obj.setCourse(course);
 
 		return obj;

@@ -1,6 +1,5 @@
 package models.entities;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import models.statics.Exceptions;
@@ -13,7 +12,6 @@ public class Offering {
 	private Course course;
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
-	private ArrayList<Course> prerequisites;
 
 	private HashMap<String, Student> waitingStudents;
 	private HashMap<String, Student> registeredStudents;
@@ -31,19 +29,18 @@ public class Offering {
 		this.classCode = _classCode;
 	}
 
-	
 	public String getInstructor() {
 		return this.instructor;
 	}
-	
+
 	public void setInstructor(String _instructor) {
 		this.instructor = _instructor;
 	}
-	
+
 	public int getCapacity() {
 		return this.capacity;
 	}
-	
+
 	public void setCapacity(int _capacity) {
 		this.capacity = _capacity;
 	}
@@ -70,14 +67,6 @@ public class Offering {
 
 	public void setExamTime(OfferingExamTime _examTime) {
 		this.examTime = _examTime;
-	}
-
-	public ArrayList<Course> getPrerequisites() {
-		return this.prerequisites;
-	}
-
-	public void setPrerequisites(ArrayList<Course> _prerequisites) {
-		this.prerequisites = _prerequisites;
 	}
 
 	public int getNumRegisteredStudents() {
