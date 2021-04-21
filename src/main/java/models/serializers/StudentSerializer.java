@@ -3,11 +3,10 @@ package models.serializers;
 import java.util.HashMap;
 
 import models.entities.Student;
-import models.statics.Exceptions;
 
 public class StudentSerializer {
     
-    public static HashMap<String, Object> serialize(Student s) throws Exceptions.offeringNotFound {
+    public static HashMap<String, Object> serialize(Student s) {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", s.getId());
         result.put("name", s.getName());
