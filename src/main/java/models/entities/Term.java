@@ -8,6 +8,11 @@ public class Term {
 	private int term;
 	private HashMap<String, Grade> grades;
 
+	public Term(int _term) {
+		this.term = _term;
+		this.grades = new HashMap<>();
+	}
+
 	public int getTerm() {
 		return this.term;
 	}
