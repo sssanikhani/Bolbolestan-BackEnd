@@ -7,7 +7,6 @@ import java.util.TreeMap;
 
 import models.logic.DataBase;
 import models.statics.Exceptions;
-import models.utils.Utils;
 
 public class Student {
 
@@ -209,7 +208,10 @@ public class Student {
 					Offering o2 = this.chosenOfferings.get(k2);
 					if (
 						o1.hasOfferingTimeCollision(o2)
-					) throw new Exceptions.ClassTimeCollision(o1.getCourse().getCode(), o2.getCourse().getCode());
+					) throw new Exceptions.ClassTimeCollision(
+						o1.getCourse().getCode(),
+						o2.getCourse().getCode()
+					);
 					if (o1.hasExamTimeCollision(o2)) throw new Exceptions.ExamTimeCollision(
 						o1.getCourse().getCode(),
 						o2.getCourse().getCode()

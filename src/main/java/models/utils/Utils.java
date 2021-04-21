@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import models.entities.Offering;
 import models.entities.Student;
 import models.logic.DataBase;
 import models.statics.Exceptions;
