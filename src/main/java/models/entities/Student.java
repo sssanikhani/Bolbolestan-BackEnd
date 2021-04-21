@@ -149,8 +149,8 @@ public class Student {
 		return result;
 	}
 
-	public TreeMap<String, ArrayList<Offering>> getPlan() {
-		TreeMap<String, ArrayList<Offering>> result = new TreeMap<>();
+	public HashMap<String, ArrayList<Offering>> getPlan() {
+		HashMap<String, ArrayList<Offering>> result = new HashMap<>();
 		String[] days = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday" };
 		for (String day : days) {
 			result.put(day, this.getDayOfferings(day));
