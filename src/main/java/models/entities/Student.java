@@ -137,7 +137,7 @@ public class Student {
 	}
 
 	public ArrayList<Term> getTermsReport() {
-		return (ArrayList<Term>) this.termsReport.values();
+		return new ArrayList<Term>(this.termsReport.values());
 	}
 
 	public boolean hasPassed(String _code) {

@@ -34,7 +34,7 @@ public class Term {
 	}
 
 	public ArrayList<Grade> getGrades() {
-		return (ArrayList<Grade>) this.grades.values();
+		return new ArrayList<Grade>(this.grades.values());
 	}
 
 	public void addGrade(Grade _grade) {
