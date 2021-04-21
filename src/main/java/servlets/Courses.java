@@ -103,7 +103,8 @@ public class Courses extends HttpServlet {
 
 		ArrayList<Offering> allOfferings = DataBase.OfferingManager.getAll();
 		for (Offering o : allOfferings) {
-			if (o.getName().contains(s)) {
+			String courseName = o.getCourse().getName();
+			if (courseName.contains(s)) {
 				HashMap<String, Object> oData = mapper.convertValue(o, HashMap.class);
 				matchedOfferings.add(oData);
 			}
@@ -154,7 +155,7 @@ public class Courses extends HttpServlet {
 		}
 
 		try {
-			student.removeOfferingFromList(offering.getCode());
+			student.removeOfferingFromList(offering.getCourse().getCode());
 		} catch (Exceptions.offeringNotFound e) {
 			responseError(request, response, Responses.OfferingNotFound);
 			return;
@@ -222,7 +223,7 @@ public class Courses extends HttpServlet {
 
 		boolean hasPassedPrerequisites;
 		try {
-			hasPassedPrerequisites = student.hasPassedPrerequisites(offering.getCode());
+			hasPassedPrerequisites = student.hasPassedPrerequisites(code);
 		} catch (Exceptions.offeringNotFound e) {
 			responseError(request, response, Responses.InternalServerError);
 			return;
@@ -233,7 +234,7 @@ public class Courses extends HttpServlet {
 			return;
 		}
 
-		if (student.hasPassed(offering.getCode())) {
+		if (student.hasPassed(offering.getCourse().getCode())) {
 			responseError(request, response, Responses.CoursePassedBefore);
 			return;
 		}
