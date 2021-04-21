@@ -20,15 +20,26 @@ public class DataBase {
 
 	private static String externalServerUrl = "http://138.197.181.131:5100/api/";
 
-	private static String loggedInUserId = null;
+	public static class AuthManager {
+		private static Student loggedInUser = null;
 
-	public static String getLoggedInUserId() {
-		return loggedInUserId;
-	}
+		public static Student getLoggedInUser() {
+			return loggedInUser;
+		}
 
-	public static void setLoggedInUserId(String _loggedInUserId) {
-		loggedInUserId = _loggedInUserId;
+		public static void login(String id) throws Exceptions.StudentNotFound {
+			loggedInUser = StudentManager.get(id);
+		}
+
+		public static void logout() {
+			loggedInUser = null;
+		}
+
+		public static boolean isLoggedIn() {
+			return loggedInUser != null;
+		}
 	}
+	
 
 	public static class OfferingManager {
 
