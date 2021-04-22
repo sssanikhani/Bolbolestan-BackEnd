@@ -158,13 +158,12 @@ public class Student {
 	}
 
 	public String getOfferingStatus(Offering o) {
-		if (o.isRegisteredStudent(this.id))
-			return "registered";
-		if (o.isWaitingStudent(this.id))
-			return "waiting";
+		if (o.isRegisteredStudent(this.id)) return "registered";
+		if (o.isWaitingStudent(this.id)) return "waiting";
+		
 		String courseCode = o.getCourse().getCode();
-		if (this.chosenOfferings.get(courseCode) != null)
-			return "chosen";
+		if (this.chosenOfferings.get(courseCode) != null) return "chosen";
+		
 		return "none";
 	}
 

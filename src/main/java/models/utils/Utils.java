@@ -9,12 +9,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import models.entities.Student;
-import models.logic.DataBase;
-import models.statics.Exceptions;
-
 public class Utils {
 
 	public static LocalTime convertToLocalTime(String time) {
@@ -104,16 +98,5 @@ public class Utils {
 		res.put("data", resBody);
 
 		return res;
-	}
-
-	public static HashMap<String, Object> getStudentData(String studentId)
-		throws Exceptions.StudentNotFound {
-		HashMap<String, Object> response;
-
-		Student student = DataBase.StudentManager.get(studentId);
-
-		ObjectMapper mapper = new ObjectMapper();
-		response = mapper.convertValue(student, HashMap.class);
-		return response;
 	}
 }

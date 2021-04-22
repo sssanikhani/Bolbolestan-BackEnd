@@ -21,6 +21,7 @@ public class DataBase {
 	private static String externalServerUrl = "http://138.197.181.131:5100/api/";
 
 	public static class AuthManager {
+
 		private static Student loggedInUser = null;
 
 		public static Student getLoggedInUser() {
@@ -39,7 +40,6 @@ public class DataBase {
 			return loggedInUser != null;
 		}
 	}
-	
 
 	public static class OfferingManager {
 
@@ -80,8 +80,7 @@ public class DataBase {
 			ArrayList<Offering> filtered = new ArrayList<>();
 			for (Offering o : getAll()) {
 				String name = o.getCourse().getName();
-				if (name.contains(query))
-					filtered.add(o);
+				if (name.contains(query)) filtered.add(o);
 			}
 			return filtered;
 		}
