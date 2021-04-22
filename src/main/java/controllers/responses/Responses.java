@@ -68,6 +68,22 @@ public class Responses {
 		}
 	};
 
+	public static HashMap<String, Object> MinUnits = new HashMap<>() {
+		{
+			put("status", 403);
+			put("short", "MinUnits");
+			put("message", "you have not chosen enough units");
+		}
+	};
+
+	public static HashMap<String, Object> MaxUnits = new HashMap<>() {
+		{
+			put("status", 403);
+			put("short", "MaxUnits");
+			put("message", "you have chosen too many units");
+		}
+	};
+
 	public static HashMap<String, Object> InternalServerError = new HashMap<>() {
 		{
 			put("status", 500);
