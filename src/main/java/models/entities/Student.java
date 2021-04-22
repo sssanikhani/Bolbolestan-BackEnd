@@ -2,7 +2,6 @@ package models.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeMap;
 
 import models.logic.DataBase;
@@ -252,16 +251,6 @@ public class Student {
 						o2.getCourse().getCode()
 					);
 				}
-			}
-		}
-	}
-
-	public void validateOfferingCapacities() throws Exceptions.OfferingCapacity {
-		Set<String> offeringKeySet = chosenOfferings.keySet();
-		for (String key : offeringKeySet) {
-			Offering o = chosenOfferings.get(key);
-			if (o.getRemainingCapacity() <= 0) {
-				throw new Exceptions.OfferingCapacity(o.getCourse().getCode());
 			}
 		}
 	}
