@@ -180,13 +180,6 @@ public class Courses extends HttpServlet {
 			return;
 		}
 
-		try {
-			student.validateOfferingCapacities();
-		} catch (Exception e) {
-			responseError(request, response, Responses.OfferingCapacity);
-			return;
-		}
-
 		student.finalizeOfferings();
 
 		response.sendRedirect("/plan");
