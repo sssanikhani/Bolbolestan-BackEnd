@@ -17,6 +17,7 @@ import models.entities.Offering;
 import models.entities.Student;
 import models.logic.DataBase;
 import models.serializers.OfferingSerializer;
+import models.statics.Constants;
 import models.statics.Exceptions;
 
 @RestController
@@ -133,4 +134,27 @@ public class StudentOfferingsController {
 
 		return Responses.OK;
 	}
+
+    @PostMapping("/submit")
+    public HashMap<String, Object> submitChosenOfferings(HttpServletResponse response) {
+        if (!DataBase.AuthManager.isLoggedIn()) {
+            response.setStatus(401);
+            return Responses.UnAuthorized;
+        }
+        
+        Student student = DataBase.AuthManager.getLoggedInUser();
+
+        int numUnits = student.getNumberChosenUnits();
+		if (numUnits < Constants.MIN_ALLOWED_UNITS) {
+			response.setStatus(403);
+            return Responses.MinUnits;
+		}
+        if (numUnits > Constants.MAX_ALLOWED_UNITS) {
+            response.setStatus(403);
+            return Responses.MaxUnits;
+        }
+
+		student.finalizeOfferings();
+        return Responses.OK;
+    }
 }
