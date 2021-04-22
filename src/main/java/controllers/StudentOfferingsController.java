@@ -1,21 +1,24 @@
 package controllers;
 
-import controllers.responses.Responses;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import controllers.responses.Responses;
 import models.entities.Offering;
 import models.entities.Student;
 import models.logic.DataBase;
 import models.serializers.OfferingSerializer;
 import models.statics.Constants;
 import models.statics.Exceptions;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/student/offerings")
@@ -45,15 +48,31 @@ public class StudentOfferingsController {
 		return result;
 	}
 
-	@PostMapping("/{code}/{classCode}")
+	@PostMapping("")
 	public HashMap<String, Object> addOffering(
-		@PathVariable("code") String code,
-		@PathVariable("classCode") String classCode,
+		@RequestBody HashMap<String, Object> requestBody,
 		HttpServletResponse response
 	) {
 		if (!DataBase.AuthManager.isLoggedIn()) {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
+		}
+
+		if (!(requestBody.get("code") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+		if (!(requestBody.get("classCode") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+
+		String code = (String) requestBody.get("code");
+		String classCode = (String) requestBody.get("classCode");
+
+		if (code == null || classCode == null) {
+			response.setStatus(400);
+			return Responses.BadRequest;
 		}
 
 		Offering offering;
@@ -102,15 +121,31 @@ public class StudentOfferingsController {
 		return Responses.OK;
 	}
 
-	@DeleteMapping("/{code}/{classCode}")
+	@DeleteMapping("")
 	public HashMap<String, Object> removeOffering(
-		@PathVariable("code") String code,
-		@PathVariable("classCode") String classCode,
+		@RequestBody HashMap<String, Object> requestBody,
 		HttpServletResponse response
 	) {
 		if (!DataBase.AuthManager.isLoggedIn()) {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
+		}
+
+		if (!(requestBody.get("code") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+		if (!(requestBody.get("classCode") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+
+		String code = (String) requestBody.get("code");
+		String classCode = (String) requestBody.get("classCode");
+
+		if (code == null || classCode == null) {
+			response.setStatus(400);
+			return Responses.BadRequest;
 		}
 
 		Student student = DataBase.AuthManager.getLoggedInUser();
@@ -157,13 +192,13 @@ public class StudentOfferingsController {
 
 	@PostMapping("/reset")
 	public HashMap<String, Object> resetChosenOfferings(HttpServletResponse response) {
-        if (!DataBase.AuthManager.isLoggedIn()) {
-            response.setStatus(401);
-            return Responses.UnAuthorized;
-        }
+		if (!DataBase.AuthManager.isLoggedIn()) {
+			response.setStatus(401);
+			return Responses.UnAuthorized;
+		}
 
-        Student student = DataBase.AuthManager.getLoggedInUser();
-        student.resetPlan();
-        return Responses.OK;
-    }
+		Student student = DataBase.AuthManager.getLoggedInUser();
+		student.resetPlan();
+		return Responses.OK;
+	}
 }
