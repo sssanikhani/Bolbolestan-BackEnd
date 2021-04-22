@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CORSFilter implements Filter {
 
-	private static String webAppOrigin = "http://localhost:5000";
+	private static String webAppOrigin = "http://localhost:3000";
 
 	@Override
 	public void doFilter(
