@@ -1,6 +1,9 @@
 package models.entities;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 import models.statics.Exceptions;
 
@@ -13,12 +16,12 @@ public class Offering {
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
 
-	private HashMap<String, Student> waitingStudents;
+	private LinkedHashMap<String, Student> waitingStudents;
 	private HashMap<String, Student> registeredStudents;
 
 	public Offering() {
 		this.registeredStudents = new HashMap<>();
-		this.waitingStudents = new HashMap<>();
+		this.waitingStudents = new LinkedHashMap<>();
 	}
 
 	public String getClassCode() {
@@ -87,9 +90,10 @@ public class Offering {
 
 	public void addStudent(Student s) {
 		if (this.existStudent(s.getId())) return;
-		if (this.isFull()) 
-			this.waitingStudents.put(s.getId(), s); 
-		else this.registeredStudents.put(s.getId(), s);
+		if (this.isFull())
+			this.waitingStudents.put(s.getId(),s);
+		else
+			this.registeredStudents.put(s.getId(), s);
 	}
 
 	public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
@@ -100,17 +104,35 @@ public class Offering {
 		if (s_wait != null) this.waitingStudents.remove(studentId);
 	}
 
+	public boolean isRegisteredStudent(String studentId) {
+		Student s = this.registeredStudents.get(studentId);
+		return s != null;
+	}
+
+	public boolean isWaitingStudent(String studentId) {
+		Student s = this.waitingStudents.get(studentId);
+		return s != null;
+	}
+
 	public boolean existStudent(String studentId) {
-		Student s_reg = this.registeredStudents.get(studentId);
-		Student s_wait = this.waitingStudents.get(studentId);
-		return s_reg != null || s_wait != null;
+		return this.isRegisteredStudent(studentId) || this.isWaitingStudent(studentId);
 	}
 
 	public void registerWaitingStudents() {
 		int remainingCapacity = this.getRemainingCapacity();
-		for (int i = 0; i < remainingCapacity; i++) {}
-		this.registeredStudents.putAll(this.waitingStudents);
-		this.waitingStudents.clear();
+		if (remainingCapacity >= this.getNumWaitingStudents()) {
+			this.registeredStudents.putAll(this.waitingStudents);
+			this.waitingStudents.clear();
+			return;
+		}
+		for (int i = 0; i < remainingCapacity; i++) {
+			Set<String> keys = this.waitingStudents.keySet();
+			Iterator<String> iter = keys.iterator();
+			String studentId = iter.next();
+			Student s = this.waitingStudents.get(studentId);
+			this.registeredStudents.put(studentId, s);
+			this.waitingStudents.remove(studentId);
+		}
 	}
 
 	public boolean hasOfferingTimeCollision(Offering c) {
