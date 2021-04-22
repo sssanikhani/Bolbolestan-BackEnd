@@ -1,24 +1,21 @@
 package controllers;
 
+import controllers.responses.Responses;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import controllers.responses.Responses;
 import models.entities.Offering;
 import models.entities.Student;
 import models.logic.DataBase;
 import models.serializers.OfferingSerializer;
 import models.statics.Constants;
 import models.statics.Exceptions;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/student/offerings")
@@ -135,26 +132,38 @@ public class StudentOfferingsController {
 		return Responses.OK;
 	}
 
-    @PostMapping("/submit")
-    public HashMap<String, Object> submitChosenOfferings(HttpServletResponse response) {
+	@PostMapping("/submit")
+	public HashMap<String, Object> submitChosenOfferings(HttpServletResponse response) {
+		if (!DataBase.AuthManager.isLoggedIn()) {
+			response.setStatus(401);
+			return Responses.UnAuthorized;
+		}
+
+		Student student = DataBase.AuthManager.getLoggedInUser();
+
+		int numUnits = student.getNumberChosenUnits();
+		if (numUnits < Constants.MIN_ALLOWED_UNITS) {
+			response.setStatus(403);
+			return Responses.MinUnits;
+		}
+		if (numUnits > Constants.MAX_ALLOWED_UNITS) {
+			response.setStatus(403);
+			return Responses.MaxUnits;
+		}
+
+		student.finalizeOfferings();
+		return Responses.OK;
+	}
+
+	@PostMapping("/reset")
+	public HashMap<String, Object> resetChosenOfferings(HttpServletResponse response) {
         if (!DataBase.AuthManager.isLoggedIn()) {
             response.setStatus(401);
             return Responses.UnAuthorized;
         }
-        
+
         Student student = DataBase.AuthManager.getLoggedInUser();
-
-        int numUnits = student.getNumberChosenUnits();
-		if (numUnits < Constants.MIN_ALLOWED_UNITS) {
-			response.setStatus(403);
-            return Responses.MinUnits;
-		}
-        if (numUnits > Constants.MAX_ALLOWED_UNITS) {
-            response.setStatus(403);
-            return Responses.MaxUnits;
-        }
-
-		student.finalizeOfferings();
+        student.resetPlan();
         return Responses.OK;
     }
 }
