@@ -115,4 +115,12 @@ public class Responses {
 			put("message", "you have not chosen this offering yet");
 		}
 	};
+
+	public static HashMap<String, Object> BadRequest = new HashMap<>() {
+		{
+			put("status", 400);
+			put("short", "BadRequest");
+			put("message", "incorrect request parameters");
+		}
+	};
 }
