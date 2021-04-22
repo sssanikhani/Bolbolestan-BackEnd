@@ -63,7 +63,7 @@ public class DataBase {
 			for (Offering o : list) {
 				String code = o.getCourse().getCode();
 				String classCode = o.getClassCode();
-				codeOfferingsMap.computeIfAbsent(code, k -> new HashMap<>());
+				codeOfferingsMap.putIfAbsent(code, new HashMap<>());
 				codeOfferingsMap.get(code).put(classCode, o);
 			}
 		}
