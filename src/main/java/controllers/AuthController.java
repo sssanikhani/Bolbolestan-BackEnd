@@ -20,7 +20,24 @@ public class AuthController {
 		@RequestBody HashMap<String, Object> requestBody,
 		HttpServletResponse response
 	) {
+
+        if (!(requestBody.get("id") instanceof String)) {
+            response.setStatus(400);
+            return Responses.BadRequest;
+        }
+        if (!(requestBody.get("password") instanceof String)) {
+            response.setStatus(400);
+            return Responses.BadRequest;
+        }
+
         String id = (String) requestBody.get("id");
+        String password = (String) requestBody.get("password");
+
+        if (id == null || password == null) {
+            response.setStatus(400);
+            return Responses.BadRequest;
+        }
+
         try {
             DataBase.AuthManager.login(id);
         } catch(Exceptions.StudentNotFound e) {
