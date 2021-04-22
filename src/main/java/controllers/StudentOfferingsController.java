@@ -31,7 +31,7 @@ public class StudentOfferingsController {
 			return Responses.UnAuthorized;
 		}
 		HashMap<String, Object> result = new HashMap<>();
-		
+
 		Student s = DataBase.AuthManager.getLoggedInUser();
 		result.put("chosenUnits", s.getNumberChosenUnits());
 

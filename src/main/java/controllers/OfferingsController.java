@@ -36,7 +36,6 @@ public class OfferingsController {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
 		}
-		System.out.println(query);
 		ArrayList<Offering> filtered = DataBase.OfferingManager.search(query);
 		ArrayList<HashMap<String, Object>> result = OfferingSerializer.serializeList(filtered);
 		return result;
