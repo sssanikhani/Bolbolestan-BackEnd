@@ -30,10 +30,14 @@ public class StudentOfferingsController {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
 		}
-
-		ArrayList<HashMap<String, Object>> result = new ArrayList<>();
-
+		HashMap<String, Object> result = new HashMap<>();
+		
 		Student s = DataBase.AuthManager.getLoggedInUser();
+		result.put("chosenUnits", s.getNumberChosenUnits());
+
+		ArrayList<HashMap<String, Object>> offeringsData = new ArrayList<>();
+		result.put("offerings", offeringsData);
+
 		ArrayList<Offering> oList = s.getChosenOfferings();
 		for (Offering o : oList) {
 			HashMap<String, Object> studentOffering = new HashMap<String, Object>() {
@@ -42,7 +46,7 @@ public class StudentOfferingsController {
 					put("offering", OfferingSerializer.serialize(o));
 				}
 			};
-			result.add(studentOffering);
+			offeringsData.add(studentOffering);
 		}
 
 		return result;
