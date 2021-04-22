@@ -91,4 +91,12 @@ public class Responses {
 			put("message", "operation was successful");
 		}
 	};
+
+	public static HashMap<String, Object> NotChosenOffering = new HashMap<>() {
+		{
+			put("status", 403);
+			put("short", "NotChosenOffering");
+			put("message", "you have not chosen this offering yet");
+		}
+	};
 }
