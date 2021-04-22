@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -100,6 +101,36 @@ public class StudentOfferingsController {
 		}
 
 		student.addOfferingToList(offering);
-		return OfferingSerializer.serialize(offering);
+		return Responses.OK;
+	}
+
+	@DeleteMapping("/{code}/{classCode}")
+	public HashMap<String, Object> removeOffering(
+		@PathVariable("code") String code,
+		@PathVariable("classCode") String classCode,
+		HttpServletResponse response
+	) {
+		if (!DataBase.AuthManager.isLoggedIn()) {
+			response.setStatus(401);
+			return Responses.UnAuthorized;
+		}
+
+		Student student = DataBase.AuthManager.getLoggedInUser();
+		Offering offering;
+		try {
+			offering = DataBase.OfferingManager.get(code, classCode);
+		} catch (Exceptions.offeringNotFound e) {
+			response.setStatus(403);
+			return Responses.NotChosenOffering;
+		}
+
+		try {
+			student.removeOfferingFromList(offering.getCourse().getCode());
+		} catch (Exceptions.offeringNotFound e) {
+			response.setStatus(403);
+			return Responses.NotChosenOffering;
+		}
+
+		return Responses.OK;
 	}
 }
