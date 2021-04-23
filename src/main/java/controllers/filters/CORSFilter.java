@@ -35,7 +35,7 @@ public class CORSFilter implements Filter {
 			);
 		((HttpServletResponse) servletResponse).addHeader(
 				"Access-Control-Allow-Methods",
-				"GET, OPTIONS, HEAD, PUT, POST"
+				"GET, OPTIONS, HEAD, PUT, POST, DELETE"
 			);
 		((HttpServletResponse) servletResponse).addHeader(
 				"Access-Control-Allow-Headers",
