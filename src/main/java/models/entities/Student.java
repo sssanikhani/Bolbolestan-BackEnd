@@ -230,6 +230,9 @@ public class Student {
 			// Never Execute
 		}
 		this.chosenOfferings.remove(_code);
+		Offering submittedOffering = this.lastPlan.get(_code);
+		if (submittedOffering != null)
+			this.lastPlan.remove(_code);
 	}
 
 	public void validateExamClassTimes()
