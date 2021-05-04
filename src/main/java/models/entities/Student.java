@@ -12,6 +12,8 @@ public class Student {
 	private String id;
 	private String name;
 	private String secondName;
+	private String email;
+	private String password;
 	private String birthDate;
 	private String field;
 	private String faculty;
@@ -19,12 +21,13 @@ public class Student {
 	private String status;
 	private String img;
 	private HashMap<String, Offering> chosenOfferings;
-	private HashMap<String, Offering> lastPlan = new HashMap<>();
+	private HashMap<String, Offering> lastPlan;
 	private TreeMap<Integer, Term> termsReport;
 	private HashMap<String, Grade> grades;
 
 	public Student() {
 		this.chosenOfferings = new HashMap<>();
+		this.lastPlan = new HashMap<>();
 		this.termsReport = new TreeMap<>();
 		this.grades = new HashMap<>();
 	}
@@ -51,6 +54,22 @@ public class Student {
 
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String _email) {
+		this.email = _email;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String _password) {
+		this.password = _password;
 	}
 
 	public String getBirthDate() {
@@ -105,8 +124,16 @@ public class Student {
 		return new ArrayList<>(this.chosenOfferings.values());
 	}
 
+	public void _setChosenOfferings(HashMap<String, Offering> _chosenOfferings) {
+		this.chosenOfferings = _chosenOfferings;
+	}
+
 	public ArrayList<Offering> getLastPlan() {
 		return new ArrayList<>(this.lastPlan.values());
+	}
+
+	public void _setLastPlan(HashMap<String, Offering> _lastPlan) {
+		this.lastPlan = _lastPlan;
 	}
 
 	public HashMap<String, Grade> _getGrades() {
@@ -174,7 +201,7 @@ public class Student {
 	}
 
 	public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
-		Course course = DataBase.CourseManager.getOrCreate(_code);
+		Course course = DataBase.CourseManager.get(_code);
 		ArrayList<Course> preCourses = course.getPrerequisites();
 		for (Course preCourse : preCourses) {
 			if (!hasPassed(preCourse.getCode())) return false;
@@ -262,6 +289,7 @@ public class Student {
 		lastPlan.putAll(chosenOfferings);
 		for (Offering o : this.chosenOfferings.values()) {
 			o.addStudent(this);
+			DataBase.OfferingManager.updateStudents(o);
 		}
 	}
 
