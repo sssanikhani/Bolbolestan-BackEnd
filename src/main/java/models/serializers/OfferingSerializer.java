@@ -55,12 +55,7 @@ public class OfferingSerializer {
 		ArrayList<String> prerequisitesCode = (ArrayList<String>) offeringMap.get(
 			"prerequisites"
 		);
-		ArrayList<Course> prerequisites = new ArrayList<>();
-		for (String code : prerequisitesCode) {
-			Course preCourse = DataBase.CourseManager.getOrCreateM(code);
-			prerequisites.add(preCourse);
-		}
-		course.setPrerequisites(prerequisites);
+		course.setPrerequisites(prerequisitesCode);
 		obj.setCourse(course);
 
 		return obj;

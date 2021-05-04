@@ -10,7 +10,7 @@ public class Course {
 	private String name;
 	private String type;
 	private int units;
-	private ArrayList<Course> prerequisites;
+	private ArrayList<String> prerequisites;
 
 	public Course() {
 		this.prerequisites = new ArrayList<>();
@@ -54,11 +54,11 @@ public class Course {
 	}
 
 	@JsonIgnore
-	public ArrayList<Course> getPrerequisites() {
+	public ArrayList<String> getPrerequisites() {
 		return this.prerequisites;
 	}
 
-	public void setPrerequisites(ArrayList<Course> _prerequisites) {
+	public void setPrerequisites(ArrayList<String> _prerequisites) {
 		this.prerequisites = _prerequisites;
 	}
 }
