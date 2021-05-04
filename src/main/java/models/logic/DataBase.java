@@ -180,28 +180,28 @@ public class DataBase {
 				PreparedStatement addRegisteredStudentStm = con.prepareStatement(insertRegisteredStudentIDs);
 				removeWaitingStm.setString(1, o.getCourse().getCode());
 				removeWaitingStm.setString(2, o.getClassCode());
+				removeWaitingStm.execute();
 				removeRegisteredStm.setString(1, o.getCourse().getCode());
 				removeRegisteredStm.setString(2, o.getClassCode());
-
+				removeRegisteredStm.execute();
+				con.commit();
+				removeWaitingStm.close();
+				removeRegisteredStm.close();
 				for (String studentId : o.getWaitingStudents()) {
 					addWaitingStudentStm.setString(1, o.getCourse().getCode());
 					addWaitingStudentStm.setString(2, o.getClassCode());
 					addWaitingStudentStm.setString(3, studentId);
 					addWaitingStudentStm.addBatch();
 				}
-				for (String studentId : o.getWaitingStudents()) {
+				for (String studentId : o.getRegisteredStudents()) {
 					addRegisteredStudentStm.setString(1, o.getCourse().getCode());
 					addRegisteredStudentStm.setString(2, o.getClassCode());
 					addRegisteredStudentStm.setString(3, studentId);
 					addRegisteredStudentStm.addBatch();
 				}
-				removeWaitingStm.executeBatch();
-				removeRegisteredStm.executeBatch();
 				addWaitingStudentStm.executeBatch();
 				addRegisteredStudentStm.executeBatch();
 				con.commit();
-				removeWaitingStm.close();
-				removeRegisteredStm.close();
 				addWaitingStudentStm.close();
 				addRegisteredStudentStm.close();
 				con.close();
@@ -247,14 +247,6 @@ public class DataBase {
 				System.out.println(e.getMessage());
 			}
 			return filtered;
-		}
-
-		// TODO
-		public static ArrayList<Offering> getCodeOfferings(String code)
-			throws Exceptions.offeringNotFound {
-			HashMap<String, Offering> codeMap = codeOfferingsMap.get(code);
-			if (codeMap == null) throw new Exceptions.offeringNotFound();
-			return new ArrayList<>(codeMap.values());
 		}
 
 		public static Offering get(String code, String classCode)
@@ -591,6 +583,7 @@ public class DataBase {
 					student.setFaculty(rs.getString("faculty"));
 					student.setLevel(rs.getString("level"));
 					student.setStatus(rs.getString("status"));
+					student.setImg(rs.getString("image"));
 				} else {
 					rs.close();
 					stm.close();
@@ -718,15 +711,15 @@ public class DataBase {
 			return res;
 		}
 
-		public static ArrayList<Course> retrievePrerequisites(String code) throws SQLException {
-			ArrayList<Course> result = new ArrayList<>();
+		public static ArrayList<String> retrievePrerequisites(String code) throws SQLException {
+			ArrayList<String> result = new ArrayList<>();
 			Connection con = ConnectionPool.getConnection();
 			PreparedStatement stm = con.prepareStatement(getPrerequisitesQuery);
 			stm.setString(1, code);
 			ResultSet rs = stm.executeQuery();
 			while(rs.next()) {
-				Course c = buildObjectFromResult(rs);
-				result.add(c);
+				String pre = rs.getString("precode");
+				result.add(pre);
 			}
 			rs.close();
 			stm.close();
@@ -736,12 +729,11 @@ public class DataBase {
 
 		public static Course buildObjectFromResult(ResultSet rs) throws SQLException {
 			Course c = new Course();
-			System.out.println(rs.getString("code"));
 			c.setCode(rs.getString("code"));
 			c.setName(rs.getString("name"));
 			c.setType(rs.getString("type"));
 			c.setUnits(rs.getInt("units"));
-			ArrayList<Course> prerequisites = retrievePrerequisites(c.getCode());
+			ArrayList<String> prerequisites = retrievePrerequisites(c.getCode());
 			c.setPrerequisites(prerequisites);
 			return c;
 		}
@@ -782,9 +774,9 @@ public class DataBase {
 				con.setAutoCommit(false);
 				PreparedStatement stm = con.prepareStatement(insertPrerequisite);
 				for (Course c : list) {
-					for (Course pre : c.getPrerequisites()) {
+					for (String pre : c.getPrerequisites()) {
 						stm.setString(1, c.getCode());
-						stm.setString(2, pre.getCode());
+						stm.setString(2, pre);
 						stm.addBatch();
 					}
 				}
