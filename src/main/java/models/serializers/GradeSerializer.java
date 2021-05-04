@@ -43,7 +43,7 @@ public class GradeSerializer {
 		Grade g = mapper.readValue(json, Grade.class);
 
 		String courseCode = (String) gMap.get("code");
-		Course course = DataBase.CourseManager.getOrCreate(courseCode);
+		Course course = DataBase.CourseManager.getOrCreateM(courseCode);
 		g.setCourse(course);
 
 		return g;

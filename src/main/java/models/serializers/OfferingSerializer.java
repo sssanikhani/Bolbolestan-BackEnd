@@ -50,14 +50,14 @@ public class OfferingSerializer {
 		String courseName = (String) offeringMap.get("name");
 		String courseType = (String) offeringMap.get("type");
 		int courseUnits = (int) offeringMap.get("units");
-		DataBase.CourseManager.updateOrCreate(courseCode, courseName, courseType, courseUnits);
+		DataBase.CourseManager.updateOrCreateM(courseCode, courseName, courseType, courseUnits);
 		Course course = DataBase.CourseManager.get(courseCode);
 		ArrayList<String> prerequisitesCode = (ArrayList<String>) offeringMap.get(
 			"prerequisites"
 		);
 		ArrayList<Course> prerequisites = new ArrayList<>();
 		for (String code : prerequisitesCode) {
-			Course preCourse = DataBase.CourseManager.getOrCreate(code);
+			Course preCourse = DataBase.CourseManager.getOrCreateM(code);
 			prerequisites.add(preCourse);
 		}
 		course.setPrerequisites(prerequisites);
