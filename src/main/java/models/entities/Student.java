@@ -128,12 +128,38 @@ public class Student {
 		this.chosenOfferings = _chosenOfferings;
 	}
 
+	public Offering _getChosenOffering(String code, String classCode) {
+		Offering o = this.chosenOfferings.get(code);
+		if (o == null)
+			return null;
+		if (o.getClassCode().equals(classCode))
+			return o;
+		return null;
+	}
+
 	public ArrayList<Offering> getLastPlan() {
 		return new ArrayList<>(this.lastPlan.values());
 	}
 
 	public void _setLastPlan(HashMap<String, Offering> _lastPlan) {
 		this.lastPlan = _lastPlan;
+	}
+
+	public Offering _getLastOffering(String code, String classCode) {
+		Offering o = this.lastPlan.get(code);
+		if (o == null)
+			return null;
+		if (o.getClassCode().equals(classCode))
+			return o;
+		return null;
+	}
+
+	public boolean existsOffering(String code, String classCode) {
+		Offering o1 = this._getChosenOffering(code, classCode);
+		Offering o2 = this._getLastOffering(code, classCode);
+		if (o1 != null || o2 != null)
+			return true;
+		return false; 
 	}
 
 	public HashMap<String, Grade> _getGrades() {
@@ -202,9 +228,9 @@ public class Student {
 
 	public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
 		Course course = DataBase.CourseManager.get(_code);
-		ArrayList<Course> preCourses = course.getPrerequisites();
-		for (Course preCourse : preCourses) {
-			if (!hasPassed(preCourse.getCode())) return false;
+		ArrayList<String> preCourses = course.getPrerequisites();
+		for (String preCourse : preCourses) {
+			if (!hasPassed(preCourse)) return false;
 		}
 		return true;
 	}
