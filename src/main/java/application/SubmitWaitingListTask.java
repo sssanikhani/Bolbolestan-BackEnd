@@ -12,6 +12,7 @@ public class SubmitWaitingListTask implements Runnable {
 		ArrayList<Offering> offerings = DataBase.OfferingManager.getAll();
 		for (Offering o : offerings) {
 			o.registerWaitingStudents();
+			DataBase.OfferingManager.updateStudents(o);
 		}
 	}
 }
