@@ -16,6 +16,6 @@ public class BackgroundJobManager implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new SubmitWaitingListTask(), 0, 15, TimeUnit.MINUTES);
+		scheduler.scheduleAtFixedRate(new SubmitWaitingListTask(), 15, 15, TimeUnit.MINUTES);
 	}
 }
