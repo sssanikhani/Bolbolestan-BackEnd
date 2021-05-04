@@ -15,7 +15,10 @@ public class StartupTasks implements ApplicationRunner {
 			System.out.println("Trying to retrieve data from external DataBase...");
 			DataBase.OfferingManager.updateFromExternalServer();
 			DataBase.StudentManager.updateFromExternalServer();
-			System.out.println("All data have been received...");
+			System.out.println("All data have been received");
+			System.out.println("Updating local database...");
+			DataBase.updateLocalDataBase();
+			System.out.println("Local database updated successfully");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("ERROR: failed to connect with external server");
