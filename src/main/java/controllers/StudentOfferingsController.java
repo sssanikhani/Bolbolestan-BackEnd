@@ -155,18 +155,24 @@ public class StudentOfferingsController {
 		}
 
 		Student student = DataBase.AuthManager.getLoggedInUser();
-		Offering offering;
-		try {
-			offering = DataBase.OfferingManager.get(code, classCode);
-		} catch (Exceptions.offeringNotFound e) {
+		boolean exists = student.existsOffering(code, classCode);
+		if (!exists) {
 			response.setStatus(403);
 			return Responses.NotChosenOffering;
 		}
+		Offering o1 = student._getChosenOffering(code, classCode);
+		Offering o2 = student._getLastOffering(code, classCode);
 
 		try {
-			student.removeOfferingFromList(offering.getCourse().getCode());
+			if (o1 != null) {
+				student.removeOfferingFromList(o1.getCourse().getCode());
+				DataBase.OfferingManager.updateStudents(o1);
+			}
+			else {
+				student.removeOfferingFromList(o2.getCourse().getCode());
+				DataBase.OfferingManager.updateStudents(o2);
+			}
 			DataBase.StudentManager.updateOfferings(student);
-			DataBase.OfferingManager.updateStudents(offering);
 		} catch (Exceptions.offeringNotFound e) {
 			response.setStatus(403);
 			return Responses.NotChosenOffering;
