@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import models.statics.Exceptions;
 
 public class Offering {
@@ -71,12 +73,18 @@ public class Offering {
 		this.examTime = _examTime;
 	}
 
+	@JsonIgnore
 	public HashSet<String> getRegisteredStudents() {
 		return this.registeredStudents;
 	}
 
 	public int getNumRegisteredStudents() {
 		return this.registeredStudents.size();
+	}
+	
+	@JsonIgnore
+	public void setRegisteredStudents(HashSet<String> _registered) {
+		this.registeredStudents = _registered;
 	}
 
 	public LinkedHashSet<String> getWaitingStudents() {
@@ -87,6 +95,12 @@ public class Offering {
 		return this.waitingStudents.size();
 	}
 
+	@JsonIgnore
+	public void setWaitingStudents(LinkedHashSet<String> _waiting) {
+		this.waitingStudents = _waiting;
+	}
+	
+	@JsonIgnore
 	public int getRemainingCapacity() {
 		return this.getCapacity() - this.getNumRegisteredStudents();
 	}
