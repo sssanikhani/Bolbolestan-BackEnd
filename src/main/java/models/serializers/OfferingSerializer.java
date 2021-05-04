@@ -51,7 +51,7 @@ public class OfferingSerializer {
 		String courseType = (String) offeringMap.get("type");
 		int courseUnits = (int) offeringMap.get("units");
 		DataBase.CourseManager.updateOrCreateM(courseCode, courseName, courseType, courseUnits);
-		Course course = DataBase.CourseManager.get(courseCode);
+		Course course = DataBase.CourseManager.getOrCreateM(courseCode);
 		ArrayList<String> prerequisitesCode = (ArrayList<String>) offeringMap.get(
 			"prerequisites"
 		);
@@ -61,7 +61,6 @@ public class OfferingSerializer {
 			prerequisites.add(preCourse);
 		}
 		course.setPrerequisites(prerequisites);
-
 		obj.setCourse(course);
 
 		return obj;
