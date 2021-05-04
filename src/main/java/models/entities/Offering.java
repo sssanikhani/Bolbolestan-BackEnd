@@ -1,9 +1,8 @@
 package models.entities;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 import models.statics.Exceptions;
 
@@ -16,12 +15,12 @@ public class Offering {
 	private OfferingClassTime classTime;
 	private OfferingExamTime examTime;
 
-	private LinkedHashMap<String, Student> waitingStudents;
-	private HashMap<String, Student> registeredStudents;
+	private LinkedHashSet<String> waitingStudents;
+	private HashSet<String> registeredStudents;
 
 	public Offering() {
-		this.registeredStudents = new HashMap<>();
-		this.waitingStudents = new LinkedHashMap<>();
+		this.registeredStudents = new HashSet<>();
+		this.waitingStudents = new LinkedHashSet<>();
 	}
 
 	public String getClassCode() {
@@ -72,8 +71,16 @@ public class Offering {
 		this.examTime = _examTime;
 	}
 
+	public HashSet<String> getRegisteredStudents() {
+		return this.registeredStudents;
+	}
+
 	public int getNumRegisteredStudents() {
 		return this.registeredStudents.size();
+	}
+
+	public LinkedHashSet<String> getWaitingStudents() {
+		return this.waitingStudents;
 	}
 
 	public int getNumWaitingStudents() {
@@ -90,28 +97,25 @@ public class Offering {
 
 	public void addStudent(Student s) {
 		if (this.existStudent(s.getId())) return;
-		if (this.isFull())
-			this.waitingStudents.put(s.getId(),s);
-		else
-			this.registeredStudents.put(s.getId(), s);
+		if (this.isFull()) this.waitingStudents.add(
+				s.getId()
+			); else this.registeredStudents.add(s.getId());
 	}
 
 	public void removeStudent(String studentId) throws Exceptions.StudentNotFound {
-		Student s_reg = this.registeredStudents.get(studentId);
-		Student s_wait = this.waitingStudents.get(studentId);
-		if (s_reg == null && s_wait == null) throw new Exceptions.StudentNotFound();
-		if (s_reg != null) this.registeredStudents.remove(studentId);
-		if (s_wait != null) this.waitingStudents.remove(studentId);
+		boolean s_reg = this.registeredStudents.contains(studentId);
+		boolean s_wait = this.waitingStudents.contains(studentId);
+		if (!s_reg && !s_wait) throw new Exceptions.StudentNotFound();
+		if (s_reg) this.registeredStudents.remove(studentId);
+		if (s_wait) this.waitingStudents.remove(studentId);
 	}
 
 	public boolean isRegisteredStudent(String studentId) {
-		Student s = this.registeredStudents.get(studentId);
-		return s != null;
+		return this.registeredStudents.contains(studentId);
 	}
 
 	public boolean isWaitingStudent(String studentId) {
-		Student s = this.waitingStudents.get(studentId);
-		return s != null;
+		return this.waitingStudents.contains(studentId);
 	}
 
 	public boolean existStudent(String studentId) {
@@ -121,16 +125,16 @@ public class Offering {
 	public void registerWaitingStudents() {
 		int remainingCapacity = this.getRemainingCapacity();
 		if (remainingCapacity >= this.getNumWaitingStudents()) {
-			this.registeredStudents.putAll(this.waitingStudents);
+			this.registeredStudents.addAll(this.waitingStudents);
 			this.waitingStudents.clear();
 			return;
 		}
 		for (int i = 0; i < remainingCapacity; i++) {
-			Set<String> keys = this.waitingStudents.keySet();
-			Iterator<String> iter = keys.iterator();
+			LinkedHashSet<String> temp = new LinkedHashSet<>();
+			temp.addAll(this.waitingStudents);
+			Iterator<String> iter = temp.iterator();
 			String studentId = iter.next();
-			Student s = this.waitingStudents.get(studentId);
-			this.registeredStudents.put(studentId, s);
+			this.registeredStudents.add(studentId);
 			this.waitingStudents.remove(studentId);
 		}
 	}
