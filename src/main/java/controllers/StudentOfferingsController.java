@@ -122,6 +122,8 @@ public class StudentOfferingsController {
 		}
 
 		student.addOfferingToList(offering);
+		DataBase.StudentManager.updateOfferings(student);
+		DataBase.OfferingManager.updateStudents(offering);
 		return Responses.OK;
 	}
 
@@ -163,6 +165,8 @@ public class StudentOfferingsController {
 
 		try {
 			student.removeOfferingFromList(offering.getCourse().getCode());
+			DataBase.StudentManager.updateOfferings(student);
+			DataBase.OfferingManager.updateStudents(offering);
 		} catch (Exceptions.offeringNotFound e) {
 			response.setStatus(403);
 			return Responses.NotChosenOffering;
@@ -191,6 +195,7 @@ public class StudentOfferingsController {
 		}
 
 		student.finalizeOfferings();
+		DataBase.StudentManager.updateOfferings(student);
 		return Responses.OK;
 	}
 
