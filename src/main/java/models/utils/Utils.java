@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.*;
 
 public class Utils {
 
@@ -98,5 +99,9 @@ public class Utils {
 		res.put("data", resBody);
 
 		return res;
+	}
+
+	public static String hashFunction(String s) {
+		return String.valueOf(s.hashCode());
 	}
 }
