@@ -100,6 +100,14 @@ public class Responses {
 		}
 	};
 
+	public static HashMap<String, Object> IncorrectCredentials = new HashMap<>() {
+		{
+			put("status", 401);
+			put("short", "Incorrect Credentials");
+			put("message", "email or password is incorrect");
+		}
+	};
+
 	public static HashMap<String, Object> OK = new HashMap<>() {
 		{
 			put("status", 200);
