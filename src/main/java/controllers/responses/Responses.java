@@ -139,4 +139,12 @@ public class Responses {
 			put("message", "the user with this email or id already exists");
 		}
 	};
+
+	public static HashMap<String, Object> Forbidden = new HashMap<>() {
+		{
+			put("status", 403);
+			put("short", "Forbidden");
+			put("message", "you are not allowed to perform this action");
+		}
+	};
 }
