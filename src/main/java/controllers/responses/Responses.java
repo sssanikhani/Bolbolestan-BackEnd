@@ -123,4 +123,12 @@ public class Responses {
 			put("message", "incorrect request parameters");
 		}
 	};
+
+	public static HashMap<String, Object> AlreadyExists = new HashMap<>() {
+		{
+			put("status", 409);
+			put("short", "AlreadyExists");
+			put("message", "the user with this email or id already exists");
+		}
+	};
 }
