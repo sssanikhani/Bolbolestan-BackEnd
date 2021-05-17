@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
-import models.database.DataBase;
 import models.database.repositories.OfferingRepository;
 import models.database.repositories.StudentRepository;
 import models.entities.Offering;
@@ -27,14 +27,14 @@ import models.statics.Exceptions;
 public class StudentOfferingsController {
 
 	@GetMapping("")
-	public Object getStudentOfferings(HttpServletResponse response) {
-		if (!DataBase.AuthManager.isLoggedIn()) {
-			response.setStatus(401);
-			return Responses.UnAuthorized;
-		}
+	public Object getStudentOfferings(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		Student s = (Student) request.getAttribute("student");
+		
 		HashMap<String, Object> result = new HashMap<>();
 
-		Student s = DataBase.AuthManager.getLoggedInUser();
 		result.put("chosenUnits", s.getNumberChosenUnits());
 
 		ArrayList<HashMap<String, Object>> offeringsData = new ArrayList<>();
@@ -57,12 +57,10 @@ public class StudentOfferingsController {
 	@PostMapping("")
 	public HashMap<String, Object> addOffering(
 		@RequestBody HashMap<String, Object> requestBody,
+		HttpServletRequest request,
 		HttpServletResponse response
 	) {
-		if (!DataBase.AuthManager.isLoggedIn()) {
-			response.setStatus(401);
-			return Responses.UnAuthorized;
-		}
+		Student student = (Student) request.getAttribute("student");
 
 		if (!(requestBody.get("code") instanceof String)) {
 			response.setStatus(400);
@@ -88,8 +86,6 @@ public class StudentOfferingsController {
 			response.setStatus(404);
 			return Responses.OfferingNotFound;
 		}
-
-		Student student = DataBase.AuthManager.getLoggedInUser();
 
 		boolean hasPassedPrerequisites;
 		try {
@@ -132,12 +128,10 @@ public class StudentOfferingsController {
 	@DeleteMapping("")
 	public HashMap<String, Object> removeOffering(
 		@RequestBody HashMap<String, Object> requestBody,
+		HttpServletRequest request,
 		HttpServletResponse response
 	) {
-		if (!DataBase.AuthManager.isLoggedIn()) {
-			response.setStatus(401);
-			return Responses.UnAuthorized;
-		}
+		Student student = (Student) request.getAttribute("student");
 
 		if (!(requestBody.get("code") instanceof String)) {
 			response.setStatus(400);
@@ -156,7 +150,6 @@ public class StudentOfferingsController {
 			return Responses.BadRequest;
 		}
 
-		Student student = DataBase.AuthManager.getLoggedInUser();
 		boolean exists = student.existsOffering(code, classCode);
 		if (!exists) {
 			response.setStatus(403);
@@ -169,8 +162,7 @@ public class StudentOfferingsController {
 			if (o1 != null) {
 				student.removeOfferingFromList(o1.getCourse().getCode());
 				OfferingRepository.updateStudents(o1);
-			}
-			else {
+			} else {
 				student.removeOfferingFromList(o2.getCourse().getCode());
 				OfferingRepository.updateStudents(o2);
 			}
@@ -184,13 +176,11 @@ public class StudentOfferingsController {
 	}
 
 	@PostMapping("/submit")
-	public HashMap<String, Object> submitChosenOfferings(HttpServletResponse response) {
-		if (!DataBase.AuthManager.isLoggedIn()) {
-			response.setStatus(401);
-			return Responses.UnAuthorized;
-		}
-
-		Student student = DataBase.AuthManager.getLoggedInUser();
+	public HashMap<String, Object> submitChosenOfferings(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		Student student = (Student) request.getAttribute("student");
 
 		int numUnits = student.getNumberChosenUnits();
 		if (numUnits < Constants.MIN_ALLOWED_UNITS) {
@@ -208,13 +198,11 @@ public class StudentOfferingsController {
 	}
 
 	@PostMapping("/reset")
-	public HashMap<String, Object> resetChosenOfferings(HttpServletResponse response) {
-		if (!DataBase.AuthManager.isLoggedIn()) {
-			response.setStatus(401);
-			return Responses.UnAuthorized;
-		}
-
-		Student student = DataBase.AuthManager.getLoggedInUser();
+	public HashMap<String, Object> resetChosenOfferings(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		Student student = (Student) request.getAttribute("student");
 		student.resetPlan();
 		return Responses.OK;
 	}
