@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
+import models.statics.Constants;
+
 @Component
 public class CORSFilter implements Filter {
 
-	private static String webAppOrigin = "http://localhost:3000";
+	private static String webAppOrigin = Constants.webappURL;
 
 	@Override
 	public void doFilter(

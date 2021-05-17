@@ -28,12 +28,13 @@ import models.entities.Student;
 import models.entities.Term;
 import models.serializers.GradeSerializer;
 import models.serializers.OfferingSerializer;
+import models.statics.Constants;
 import models.statics.Exceptions;
 import models.utils.Utils;
 
 public class DataBase {
 
-	private static String externalServerUrl = "http://138.197.181.131:5200/api/";
+	private static final String externalServerUrl = Constants.externalDataBaseURL;
 
 	public static class AuthManager {
 

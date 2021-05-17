@@ -4,6 +4,7 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import models.database.LocalVars;
+import models.statics.Constants;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -120,7 +121,7 @@ public class Utils {
 		JwtBuilder builder = Jwts
 			.builder()
 			.setIssuedAt(now)
-			.setIssuer("localhost:8080")
+			.setIssuer(Constants.myDomain)
 			.setExpiration(dt)
 			.signWith(signatureAlgorithm, LocalVars.secretKey)
 			.claim("stdId", stdId);
