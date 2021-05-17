@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JWT {
 
-    public static String createJWT(String issuer, long ttlMillis) {
+    public static String createJWT(String stdId, long ttlMillis) {
         //JWT signature
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
@@ -19,9 +19,10 @@ public class JWT {
         //JWT Claims
         JwtBuilder builder = Jwts.builder()
                 .setIssuedAt(now)
-                .setIssuer(issuer)
+                .setIssuer("localhost:8080")
                 .setExpiration(dt)
-                .signWith(signatureAlgorithm, "bolbolestan");
+                .signWith(signatureAlgorithm, "bolbolestan")
+                .claim("stdId", stdId);
 
         return builder.compact();
     }
