@@ -78,6 +78,13 @@ public class Student {
 		this.password = hashedPassword;
 	}
 
+	public boolean checkPassword(String _password) {
+		String hashed = Utils.getSHA(_password);
+		if (hashed.equals(this.password))
+			return true;
+		return false;
+	}
+
 	public String getBirthDate() {
 		return birthDate;
 	}
