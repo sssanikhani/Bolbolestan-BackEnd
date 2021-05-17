@@ -1,18 +1,21 @@
 package models.utils;
 
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 public class Utils {
 
@@ -105,24 +108,42 @@ public class Utils {
 		return res;
 	}
 
-	public static String hashFunction(String s) {
-		return String.valueOf(s.hashCode());
+	public static String createJWT(String stdId, long ttlMillis) {
+		//JWT signature
+		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+		long nowMillis = System.currentTimeMillis();
+		Date now = new Date(nowMillis);
+		Date dt = new Date(nowMillis + ttlMillis);
+		//JWT Claims
+		JwtBuilder builder = Jwts
+			.builder()
+			.setIssuedAt(now)
+			.setIssuer("localhost:8080")
+			.setExpiration(dt)
+			.signWith(signatureAlgorithm, "bolbolestan")
+			.claim("stdId", stdId);
+
+		return builder.compact();
 	}
 
-	public static String createJWT(String stdId, long ttlMillis) {
-        //JWT signature
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-        Date dt = new Date(nowMillis + ttlMillis);
-        //JWT Claims
-        JwtBuilder builder = Jwts.builder()
-                .setIssuedAt(now)
-                .setIssuer("localhost:8080")
-                .setExpiration(dt)
-                .signWith(signatureAlgorithm, "bolbolestan")
-                .claim("stdId", stdId);
+	public static String getSHA(String input) {
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+		} catch(NoSuchAlgorithmException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		
+		byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
 
-        return builder.compact();
-    }
+		BigInteger number = new BigInteger(1, hash);
+		StringBuilder hexString = new StringBuilder(number.toString(16));
+
+		while (hexString.length() < 32) {
+			hexString.insert(0, '0');
+		}
+
+		return hexString.toString();
+	}
 }
