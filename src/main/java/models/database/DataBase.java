@@ -33,7 +33,7 @@ import models.utils.Utils;
 
 public class DataBase {
 
-	private static String externalServerUrl = "http://138.197.181.131:5100/api/";
+	private static String externalServerUrl = "http://138.197.181.131:5200/api/";
 
 	public static class AuthManager {
 
@@ -1010,7 +1010,7 @@ public class DataBase {
             System.out.println("#########################################################");
             Connection connection = ConnectionPool.getConnection();
             ScriptRunner runner = new ScriptRunner(connection);
-            runner.runScript(new BufferedReader(new FileReader("src/main/java/models/logic/.init.sql")));
+            runner.runScript(new BufferedReader(new FileReader("src/main/java/models/database/.init.sql")));
 			connection.close();
         } catch(Exception e) {
             System.out.println(e.getMessage());
