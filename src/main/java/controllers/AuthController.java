@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -141,6 +142,36 @@ public class AuthController {
 			response.setStatus(500);
 			return Responses.InternalServerError;
 		}
+
+		return Responses.OK;
+	}
+
+	@PostMapping("/change-password")
+	public HashMap<String, Object> changePassword(
+		@RequestBody HashMap<String, Object> requestBody,
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		String id = (String) request.getAttribute("id");
+		Student s;
+		try {
+			s = StudentRepository.get(id, false);
+		} catch(Exceptions.StudentNotFound e) {
+			response.setStatus(403);
+			return Responses.Forbidden;
+		}
+
+		if (!(requestBody.get("password") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+
+		String password = (String) requestBody.get("password");
+		s.setPassword(password);
+
+		ArrayList<Student> list = new ArrayList<>();
+		list.add(s);
+		StudentRepository.bulkUpdate(list);
 
 		return Responses.OK;
 	}
