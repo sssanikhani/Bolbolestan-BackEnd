@@ -1,11 +1,10 @@
 package models.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import models.database.LocalVars;
-import models.statics.Constants;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -19,6 +18,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import models.database.LocalVars;
+import models.statics.Constants;
 
 public class Utils {
 
@@ -64,7 +65,6 @@ public class Utils {
 
 		String body = "";
 		if (requestBody != null) {
-			//            ObjectMapper mapper = new ObjectMapper();
 			body = requestBody;
 		}
 
@@ -133,11 +133,11 @@ public class Utils {
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
-		} catch(NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e) {
 			System.out.println(e.getMessage());
 			return null;
 		}
-		
+
 		byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
 
 		BigInteger number = new BigInteger(1, hash);
@@ -148,5 +148,21 @@ public class Utils {
 		}
 
 		return hexString.toString();
+	}
+
+	public static String generateForgetLink(String id) {
+		String jwt = createJWT(id, Constants.TEN_MINUTE);
+		return Constants.webappURL + "/change-password?token=" + jwt;
+	}
+
+	public static void sendEmail(String email, String link)
+		throws JsonProcessingException, IOException, InterruptedException {
+		HashMap<String, String> body = new HashMap<>();
+		body.put("email", email);
+		body.put("url", link);
+		ObjectMapper om = new ObjectMapper();
+		String rawBody = om.writeValueAsString(body);
+		String requestURL = Constants.externalDataBaseURL + "send_mail";
+		sendRequest("POST", requestURL, null, rawBody);
 	}
 }
