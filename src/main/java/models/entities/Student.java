@@ -6,6 +6,7 @@ import java.util.TreeMap;
 
 import models.database.DataBase;
 import models.statics.Exceptions;
+import models.utils.Utils;
 
 public class Student {
 
@@ -69,7 +70,7 @@ public class Student {
 	}
 
 	public void setPassword(String _password) {
-		this.password = _password;
+		this.password = Utils.getSHA(_password);
 	}
 
 	public String getBirthDate() {
