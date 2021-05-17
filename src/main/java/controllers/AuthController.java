@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
-import models.database.DataBase;
 import models.database.repositories.StudentRepository;
 import models.entities.Student;
 import models.statics.Constants;
@@ -75,8 +74,7 @@ public class AuthController {
 
 		String jwtToken = Utils.createJWT(id, Constants.ONE_DAY);
 
-		HashMap<String, Object> res = new HashMap<>();
-		res.put("access", jwtToken);
+		HashMap<String, Object> res = new HashMap<>() {{ put("access", jwtToken); }};
 		response.setStatus(201);
 		return res;
 	}
@@ -86,7 +84,7 @@ public class AuthController {
 		@RequestBody HashMap<String, Object> requestBody,
 		HttpServletResponse response
 	) {
-		if (!(requestBody.get("id") instanceof String)) {
+		if (!(requestBody.get("email") instanceof String)) {
 			response.setStatus(400);
 			return Responses.BadRequest;
 		}
@@ -95,21 +93,24 @@ public class AuthController {
 			return Responses.BadRequest;
 		}
 
-		String id = (String) requestBody.get("id");
+		String email = (String) requestBody.get("email");
 		String password = (String) requestBody.get("password");
-
-		if (id == null || password == null) {
-			response.setStatus(400);
-			return Responses.BadRequest;
-		}
-
+		Student s;
 		try {
-			DataBase.AuthManager.login(id);
+			s = StudentRepository.get(email, true);
 		} catch (Exceptions.StudentNotFound e) {
             response.setStatus(401);
 			return Responses.UnAuthorized;
 		}
-		return Responses.OK;
-	}
 
+		boolean correct = s.checkPassword(password);
+		if (!correct) {
+			response.setStatus(401);
+			return Responses.UnAuthorized;
+		}
+
+		String jwtToken = Utils.createJWT(s.getId(), Constants.ONE_DAY);
+		HashMap<String, Object> res = new HashMap<>() {{ put("access", jwtToken); }};
+		return res;
+	}
 }
