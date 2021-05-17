@@ -56,7 +56,7 @@ create table if not exists Student(
 	name			char(100),
     second_name 	char(100),
     email           char(50),
-    password        char(50),
+    password        char(100),
     birth_date		char(15),
     field			char(100),
     faculty			char(100),
