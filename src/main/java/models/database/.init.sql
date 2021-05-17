@@ -63,7 +63,8 @@ create table if not exists Student(
     level			char(100),
     status			char(100),
 	image			char(200),
-    primary key(id)
+    primary key(id),
+    unique(email)
 );
 
 create table if not exists Term(
