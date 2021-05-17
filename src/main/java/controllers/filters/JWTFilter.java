@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import models.database.LocalVars;
+import models.database.repositories.StudentRepository;
+import models.entities.Student;
+import models.statics.Exceptions;
 
 @WebFilter(filterName = "JWTFilter", urlPatterns = { "/student/*", "/offerings/*", "/auth/change-password" })
 public class JWTFilter implements Filter {
@@ -57,7 +60,15 @@ public class JWTFilter implements Filter {
 		}
 
 		String id = (String) claims.get("id");
-		servletRequest.setAttribute("id", id);
+		Student s;
+		try {
+			s = StudentRepository.get(id, false);
+		} catch(Exceptions.StudentNotFound e) {
+			response.setStatus(403);
+			return;
+		}
+
+		servletRequest.setAttribute("student", s);
 		chain.doFilter(servletRequest, servletResponse);
 	}
 

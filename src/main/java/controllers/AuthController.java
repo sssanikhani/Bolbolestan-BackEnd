@@ -152,14 +152,7 @@ public class AuthController {
 		HttpServletRequest request,
 		HttpServletResponse response
 	) {
-		String id = (String) request.getAttribute("id");
-		Student s;
-		try {
-			s = StudentRepository.get(id, false);
-		} catch(Exceptions.StudentNotFound e) {
-			response.setStatus(403);
-			return Responses.Forbidden;
-		}
+		Student s = (Student) request.getAttribute("student");
 
 		if (!(requestBody.get("password") instanceof String)) {
 			response.setStatus(400);
