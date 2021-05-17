@@ -14,27 +14,6 @@ import models.statics.Exceptions;
 
 public class DataBase {
 
-	public static class AuthManager {
-
-		private static Student loggedInUser = null;
-
-		public static Student getLoggedInUser() {
-			return loggedInUser;
-		}
-
-		public static void login(String id) throws Exceptions.StudentNotFound {
-			loggedInUser = StudentRepository.get(id, false);
-		}
-
-		public static void logout() {
-			loggedInUser = null;
-		}
-
-		public static boolean isLoggedIn() {
-			return loggedInUser != null;
-		}
-	}
-
 	public static void updateLocalDataBase() {
 		createTables();
 		CourseRepository.initUpdate();
