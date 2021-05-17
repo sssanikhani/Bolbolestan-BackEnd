@@ -113,6 +113,7 @@ public class StudentRepository {
 	public static void initUpdate() {
 		ArrayList<Student> list = new ArrayList<>(students.values());
 		bulkUpdate(list);
+		students.clear();
 	}
 
 	public static void bulkUpdate(ArrayList<Student> list) {

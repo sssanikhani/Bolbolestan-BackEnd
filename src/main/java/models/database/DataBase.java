@@ -9,8 +9,6 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import models.database.repositories.CourseRepository;
 import models.database.repositories.OfferingRepository;
 import models.database.repositories.StudentRepository;
-import models.entities.Student;
-import models.statics.Exceptions;
 
 public class DataBase {
 

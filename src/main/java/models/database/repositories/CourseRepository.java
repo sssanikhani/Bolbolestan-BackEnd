@@ -86,6 +86,7 @@ public class CourseRepository {
 	public static void initUpdate() {
 		ArrayList<Course> list = new ArrayList<>(courses.values());
 		bulkUpdate(list);
+		courses.clear();
 	}
 
 	public static void bulkUpdate(ArrayList<Course> list) {

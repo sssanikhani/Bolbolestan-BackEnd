@@ -100,6 +100,7 @@ public class OfferingRepository {
 			list.addAll(group.values());
 		}
 		bulkUpdate(list);
+		codeOfferingsMap.clear();
 	}
 
 	public static void bulkUpdate(ArrayList<Offering> list) {
