@@ -27,7 +27,7 @@ public class JWTFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String jwt = request.getHeader("jwtToken");
-        System.out.println("CORSFilter HTTP Request: " + request.getHeaders("jwtToken"));
+//        System.out.println("CORSFilter HTTP Request: " + request.getHeader("jwtToken"));
         Claims claims = decodeJWT(jwt);
         Student s = null;
         //IS NULL
@@ -39,7 +39,7 @@ public class JWTFilter implements Filter {
             Date now = new Date(nowMillis);
             if(now.compareTo(claims.getExpiration())>0){
                 try {
-                    s = DataBase.StudentManager.get(claims.getIssuer());
+                    s = DataBase.StudentManager.get((String) claims.get("stdId"));
                 } catch (Exceptions.StudentNotFound e) {
                     response.setStatus(403);
 //                    chain.doFilter(request, response);
@@ -55,7 +55,7 @@ public class JWTFilter implements Filter {
 
     public Claims decodeJWT(String token) {
         return Jwts.parser()
-                .setSigningKey(DatatypeConverter.parseBase64Binary("bolbolestan"))
+                .setSigningKey("bolbolestan")
                 .parseClaimsJws(token).getBody();
     }
     @Override
