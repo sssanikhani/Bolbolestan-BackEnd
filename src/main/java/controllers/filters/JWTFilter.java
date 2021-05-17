@@ -16,7 +16,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import models.database.LocalVars;
 
-@WebFilter(filterName = "JWTFilter", urlPatterns = { "/student/*", "/offerings/*" })
+@WebFilter(filterName = "JWTFilter", urlPatterns = { "/student/*", "/offerings/*", "/auth/change-password" })
 public class JWTFilter implements Filter {
 
 	@Override
@@ -26,8 +26,7 @@ public class JWTFilter implements Filter {
 		FilterChain chain
 	)
 		throws IOException, ServletException {
-        
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
 		String authHeader = request.getHeader("Authorization");
@@ -38,7 +37,11 @@ public class JWTFilter implements Filter {
 
 		String jwt = authHeader.substring(7); // without Bearer
 
-		Claims claims = decodeJWT(jwt);
+		Claims claims = Jwts
+			.parser()
+			.setSigningKey(LocalVars.secretKey)
+			.parseClaimsJws(jwt)
+			.getBody();
 
 		if (claims == null) {
 			response.setStatus(401);
@@ -56,14 +59,6 @@ public class JWTFilter implements Filter {
 		String id = (String) claims.get("id");
 		servletRequest.setAttribute("id", id);
 		chain.doFilter(servletRequest, servletResponse);
-	}
-
-	public Claims decodeJWT(String token) {
-		return Jwts
-			.parser()
-			.setSigningKey(LocalVars.secretKey)
-			.parseClaimsJws(token)
-			.getBody();
 	}
 
 	@Override
