@@ -12,7 +12,6 @@ public class StudentSerializer {
 		result.put("name", s.getName());
 		result.put("secondName", s.getSecondName());
 		result.put("email", s.getEmail());
-		result.put("password", s.getPassword());
 		result.put("birthDate", s.getBirthDate());
 		result.put("gpa", s.getGpa());
 		result.put("totalPassedUnits", s.getTotalPassedUnits());
