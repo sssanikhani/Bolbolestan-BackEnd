@@ -73,6 +73,10 @@ public class Student {
 		this.password = Utils.getSHA(_password);
 	}
 
+	public void _setHashedPassword(String hashedPassword) {
+		this.password = hashedPassword;
+	}
+
 	public String getBirthDate() {
 		return birthDate;
 	}

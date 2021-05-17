@@ -578,7 +578,7 @@ public class DataBase {
 					student.setName(rs.getString("name"));
 					student.setSecondName(rs.getString("second_name"));
 					student.setEmail(rs.getString("email"));
-					student.setPassword(rs.getString("password"));
+					student._setHashedPassword(rs.getString("password"));
 					student.setBirthDate(rs.getString("birth_date"));
 					student.setField(rs.getString("field"));
 					student.setFaculty(rs.getString("faculty"));
