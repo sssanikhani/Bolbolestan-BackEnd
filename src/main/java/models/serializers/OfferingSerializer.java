@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import models.database.DataBase;
+import models.database.repositories.CourseRepository;
 import models.entities.Course;
 import models.entities.Offering;
 
@@ -50,8 +50,8 @@ public class OfferingSerializer {
 		String courseName = (String) offeringMap.get("name");
 		String courseType = (String) offeringMap.get("type");
 		int courseUnits = (int) offeringMap.get("units");
-		DataBase.CourseManager.updateOrCreateM(courseCode, courseName, courseType, courseUnits);
-		Course course = DataBase.CourseManager.getOrCreateM(courseCode);
+		CourseRepository.updateOrCreateM(courseCode, courseName, courseType, courseUnits);
+		Course course = CourseRepository.getOrCreateM(courseCode);
 		ArrayList<String> prerequisitesCode = (ArrayList<String>) offeringMap.get(
 			"prerequisites"
 		);

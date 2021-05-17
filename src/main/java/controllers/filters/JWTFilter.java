@@ -1,19 +1,23 @@
 package controllers.filters;
 
-import controllers.responses.Responses;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import models.database.DataBase;
-import models.entities.Student;
-import models.statics.Exceptions;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.util.Date;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import models.database.repositories.StudentRepository;
+import models.entities.Student;
+import models.statics.Exceptions;
 
 @Component
 public class JWTFilter implements Filter {
@@ -39,7 +43,7 @@ public class JWTFilter implements Filter {
             Date now = new Date(nowMillis);
             if(now.compareTo(claims.getExpiration())>0){
                 try {
-                    s = DataBase.StudentManager.get((String) claims.get("stdId"));
+                    s = StudentRepository.get((String) claims.get("stdId"));
                 } catch (Exceptions.StudentNotFound e) {
                     response.setStatus(403);
 //                    chain.doFilter(request, response);

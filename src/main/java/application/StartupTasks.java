@@ -5,6 +5,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import models.database.DataBase;
+import models.database.repositories.OfferingRepository;
+import models.database.repositories.StudentRepository;
 
 @Component
 public class StartupTasks implements ApplicationRunner {
@@ -13,8 +15,8 @@ public class StartupTasks implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		try {
 			System.out.println("Trying to retrieve data from external DataBase...");
-			DataBase.OfferingManager.updateFromExternalServer();
-			DataBase.StudentManager.updateFromExternalServer();
+			OfferingRepository.updateFromExternalServer();
+			StudentRepository.updateFromExternalServer();
 			System.out.println("All data have been received");
 			System.out.println("Updating local database...");
 			DataBase.updateLocalDataBase();

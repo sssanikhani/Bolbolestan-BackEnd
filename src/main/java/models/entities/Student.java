@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import models.database.DataBase;
+import models.database.repositories.CourseRepository;
+import models.database.repositories.OfferingRepository;
 import models.statics.Exceptions;
 import models.utils.Utils;
 
@@ -232,7 +233,7 @@ public class Student {
 	}
 
 	public boolean hasPassedPrerequisites(String _code) throws Exceptions.offeringNotFound {
-		Course course = DataBase.CourseManager.get(_code);
+		Course course = CourseRepository.get(_code);
 		ArrayList<String> preCourses = course.getPrerequisites();
 		for (String preCourse : preCourses) {
 			if (!hasPassed(preCourse)) return false;
@@ -254,7 +255,7 @@ public class Student {
 		for (Grade g : this.grades.values()) {
 			String code = g.getCourse().getCode();
 			if (this.hasPassed(code)) {
-				passed += DataBase.CourseManager.get(code).getUnits();
+				passed += CourseRepository.get(code).getUnits();
 			}
 		}
 		return passed;
@@ -265,7 +266,7 @@ public class Student {
 		int totalUnits = 0;
 		for (Grade g : this.grades.values()) {
 			String code = g.getCourse().getCode();
-			int unit = DataBase.CourseManager.get(code).getUnits();
+			int unit = CourseRepository.get(code).getUnits();
 			sumGrades += g.getGrade() * unit;
 			totalUnits += unit;
 		}
@@ -320,7 +321,7 @@ public class Student {
 		lastPlan.putAll(chosenOfferings);
 		for (Offering o : this.chosenOfferings.values()) {
 			o.addStudent(this);
-			DataBase.OfferingManager.updateStudents(o);
+			OfferingRepository.updateStudents(o);
 		}
 	}
 

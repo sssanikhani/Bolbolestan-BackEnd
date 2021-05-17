@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
 import models.database.DataBase;
+import models.database.repositories.OfferingRepository;
 import models.entities.Offering;
 import models.serializers.OfferingSerializer;
 
@@ -25,7 +26,7 @@ public class OfferingsController {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
 		}
-		ArrayList<Offering> list = DataBase.OfferingManager.getAll();
+		ArrayList<Offering> list = OfferingRepository.getAll();
 		ArrayList<HashMap<String, Object>> result = OfferingSerializer.serializeList(list);
 		return result;
 	}
@@ -36,7 +37,7 @@ public class OfferingsController {
 			response.setStatus(401);
 			return Responses.UnAuthorized;
 		}
-		ArrayList<Offering> filtered = DataBase.OfferingManager.search(query);
+		ArrayList<Offering> filtered = OfferingRepository.search(query);
 		ArrayList<HashMap<String, Object>> result = OfferingSerializer.serializeList(filtered);
 		return result;
 	}

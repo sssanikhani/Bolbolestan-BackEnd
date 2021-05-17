@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
 import models.database.DataBase;
+import models.database.repositories.OfferingRepository;
+import models.database.repositories.StudentRepository;
 import models.entities.Offering;
 import models.entities.Student;
 import models.serializers.OfferingSerializer;
@@ -81,7 +83,7 @@ public class StudentOfferingsController {
 
 		Offering offering;
 		try {
-			offering = DataBase.OfferingManager.get(code, classCode);
+			offering = OfferingRepository.get(code, classCode);
 		} catch (Exceptions.offeringNotFound e) {
 			response.setStatus(404);
 			return Responses.OfferingNotFound;
@@ -122,8 +124,8 @@ public class StudentOfferingsController {
 		}
 
 		student.addOfferingToList(offering);
-		DataBase.StudentManager.updateOfferings(student);
-		DataBase.OfferingManager.updateStudents(offering);
+		StudentRepository.updateOfferings(student);
+		OfferingRepository.updateStudents(offering);
 		return Responses.OK;
 	}
 
@@ -166,13 +168,13 @@ public class StudentOfferingsController {
 		try {
 			if (o1 != null) {
 				student.removeOfferingFromList(o1.getCourse().getCode());
-				DataBase.OfferingManager.updateStudents(o1);
+				OfferingRepository.updateStudents(o1);
 			}
 			else {
 				student.removeOfferingFromList(o2.getCourse().getCode());
-				DataBase.OfferingManager.updateStudents(o2);
+				OfferingRepository.updateStudents(o2);
 			}
-			DataBase.StudentManager.updateOfferings(student);
+			StudentRepository.updateOfferings(student);
 		} catch (Exceptions.offeringNotFound e) {
 			response.setStatus(403);
 			return Responses.NotChosenOffering;
@@ -201,7 +203,7 @@ public class StudentOfferingsController {
 		}
 
 		student.finalizeOfferings();
-		DataBase.StudentManager.updateOfferings(student);
+		StudentRepository.updateOfferings(student);
 		return Responses.OK;
 	}
 

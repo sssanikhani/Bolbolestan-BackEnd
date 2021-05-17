@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import models.database.DataBase;
+import models.database.repositories.CourseRepository;
 import models.entities.Course;
 import models.entities.Grade;
 
@@ -43,7 +43,7 @@ public class GradeSerializer {
 		Grade g = mapper.readValue(json, Grade.class);
 
 		String courseCode = (String) gMap.get("code");
-		Course course = DataBase.CourseManager.getOrCreateM(courseCode);
+		Course course = CourseRepository.getOrCreateM(courseCode);
 		g.setCourse(course);
 
 		return g;
