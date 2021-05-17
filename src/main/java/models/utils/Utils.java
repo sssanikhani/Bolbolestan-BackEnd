@@ -7,8 +7,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.*;
+
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class Utils {
 
@@ -104,4 +108,21 @@ public class Utils {
 	public static String hashFunction(String s) {
 		return String.valueOf(s.hashCode());
 	}
+
+	public static String createJWT(String stdId, long ttlMillis) {
+        //JWT signature
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        Date dt = new Date(nowMillis + ttlMillis);
+        //JWT Claims
+        JwtBuilder builder = Jwts.builder()
+                .setIssuedAt(now)
+                .setIssuer("localhost:8080")
+                .setExpiration(dt)
+                .signWith(signatureAlgorithm, "bolbolestan")
+                .claim("stdId", stdId);
+
+        return builder.compact();
+    }
 }
