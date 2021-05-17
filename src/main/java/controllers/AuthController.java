@@ -113,4 +113,35 @@ public class AuthController {
 		HashMap<String, Object> res = new HashMap<>() {{ put("access", jwtToken); }};
 		return res;
 	}
+
+	@PostMapping("/forget-password")
+	public HashMap<String, Object> forgetPassword(
+		@RequestBody HashMap<String, Object> requestBody,
+		HttpServletResponse response
+	) {
+		if (!(requestBody.get("email") instanceof String)) {
+			response.setStatus(400);
+			return Responses.BadRequest;
+		}
+
+		String email = (String) requestBody.get("email");
+		Student s;
+		try {
+			s = StudentRepository.get(email, true);
+		} catch(Exceptions.StudentNotFound e) {
+			response.setStatus(404);
+			return Responses.StudentNotFound;
+		}
+
+		String link = Utils.generateForgetLink(s.getId());
+		try {
+			Utils.sendEmail(s.getEmail(), link);
+		} catch(Exception e) {
+			e.printStackTrace();
+			response.setStatus(500);
+			return Responses.InternalServerError;
+		}
+
+		return Responses.OK;
+	}
 }
