@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
+import models.database.DataBase;
 import models.entities.Offering;
 import models.entities.Student;
-import models.logic.DataBase;
 import models.serializers.OfferingSerializer;
 import models.statics.Constants;
 import models.statics.Exceptions;

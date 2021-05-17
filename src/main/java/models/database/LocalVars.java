@@ -1,4 +1,4 @@
-package models.logic;
+package models.database;
 
 public class LocalVars {
     private static String dbUser = "#FILL";

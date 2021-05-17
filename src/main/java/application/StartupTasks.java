@@ -4,7 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import models.logic.DataBase;
+import models.database.DataBase;
 
 @Component
 public class StartupTasks implements ApplicationRunner {

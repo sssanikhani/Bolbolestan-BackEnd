@@ -2,8 +2,8 @@ package application;
 
 import java.util.ArrayList;
 
+import models.database.DataBase;
 import models.entities.Offering;
-import models.logic.DataBase;
 
 public class SubmitWaitingListTask implements Runnable {
 

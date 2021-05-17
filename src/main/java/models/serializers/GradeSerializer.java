@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.database.DataBase;
 import models.entities.Course;
 import models.entities.Grade;
-import models.logic.DataBase;
 
 public class GradeSerializer {
 

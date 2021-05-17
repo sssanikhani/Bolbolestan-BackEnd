@@ -3,8 +3,8 @@ package controllers.filters;
 import controllers.responses.Responses;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import models.database.DataBase;
 import models.entities.Student;
-import models.logic.DataBase;
 import models.statics.Exceptions;
 import org.springframework.stereotype.Component;
 

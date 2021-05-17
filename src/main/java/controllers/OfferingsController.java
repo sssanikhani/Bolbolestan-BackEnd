@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controllers.responses.Responses;
+import models.database.DataBase;
 import models.entities.Offering;
-import models.logic.DataBase;
 import models.serializers.OfferingSerializer;
 
 @RestController

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import models.logic.DataBase;
+import models.database.DataBase;
 import models.statics.Exceptions;
 
 public class Student {
