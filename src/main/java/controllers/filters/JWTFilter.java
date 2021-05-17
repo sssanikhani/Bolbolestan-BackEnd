@@ -19,7 +19,7 @@ import models.database.repositories.StudentRepository;
 import models.entities.Student;
 import models.statics.Exceptions;
 
-@WebFilter(filterName = "JWTFilter", urlPatterns = { "/student/*", "/offerings/*", "/auth/change-password" })
+@WebFilter(filterName = "JWTFilter", urlPatterns = { "/student*", "/offerings*", "/auth/change-password" })
 public class JWTFilter implements Filter {
 
 	@Override
