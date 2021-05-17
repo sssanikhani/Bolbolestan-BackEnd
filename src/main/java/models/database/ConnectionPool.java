@@ -8,10 +8,10 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
-    private final static String dbName = LocalVars.getDBName();
+    private final static String dbName = LocalVars.dbName;
     private final static String dbmsURL = "jdbc:mysql://localhost:3306";
-    private final static String dbUserName = LocalVars.getDBUser();
-    private final static String dbPassword = LocalVars.getDBPassword();
+    private final static String dbUserName = LocalVars.dbUser;
+    private final static String dbPassword = LocalVars.dbPassword;
 
     static {
         try {

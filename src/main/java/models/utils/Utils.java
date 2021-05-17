@@ -3,6 +3,8 @@ package models.utils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import models.database.LocalVars;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -120,7 +122,7 @@ public class Utils {
 			.setIssuedAt(now)
 			.setIssuer("localhost:8080")
 			.setExpiration(dt)
-			.signWith(signatureAlgorithm, "bolbolestan")
+			.signWith(signatureAlgorithm, LocalVars.secretKey)
 			.claim("stdId", stdId);
 
 		return builder.compact();
