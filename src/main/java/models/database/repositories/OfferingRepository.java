@@ -28,24 +28,26 @@ public class OfferingRepository {
 
 	private static String insertQuery =
 		"INSERT INTO bolbolestan.Offering" +
-		" (course_code, class_code, instructor, capacity)" +
+			" (course_code, class_code, instructor, capacity)" +
 		" VALUES" +
-		" (?, ?, ?, ?)" +
+			" (?, ?, ?, ?)" +
 		"ON DUPLICATE KEY UPDATE" +
-		" instructor=?, capacity=?;";
+			" instructor=?, capacity=?;";
 	private static String insertRegisteredStudentIDs =
 		"INSERT IGNORE INTO bolbolestan.RegisteredStudents" +
-		" (course_code, class_code, student_id)" +
+			" (course_code, class_code, student_id)" +
 		" VALUES" +
-		" (?, ?, ?);";
+			" (?, ?, ?);";
 	private static String insertWaitingStudentIDs =
 		"INSERT IGNORE INTO bolbolestan.WaitingStudents" +
-		" (course_code, class_code, student_id, insert_time)" +
+			" (course_code, class_code, student_id, insert_time)" +
 		" VALUES" +
-		" (?, ?, ?, NOW());";
+			" (?, ?, ?, NOW());";
 
 	private static String removeStudentsQuery =
-		"DELETE" + " FROM bolbolestan.%s" + " WHERE course_code=? AND class_code=?;";
+		"DELETE" + 
+		" FROM bolbolestan.%s" + 
+		" WHERE course_code=? AND class_code=?;";
 
 	private static String selectQuery =
 		"SELECT *" +
@@ -57,7 +59,9 @@ public class OfferingRepository {
 		" FROM bolbolestan.Offering O" +
 		" WHERE (O.course_code, O.class_code) in (%s);";
 
-	private static String selectAllQuery = "SELECT *" + " FROM bolbolestan.Offering;";
+	private static String selectAllQuery = 
+		"SELECT *" + 
+		" FROM bolbolestan.Offering;";
 
 	private static String searchQuery =
 		"SELECT *" +

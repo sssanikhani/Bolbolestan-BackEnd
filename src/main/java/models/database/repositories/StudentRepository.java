@@ -29,49 +29,63 @@ public class StudentRepository {
 
 	private static String insertQuery =
 		"INSERT INTO bolbolestan.Student" +
-		" (id, name, second_name, email, password, birth_date, field, faculty, level, status, image)" +
+			" (id, name, second_name, email, password, birth_date, field, faculty, level, status, image)" +
 		" VALUES" +
-		" (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
+			" (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
 		" ON DUPLICATE KEY UPDATE" +
-		" name=?, second_name=?, email=?, password=?, birth_date=?, field=?, faculty=?, level=?, status=?, image=?;";
+			" name=?, second_name=?, email=?, password=?, birth_date=?, field=?, faculty=?, level=?, status=?, image=?;";
 	private static String getQuery =
-		"SELECT *" + " FROM bolbolestan.Student S" + " WHERE S.id=?";
+		"SELECT *" + 
+		" FROM bolbolestan.Student S" + 
+		" WHERE S.id=?";
 
 	private static String removeGradesQuery =
-		"DELETE" + " FROM bolbolestan.Grade" + " WHERE student_id=?;";
+		"DELETE" + 
+		" FROM bolbolestan.Grade" + 
+		" WHERE student_id=?;";
 
 	private static String removeTermsQuery =
-		"DELETE" + " FROM bolbolestan.Term" + " WHERE student_id=?;";
+		"DELETE" + 
+		" FROM bolbolestan.Term" + 
+		" WHERE student_id=?;";
 
 	private static String insertTermQuery =
-		"INSERT IGNORE INTO bolbolestan.Term" + " (student_id, term)" + " VALUES" + " (?, ?);";
+		"INSERT IGNORE INTO bolbolestan.Term" + 
+			" (student_id, term)" + 
+		" VALUES" + 
+			" (?, ?);";
 
 	private static String insertGradeQuery =
 		"INSERT INTO bolbolestan.Grade" +
-		" (student_id, course_code, term, grade)" +
+			" (student_id, course_code, term, grade)" +
 		" VALUES" +
-		" (?, ?, ?, ?)" +
+			" (?, ?, ?, ?)" +
 		" ON DUPLICATE KEY UPDATE" +
-		" grade=?;";
+			" grade=?;";
 
 	private static String removeOfferingsQuery =
-		"DELETE FROM bolbolestan.%s" + " WHERE student_id=?;";
+		"DELETE FROM bolbolestan.%s" + 
+		" WHERE student_id=?;";
 
 	private static String insertChosenOfferingQuery =
 		"INSERT IGNORE INTO bolbolestan.StudentChosenOfferings" +
-		" (student_id, course_code, class_code)" +
+			" (student_id, course_code, class_code)" +
 		" VALUES" +
-		" (?, ?, ?);";
+			" (?, ?, ?);";
 	private static String getChosenOfferingQuery =
-		"SELECT *" + " FROM bolbolestan.StudentChosenOfferings" + " WHERE student_id=?;";
+		"SELECT *" + 
+		" FROM bolbolestan.StudentChosenOfferings" + 
+		" WHERE student_id=?;";
 
 	private static String insertSubmittedOfferingQuery =
 		"INSERT IGNORE INTO bolbolestan.StudentLastPlan" +
-		" (student_id, course_code, class_code)" +
+			" (student_id, course_code, class_code)" +
 		" VALUES" +
-		" (?, ?, ?);";
+			" (?, ?, ?);";
 	private static String getSubmittedOfferingQuery =
-		"SELECT *" + " FROM bolbolestan.StudentChosenOfferings" + " WHERE student_id=?;";
+		"SELECT *" + 
+		" FROM bolbolestan.StudentChosenOfferings" + 
+		" WHERE student_id=?;";
 
 	public static void updateFromExternalServer()
 		throws IOException, InterruptedException, Exceptions.StudentNotFound {
