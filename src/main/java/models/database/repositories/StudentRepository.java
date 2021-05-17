@@ -34,10 +34,14 @@ public class StudentRepository {
 			" (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
 		" ON DUPLICATE KEY UPDATE" +
 			" name=?, second_name=?, email=?, password=?, birth_date=?, field=?, faculty=?, level=?, status=?, image=?;";
-	private static String getQuery =
+	private static String getByIdQuery =
 		"SELECT *" + 
 		" FROM bolbolestan.Student S" + 
-		" WHERE S.id=?";
+		" WHERE S.id=?;";
+	private static String getByEmailQuery =
+		"SELECT *" + 
+		" FROM bolbolestan.Student S" + 
+		" WHERE S.email=?;";
 
 	private static String removeGradesQuery =
 		"DELETE" + 
@@ -240,12 +244,18 @@ public class StudentRepository {
 		}
 	}
 
-	public static Student get(String studentId) throws Exceptions.StudentNotFound {
+	public static Student get(String identifier, boolean byEmail) throws Exceptions.StudentNotFound {
 		Student student = new Student();
 		try {
 			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(getQuery);
-			stm.setString(1, studentId);
+			PreparedStatement stm; 
+			if (byEmail) {
+				stm = con.prepareStatement(getByEmailQuery);
+			}
+			else {
+				stm = con.prepareStatement(getByIdQuery);
+			}
+			stm.setString(1, identifier);
 			ResultSet rs = stm.executeQuery();
 			if (rs.next()) {
 				student.setId(rs.getString("id"));
@@ -274,6 +284,24 @@ public class StudentRepository {
 		retrieveGrades(student);
 		retrieveOfferings(student);
 		return student;
+	}
+
+	public static boolean existsId(String id) {
+		try {
+			get(id, false);
+			return true;
+		} catch(Exceptions.StudentNotFound e) {
+			return false;
+		}
+	}
+
+	public static boolean existsEmail(String email) {
+		try {
+			get(email, true);
+			return true;
+		} catch(Exceptions.StudentNotFound e) {
+			return false;
+		}
 	}
 
 	public static void retrieveGrades(Student s) {
