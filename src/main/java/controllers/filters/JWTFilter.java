@@ -43,7 +43,7 @@ public class JWTFilter implements Filter {
             Date now = new Date(nowMillis);
             if(now.compareTo(claims.getExpiration())>0){
                 try {
-                    s = StudentRepository.get((String) claims.get("stdId"));
+                    s = StudentRepository.get((String) claims.get("id"), false);
                 } catch (Exceptions.StudentNotFound e) {
                     response.setStatus(403);
 //                    chain.doFilter(request, response);

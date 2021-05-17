@@ -23,7 +23,7 @@ public class DataBase {
 		}
 
 		public static void login(String id) throws Exceptions.StudentNotFound {
-			loggedInUser = StudentRepository.get(id);
+			loggedInUser = StudentRepository.get(id, false);
 		}
 
 		public static void logout() {

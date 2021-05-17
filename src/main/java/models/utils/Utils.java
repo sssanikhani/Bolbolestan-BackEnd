@@ -111,7 +111,7 @@ public class Utils {
 		return res;
 	}
 
-	public static String createJWT(String stdId, long ttlMillis) {
+	public static String createJWT(String id, long ttlMillis) {
 		//JWT signature
 		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 		long nowMillis = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class Utils {
 			.setIssuer(Constants.myDomain)
 			.setExpiration(dt)
 			.signWith(signatureAlgorithm, LocalVars.secretKey)
-			.claim("stdId", stdId);
+			.claim("id", id);
 
 		return builder.compact();
 	}
