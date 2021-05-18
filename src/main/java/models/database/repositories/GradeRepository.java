@@ -18,11 +18,15 @@ public class GradeRepository {
 
 	public static ArrayList<Grade> get(String studentId) {
 		ArrayList<Grade> result = new ArrayList<>();
+		
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(getQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(getQuery);
 			stm.setString(1, studentId);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			while (rs.next()) {
 				Grade g = new Grade();
 				g.setCourse(CourseRepository.get(rs.getString("course_code")));
@@ -35,6 +39,16 @@ public class GradeRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return result;
 	}

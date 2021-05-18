@@ -104,10 +104,12 @@ public class OfferingRepository {
 	}
 
 	public static void bulkUpdate(ArrayList<Offering> list) {
+		Connection con = null;
+		PreparedStatement stm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement stm = con.prepareStatement(insertQuery);
+			stm = con.prepareStatement(insertQuery);
 			for (Offering o : list) {
 				stm.setString(1, o.getCourse().getCode());
 				stm.setString(2, o.getClassCode());
@@ -125,26 +127,39 @@ public class OfferingRepository {
 			OfferingExamTimeRepository.bulkUpdate(list);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static void updateStudents(Offering o) {
+		Connection con = null;
+		PreparedStatement removeWaitingStm = null;
+		PreparedStatement removeRegisteredStm = null;
+		PreparedStatement addWaitingStudentStm = null;
+		PreparedStatement addRegisteredStudentStm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
 			String removeWaitingQuery = String.format(removeStudentsQuery, "WaitingStudents");
 			String removeRegisteredQuery = String.format(
 				removeStudentsQuery,
 				"RegisteredStudents"
 			);
-			PreparedStatement removeWaitingStm = con.prepareStatement(removeWaitingQuery);
-			PreparedStatement removeRegisteredStm = con.prepareStatement(
+			removeWaitingStm = con.prepareStatement(removeWaitingQuery);
+			removeRegisteredStm = con.prepareStatement(
 				removeRegisteredQuery
 			);
-			PreparedStatement addWaitingStudentStm = con.prepareStatement(
+			addWaitingStudentStm = con.prepareStatement(
 				insertWaitingStudentIDs
 			);
-			PreparedStatement addRegisteredStudentStm = con.prepareStatement(
+			addRegisteredStudentStm = con.prepareStatement(
 				insertRegisteredStudentIDs
 			);
 			removeWaitingStm.setString(1, o.getCourse().getCode());
@@ -176,15 +191,33 @@ public class OfferingRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(removeRegisteredStm != null && !removeRegisteredStm.isClosed())
+					removeRegisteredStm.close();
+				if(removeWaitingStm != null && !removeWaitingStm.isClosed())
+					removeWaitingStm.close();
+				if(addWaitingStudentStm != null && !addWaitingStudentStm.isClosed())
+					addWaitingStudentStm.close();
+				if(addRegisteredStudentStm != null && !addRegisteredStudentStm.isClosed())
+					addRegisteredStudentStm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static ArrayList<Offering> getAll() {
 		ArrayList<Offering> list = new ArrayList<>();
+
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(selectAllQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.createStatement();
+			rs = stm.executeQuery(selectAllQuery);
 			while (rs.next()) {
 				Offering o = buildObjectFromResult(rs);
 				list.add(o);
@@ -194,17 +227,31 @@ public class OfferingRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return list;
 	}
 
 	public static ArrayList<Offering> search(String query) {
 		ArrayList<Offering> filtered = new ArrayList<>();
+		
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(searchQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(searchQuery);
 			stm.setString(1, query);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			while (rs.next()) {
 				Offering o = buildObjectFromResult(rs);
 				filtered.add(o);
@@ -214,6 +261,16 @@ public class OfferingRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return filtered;
 	}
@@ -221,12 +278,16 @@ public class OfferingRepository {
 	public static Offering get(String code, String classCode)
 		throws Exceptions.offeringNotFound {
 		Offering offering = null;
+
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(selectQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(selectQuery);
 			stm.setString(1, code);
 			stm.setString(2, classCode);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			if (rs.next()) {
 				offering = buildObjectFromResult(rs);
 			} else {
@@ -237,6 +298,16 @@ public class OfferingRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return offering;
 	}
@@ -251,11 +322,14 @@ public class OfferingRepository {
 		}
 		String list = String.join(",", queryList);
 
+		Connection con = null;
+		Statement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			Statement stm = con.createStatement();
+			con = ConnectionPool.getConnection();
+			stm = con.createStatement();
 			String query = String.format(multipleSelectQuery, list);
-			ResultSet rs = stm.executeQuery(query);
+			rs = stm.executeQuery(query);
 			while (rs.next()) {
 				Offering o = buildObjectFromResult(rs);
 				result.add(o);
@@ -265,6 +339,16 @@ public class OfferingRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return result;
 	}
@@ -289,24 +373,50 @@ public class OfferingRepository {
 	public static void retrieveStudents(Offering o) throws SQLException {
 		HashSet<String> registered = new HashSet<>();
 		LinkedHashSet<String> waiting = new LinkedHashSet<>();
-		Connection con = ConnectionPool.getConnection();
-		PreparedStatement regStm = con.prepareStatement(selectRegisteredStudentIDs);
-		PreparedStatement waitStm = con.prepareStatement(selectWaitingStudentIDs);
-		regStm.setString(1, o.getCourse().getCode());
-		regStm.setString(2, o.getClassCode());
-		waitStm.setString(1, o.getCourse().getCode());
-		waitStm.setString(2, o.getClassCode());
-		ResultSet regRS = regStm.executeQuery();
-		ResultSet waitRS = waitStm.executeQuery();
-		while (regRS.next()) {
-			registered.add(regRS.getString("student_id"));
+		
+		Connection con = null;
+		PreparedStatement regStm = null;
+		PreparedStatement waitStm = null;
+		ResultSet regRS = null;
+		ResultSet waitRS = null;
+		try {
+			con = ConnectionPool.getConnection();
+			regStm = con.prepareStatement(selectRegisteredStudentIDs);
+			waitStm = con.prepareStatement(selectWaitingStudentIDs);
+			regStm.setString(1, o.getCourse().getCode());
+			regStm.setString(2, o.getClassCode());
+			waitStm.setString(1, o.getCourse().getCode());
+			waitStm.setString(2, o.getClassCode());
+			regRS = regStm.executeQuery();
+			waitRS = waitStm.executeQuery();
+			while (regRS.next()) {
+				registered.add(regRS.getString("student_id"));
+			}
+			while (waitRS.next()) {
+				waiting.add(waitRS.getString("student_id"));
+			}
+			regRS.close();
+			waitRS.close();
+			regStm.close();
+			waitStm.close();
+			con.close();
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+			try {
+				if(regRS != null && !regRS.isClosed())
+					regRS.close();
+				if(waitRS != null && !waitRS.isClosed())
+					waitRS.close();
+				if(regStm != null && !regStm.isClosed())
+					regStm.close();
+				if(waitStm != null && !waitStm.isClosed())
+					waitStm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
-		while (waitRS.next()) {
-			waiting.add(waitRS.getString("student_id"));
-		}
-		regStm.close();
-		waitStm.close();
-		con.close();
 		o.setRegisteredStudents(registered);
 		o.setWaitingStudents(waiting);
 	}

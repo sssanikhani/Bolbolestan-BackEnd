@@ -36,12 +36,16 @@ public class OfferingClassTimeRepository {
 
 	public static OfferingClassTime get(String code, String classCode) {
 		OfferingClassTime ot = null;
+
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(selectQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(selectQuery);
 			stm.setString(1, code);
 			stm.setString(2, classCode);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			if (rs.next()) {
 				ot = buildObjectFromResult(rs);
 			}
@@ -50,6 +54,16 @@ public class OfferingClassTimeRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return ot;
 	}
@@ -60,27 +74,49 @@ public class OfferingClassTimeRepository {
 		String code = rs.getString("course_code");
 		String classCode = rs.getString("class_code");
 		ArrayList<String> days = new ArrayList<>();
-		Connection con = ConnectionPool.getConnection();
-		PreparedStatement stm = con.prepareStatement(selectDaysQuery);
-		stm.setString(1, code);
-		stm.setString(2, classCode);
-		ResultSet daysRes = stm.executeQuery();
-		while (daysRes.next()) {
-			String day = daysRes.getString("day");
-			days.add(day);
+		
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet daysRes = null;
+		try {
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(selectDaysQuery);
+			stm.setString(1, code);
+			stm.setString(2, classCode);
+			daysRes = stm.executeQuery();
+			while (daysRes.next()) {
+				String day = daysRes.getString("day");
+				days.add(day);
+			}
+			daysRes.close();
+			stm.close();
+			con.close();
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+			try {
+				if(daysRes != null && !daysRes.isClosed())
+					daysRes.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
-		stm.close();
-		con.close();
 		ot.setDays(days);
 		return ot;
 	}
 
 	public static void bulkUpdate(ArrayList<Offering> list) {
+		Connection con = null;
+		PreparedStatement timestm = null;
+		PreparedStatement daystm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement timestm = con.prepareStatement(insertQuery);
-			PreparedStatement daystm = con.prepareStatement(insertTimeDayQuery);
+			timestm = con.prepareStatement(insertQuery);
+			daystm = con.prepareStatement(insertTimeDayQuery);
 			for (Offering o : list) {
 				timestm.setString(1, o.getCourse().getCode());
 				timestm.setString(2, o.getClassCode());
@@ -102,6 +138,16 @@ public class OfferingClassTimeRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(timestm != null && !timestm.isClosed())
+					timestm.close();
+				if(daystm != null && !daystm.isClosed())
+					daystm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 }

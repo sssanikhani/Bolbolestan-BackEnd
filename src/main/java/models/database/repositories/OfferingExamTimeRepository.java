@@ -28,12 +28,16 @@ public class OfferingExamTimeRepository {
 
 	public static OfferingExamTime get(String code, String classCode) {
 		OfferingExamTime oe = null;
+
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(selectQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(selectQuery);
 			stm.setString(1, code);
 			stm.setString(2, classCode);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			if (rs.next()) {
 				oe = buildObjectFromResult(rs);
 			}
@@ -42,6 +46,16 @@ public class OfferingExamTimeRepository {
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return oe;
 	}
@@ -57,10 +71,12 @@ public class OfferingExamTimeRepository {
 	}
 
 	public static void bulkUpdate(ArrayList<Offering> list) {
+		Connection con = null;
+		PreparedStatement stm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement stm = con.prepareStatement(insertQuery);
+			stm = con.prepareStatement(insertQuery);
 			for (Offering o : list) {
 				stm.setString(1, o.getCourse().getCode());
 				stm.setString(2, o.getClassCode());
@@ -76,6 +92,14 @@ public class OfferingExamTimeRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 }

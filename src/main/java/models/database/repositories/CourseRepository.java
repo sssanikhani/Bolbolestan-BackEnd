@@ -39,11 +39,14 @@ public class CourseRepository {
 
 	public static Course get(String code) {
 		Course res = null;
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm = con.prepareStatement(getQuery);
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(getQuery);
 			stm.setString(1, code);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			if (rs.next()) {
 				res = buildObjectFromResult(rs);
 			}
@@ -52,23 +55,51 @@ public class CourseRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		return res;
 	}
 
 	public static ArrayList<String> retrievePrerequisites(String code) throws SQLException {
 		ArrayList<String> result = new ArrayList<>();
-		Connection con = ConnectionPool.getConnection();
-		PreparedStatement stm = con.prepareStatement(getPrerequisitesQuery);
-		stm.setString(1, code);
-		ResultSet rs = stm.executeQuery();
-		while (rs.next()) {
-			String pre = rs.getString("precode");
-			result.add(pre);
+
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+		try {
+			con = ConnectionPool.getConnection();
+			stm = con.prepareStatement(getPrerequisitesQuery);
+			stm.setString(1, code);
+			rs = stm.executeQuery();
+			while (rs.next()) {
+				String pre = rs.getString("precode");
+				result.add(pre);
+			}
+			rs.close();
+			stm.close();
+			con.close();
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
-		rs.close();
-		stm.close();
-		con.close();
 		return result;
 	}
 
@@ -90,10 +121,12 @@ public class CourseRepository {
 	}
 
 	public static void bulkUpdate(ArrayList<Course> list) {
+		Connection con = null;
+		PreparedStatement stm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement stm = con.prepareStatement(insertQuery);
+			stm = con.prepareStatement(insertQuery);
 			for (Course c : list) {
 				stm.setString(1, c.getCode());
 				stm.setString(2, c.getName());
@@ -111,14 +144,24 @@ public class CourseRepository {
 			updatePrerequisites(list);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static void updatePrerequisites(ArrayList<Course> list) {
+		Connection con = null;
+		PreparedStatement stm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement stm = con.prepareStatement(insertPrerequisite);
+			stm = con.prepareStatement(insertPrerequisite);
 			for (Course c : list) {
 				for (String pre : c.getPrerequisites()) {
 					stm.setString(1, c.getCode());
@@ -132,6 +175,14 @@ public class CourseRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 

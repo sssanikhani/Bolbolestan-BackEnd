@@ -117,8 +117,8 @@ public class StudentRepository {
 	}
 
 	public static void bulkUpdate(ArrayList<Student> list) {
-		Connection con;
-		PreparedStatement stm;
+		Connection con = null;
+		PreparedStatement stm = null;
 		try {
 			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
@@ -154,17 +154,30 @@ public class StudentRepository {
 			updateTerms(list);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if (stm != null && !stm.isClosed())
+					stm.close();
+				if (con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static void updateTerms(ArrayList<Student> list) {
+		Connection con = null;
+		PreparedStatement removeGradeStm = null;
+		PreparedStatement removeTermStm = null;
+		PreparedStatement termStm = null;
+		PreparedStatement gradeStm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
-			PreparedStatement removeGradeStm = con.prepareStatement(removeGradesQuery);
-			PreparedStatement removeTermStm = con.prepareStatement(removeTermsQuery);
-			PreparedStatement termStm = con.prepareStatement(insertTermQuery);
-			PreparedStatement gradeStm = con.prepareStatement(insertGradeQuery);
+			removeGradeStm = con.prepareStatement(removeGradesQuery);
+			removeTermStm = con.prepareStatement(removeTermsQuery);
+			termStm = con.prepareStatement(insertTermQuery);
+			gradeStm = con.prepareStatement(insertGradeQuery);
 			for (Student s : list) {
 				removeGradeStm.setString(1, s.getId());
 				removeGradeStm.addBatch();
@@ -196,22 +209,41 @@ public class StudentRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(removeGradeStm != null && !removeGradeStm.isClosed())
+					removeGradeStm.close();
+				if(removeTermStm != null && !removeTermStm.isClosed())
+					removeTermStm.close();
+				if(termStm != null && !termStm.isClosed())
+					termStm.close();
+				if(gradeStm != null && !gradeStm.isClosed())
+					gradeStm.close();
+				if (con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static void updateOfferings(Student s) {
+		Connection con = null;
+		PreparedStatement removeChosenStm = null;
+		PreparedStatement removeLastStm = null;
+		PreparedStatement addChosenStm = null;
+		PreparedStatement addLastStm = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
+			con = ConnectionPool.getConnection();
 			con.setAutoCommit(false);
 			String removeChosenQuery = String.format(
 				removeOfferingsQuery,
 				"StudentChosenOfferings"
 			);
 			String removeLastQuery = String.format(removeOfferingsQuery, "StudentLastPlan");
-			PreparedStatement removeChosenStm = con.prepareStatement(removeChosenQuery);
-			PreparedStatement removeLastStm = con.prepareStatement(removeLastQuery);
-			PreparedStatement addChosenStm = con.prepareStatement(insertChosenOfferingQuery);
-			PreparedStatement addLastStm = con.prepareStatement(insertSubmittedOfferingQuery);
+			removeChosenStm = con.prepareStatement(removeChosenQuery);
+			removeLastStm = con.prepareStatement(removeLastQuery);
+			addChosenStm = con.prepareStatement(insertChosenOfferingQuery);
+			addLastStm = con.prepareStatement(insertSubmittedOfferingQuery);
 
 			removeChosenStm.setString(1, s.getId());
 			removeChosenStm.addBatch();
@@ -242,14 +274,30 @@ public class StudentRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(removeChosenStm != null && !removeChosenStm.isClosed())
+					removeChosenStm.close();
+				if(removeLastStm != null && !removeLastStm.isClosed())
+					removeLastStm.close();
+				if(addChosenStm != null && !addChosenStm.isClosed())
+					addChosenStm.close();
+				if(addLastStm != null && !addLastStm.isClosed())
+					addLastStm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 	}
 
 	public static Student get(String identifier, boolean byEmail) throws Exceptions.StudentNotFound {
 		Student student = new Student();
+		Connection con = null;
+		PreparedStatement stm = null;
+		ResultSet rs = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement stm; 
+			con = ConnectionPool.getConnection();
 			if (byEmail) {
 				stm = con.prepareStatement(getByEmailQuery);
 			}
@@ -257,7 +305,7 @@ public class StudentRepository {
 				stm = con.prepareStatement(getByIdQuery);
 			}
 			stm.setString(1, identifier);
-			ResultSet rs = stm.executeQuery();
+			rs = stm.executeQuery();
 			if (rs.next()) {
 				student.setId(rs.getString("id"));
 				student.setName(rs.getString("name"));
@@ -281,6 +329,16 @@ public class StudentRepository {
 			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(rs != null && !rs.isClosed())
+					rs.close();
+				if(stm != null && !stm.isClosed())
+					stm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		retrieveGrades(student);
 		retrieveOfferings(student);
@@ -315,12 +373,18 @@ public class StudentRepository {
 	public static void retrieveOfferings(Student s) {
 		ArrayList<String[]> chosenCodes = new ArrayList<>();
 		ArrayList<String[]> lastCodes = new ArrayList<>();
+
+		Connection con = null;
+		PreparedStatement chosenStm = null;
+		PreparedStatement lastStm = null;
+		ResultSet chosenRS = null;
+		ResultSet lastRS = null;
 		try {
-			Connection con = ConnectionPool.getConnection();
-			PreparedStatement chosenStm = con.prepareStatement(getChosenOfferingQuery);
-			PreparedStatement lastStm = con.prepareStatement(getSubmittedOfferingQuery);
+			con = ConnectionPool.getConnection();
+			chosenStm = con.prepareStatement(getChosenOfferingQuery);
+			lastStm = con.prepareStatement(getSubmittedOfferingQuery);
 			chosenStm.setString(1, s.getId());
-			ResultSet chosenRS = chosenStm.executeQuery();
+			chosenRS = chosenStm.executeQuery();
 			while (chosenRS.next()) {
 				String code = chosenRS.getString("course_code");
 				String classCode = chosenRS.getString("class_code");
@@ -328,18 +392,34 @@ public class StudentRepository {
 				chosenCodes.add(codes);
 			}
 			lastStm.setString(1, s.getId());
-			ResultSet lastRS = lastStm.executeQuery();
+			lastRS = lastStm.executeQuery();
 			while (lastRS.next()) {
 				String code = lastRS.getString("course_code");
 				String classCode = lastRS.getString("class_code");
 				String[] codes = { code, classCode };
 				lastCodes.add(codes);
 			}
-			con.close();
+			lastRS.close();
+			chosenRS.close();
 			chosenStm.close();
 			lastStm.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			try {
+				if(lastRS != null && !lastRS.isClosed())
+					lastRS.close();
+				if(chosenRS != null && !chosenRS.isClosed())
+					chosenRS.close();
+				if(chosenStm != null && !chosenStm.isClosed())
+					chosenStm.close();
+				if(lastStm != null && !lastStm.isClosed())
+					lastStm.close();
+				if(con != null && !con.isClosed())
+					con.close();
+			} catch(SQLException e2) {
+				System.out.println(e2.getMessage());
+			}
 		}
 		ArrayList<Offering> chosen = OfferingRepository.getIfIn(chosenCodes);
 		ArrayList<Offering> last = OfferingRepository.getIfIn(lastCodes);
