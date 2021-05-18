@@ -11,11 +11,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import models.statics.Constants;
 
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CORSFilter implements Filter {
 
 	private static String webAppOrigin = Constants.webappURL;
@@ -30,7 +33,6 @@ public class CORSFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		System.out.println("CORSFilter HTTP Request: " + request.getMethod());
 
-		// Authorize (allow) all domains to consume the content
 		((HttpServletResponse) servletResponse).addHeader(
 				"Access-Control-Allow-Origin",
 				webAppOrigin
@@ -41,7 +43,7 @@ public class CORSFilter implements Filter {
 			);
 		((HttpServletResponse) servletResponse).addHeader(
 				"Access-Control-Allow-Headers",
-				"Origin, X-Requested-With, Content-Type, Accept"
+				"Origin, X-Requested-With, Content-Type, Accept, Authorization"
 			);
 
 		HttpServletResponse resp = (HttpServletResponse) servletResponse;
