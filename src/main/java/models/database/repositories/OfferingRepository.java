@@ -66,7 +66,7 @@ public class OfferingRepository {
 	private static String searchQuery =
 		"SELECT *" +
 		" FROM bolbolestan.Offering O, bolbolestan.Course C" +
-		" WHERE O.course_code=C.code AND C.name LIKE '%?%';";
+		" WHERE O.course_code=C.code AND C.name LIKE ?;";
 
 	private static String selectRegisteredStudentIDs =
 		"SELECT R.student_id" +
@@ -250,7 +250,7 @@ public class OfferingRepository {
 		try {
 			con = ConnectionPool.getConnection();
 			stm = con.prepareStatement(searchQuery);
-			stm.setString(1, query);
+			stm.setString(1, "%" + query + "%");
 			rs = stm.executeQuery();
 			while (rs.next()) {
 				Offering o = buildObjectFromResult(rs);
