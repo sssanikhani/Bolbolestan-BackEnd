@@ -204,6 +204,7 @@ public class StudentOfferingsController {
 	) {
 		Student student = (Student) request.getAttribute("student");
 		student.resetPlan();
+		StudentRepository.updateOfferings(student);
 		return Responses.OK;
 	}
 }
