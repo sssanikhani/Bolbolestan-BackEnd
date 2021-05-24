@@ -121,7 +121,6 @@ public class StudentOfferingsController {
 
 		student.addOfferingToList(offering);
 		StudentRepository.updateOfferings(student);
-		OfferingRepository.updateStudents(offering);
 		return Responses.OK;
 	}
 

@@ -88,7 +88,7 @@ public class StudentRepository {
 			" (?, ?, ?);";
 	private static String getSubmittedOfferingQuery =
 		"SELECT *" + 
-		" FROM bolbolestan.StudentChosenOfferings" + 
+		" FROM bolbolestan.StudentLastPlan" + 
 		" WHERE student_id=?;";
 
 	public static void updateFromExternalServer()
