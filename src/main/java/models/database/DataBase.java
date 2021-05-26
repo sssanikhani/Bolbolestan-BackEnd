@@ -26,7 +26,7 @@ public class DataBase {
             System.out.println("#########################################################");
             connection = ConnectionPool.getConnection();
             ScriptRunner runner = new ScriptRunner(connection);
-            runner.runScript(new BufferedReader(new FileReader("src/main/java/models/database/.init.sql")));
+            runner.runScript(new BufferedReader(new FileReader("src/main/resources/.init.sql")));
 			connection.close();
         } catch(Exception e) {
             try {
