@@ -4,11 +4,21 @@
 *.iml
 
 
-#Project Files
+# Project Files
 .project
 .settings/
 .classpath
 
 
-#Build Directory
+# Build Directory
 target/
+
+
+# Prettier Configuration File
+.prettierrc
+
+# Build Server Configuraiton Files
+/logs/
+/conf/
+/webapps/
+/work/

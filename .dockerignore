@@ -1,0 +1,8 @@
+target/
+.idea/
+.vscode/
+*.iml
+.gitignore
+.prettierrc
+Dockerfile
+run.sh

@@ -1,5 +1,0 @@
-addStudent {"studentId": "810197559", "name": "Reza", "enteredAt": "1397"}
-addOffering {"code": "810150109", "name": "Course10" , "instructor" : "tea10", "units": 3, "capacity" : 60, "prerequisites": ["AP", "OS"], "classTime" : {"days": ["Sun", "Tue"], "time": "14-15:30"}, "examTime": {"start":  "2022-9-10T08:00:00", "end":  "2022-9-10T11:00:00"}}
-addOffering {"code": "810150110", "name": "Course11" , "instructor" : "tea11", "units": 3, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sun", "Tue"], "time": "16-17:30"}, "examTime": {"start":  "2022-9-11T08:00:00", "end":  "2022-9-11T11:00:00"}}
-addOffering {"code": "810150111", "name": "Course11" , "instructor" : "tea12", "units": 3, "capacity" : 60, "prerequisites": ["MABANI"], "classTime" : {"days": ["Sun", "Tue"], "time": "18-19:30"}, "examTime": {"start":  "2022-9-12T08:00:00", "end":  "2022-9-12T11:00:00"}}
-addToWeeklySchedule {"StudentId": "810197559", "code" : "810150111"}
