@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: sajjad-reza-ns
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: quay.io/sssanikhani/bolbolestan-backend:latest
+        imagePullPolicy: Always
+        env:
+        - name: "DB_USERNAME"
+          value: "root"
+        - name: "DB_PASSWORD"
+          value: "sajjad1234reza1234"
+        resources:
+          limits:
+            memory: "333Mi"
+            cpu: "300m"
+          requests:
+            memory: "333Mi"
+            cpu: "300m"
+        ports:
+        - containerPort: 8080
