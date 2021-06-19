@@ -9,7 +9,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
     private final static String dbName = LocalVars.dbName;
-    private final static String dbmsURL = "jdbc:mysql://mysqldb:3306";
+    private final static String dbmsURL = "jdbc:mysql://db-svc.sajjad-reza-ns:3306";
     private final static String dbUserName = LocalVars.dbUser;
     private final static String dbPassword = LocalVars.dbPassword;
 
