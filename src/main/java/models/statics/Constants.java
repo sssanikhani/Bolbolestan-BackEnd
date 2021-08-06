@@ -2,8 +2,8 @@ package models.statics;
 
 public class Constants {
 
-	public static final String myDomain = "localhost:8080";
-	public static final String webappURL = "http://87.247.185.122:31390";
+	public static final String myDomain = "bolbolestan-backend.herokuapp.com";
+	public static final String webappURL = "http://ut-bolbolestan.ir";
 	public static final String externalDataBaseURL = "http://138.197.181.131:5200/api/";
 
 	public static final int MIN_ALLOWED_UNITS = 12;
